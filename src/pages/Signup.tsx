@@ -1,10 +1,12 @@
+import { AiFillLeftCircle } from "react-icons/ai";
 export default function Signup() {
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <div className="w-1/3 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
+        <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-24">
           <span className="items-center mb-16 text-2xl font-semibold text-gray-900 dark:text-white">
-            로그인
+            회원가입
           </span>
           <form className="space-y-4 md:space-y-6" action="#">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
@@ -52,7 +54,7 @@ export default function Signup() {
 
             <button
               type="submit"
-              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center font-bold"
             >
               시작하기
             </button>
