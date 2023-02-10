@@ -1,13 +1,11 @@
 import google from "../assets/google.png";
-import kakao from "../assets/kakao.png";
-import naver from "../assets/naver.png";
 import { authTokenState } from "../atom/auth";
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios from "axios";
 
-export default function Signin() {
+const Signin = () => {
   const [authToken, setAuthToken] = useRecoilState(authTokenState);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,4 +83,6 @@ export default function Signin() {
       </div>
     </div>
   );
-}
+};
+
+export default Signin;
