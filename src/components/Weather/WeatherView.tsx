@@ -1,10 +1,13 @@
 import styled, { css } from 'styled-components';
+import DeleteModule from '../Buttons/DeleteModule';
 import { TbArrowNarrowDown, TbArrowNarrowUp } from "react-icons/tb";
+import { FiCrosshair } from 'react-icons/fi';
 
 // 추후 라이브러리 설치해서 이동 및 추가/삭제 가능하게 만들기
 // X 버튼을 checkbox로 해서 checked면 보이게 아니면 안보이게..하면 될것 같기도 하고(방법 고민해보기)
 // styled-components 타입 정리하기
 
+//상태에 따른 Box 배경색/선 색상 정의
 const badBgc = '#ffe0de';
 const badColor = "#ad1c15"
 const normalBgc = '#ebfae8';
@@ -35,42 +38,40 @@ const Boxes:any = styled.div`
 `
 
 const TodayTemp = styled.div`
-    @media screen and (max-width: 420px) {
-        width:100%;
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
+    @media screen and (max-width: 410px) {
+        text-align:left;
         span{
             display:block;
             margin-left:0;
-        }
-        .items-baseline{
-            justify-content: center;
         }
     }
 `
 
 const TodayData = styled.div`
-    @media screen and (max-width: 420px) {
-        width:100%;
-        text-align:center;
+    @media screen and (max-width: 410px) {
+        margin-top:40px;
     }
 `
 
 const WeatherView = ():JSX.Element => {
+    //임시 데이터
     const weatherData = [
         {id:1,name:'미세먼지', status:'나쁨'},
         {id:2,name:'초미세먼지', status:'보통'},
         {id:3,name:'자외선', status:'좋음'},
-        {id:4,name:'바람', status:'2.8m/s'},
+        {id:4,name:'바람(서풍)', status:'2.8m/s'},
     ]
 
     return (
-        <div className="w-full h-fit mt-16 p-3 flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
+        <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
+            <DeleteModule />
             <TodayTemp>
                 {/* 날씨 데이터/시간 따라서 이미지 변경되게 */}
                 <p className="text-sm">
                     {`강서구 방화동`}
+                    <label htmlFor="location-modal" className='cursor-pointer'>
+                        <FiCrosshair style={{display: 'inline-block', marginLeft:'4px'}}/>
+                    </label>
                     <span className="ml-2 text-xs text-slate-400">
                         {`2023.02.08 15:00`}
                     </span>
@@ -87,6 +88,7 @@ const WeatherView = ():JSX.Element => {
                     <span className='font-semibold'>{` 3.4°`}</span> 
                     {/* 높아요 면 Up, 낮아요 면 Down 으로 출력되도록 추후 변경 */}
                     <TbArrowNarrowUp style={{display: 'inline-block'}}/>
+                    {/* <TbArrowNarrowDown style={{display: 'inline-block'}}/> */}
                     / <span className='font-semibold'>{`맑음`}</span>
                 </p>
                 <p className="mt-1 text-sm">
