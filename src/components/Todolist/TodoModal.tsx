@@ -33,13 +33,13 @@ const TodoModal = ({
 
   return (
     <>
-      <div className="w-2/5 h-2/5 outline-none bg-blue-400 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col">
+      <div className="w-2/5 h-2/5 outline-none bg-stone-200 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col">
         <div className="absolute right-2" onClick={onCloseModal}>
           X
         </div>
         <div className="flex mb-3 mt-4 justify-center">
-          <div className="mr-2 text-2xl ml-2">Todo 수정하기</div>
-          <FaPen className="mt-2 w-6" />
+          <div className="mr-2 text-2xl ml-2 font-bold">Todo 수정하기</div>
+          <FaPen className="mt-2 w-6 bg-none" />
         </div>
 
         <div className="flex grow flex-col justify-center items-center">
@@ -48,11 +48,11 @@ const TodoModal = ({
             className="mb-4 border-black w-1/3 mt-16 text-xl"
             value={modifyContents}
             onChange={onChange}
-            placeholder="Todo 입력"
+            placeholder="Todo"
           />
 
           <button
-            className="w-1/3 h-16 outline-none border-none bg-white text-xl cursor-pointer text-blue-400 font-bold"
+            className="w-1/3 h-16 outline-none border-none bg-white text-xl cursor-pointer font-bold"
             onClick={onModifyTodo}
           >
             수정하기

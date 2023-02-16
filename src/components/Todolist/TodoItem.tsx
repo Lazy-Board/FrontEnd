@@ -51,10 +51,10 @@ const TodoItem = ({
 
   return (
     <>
-      <div className="flex justify-between items-center mb-3 pb-2  font-bold border-solid border-green-600">
+      <div className="flex justify-between items-center mb-3 pb-2  font-bold ">
         <div
           title={contents}
-          className="text-white"
+          className="text-black font-semibold"
           onClick={() => onComplete(id)}
         >
           {contents}

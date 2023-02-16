@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { todosState, ITodoTypes } from "../../atom/Todo/Todo";
 import TodoItem from "./TodoItem";
 
-const TodoList = () => {
+const Todo = () => {
   const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
 
   const onComplete = useCallback(
@@ -27,7 +27,7 @@ const TodoList = () => {
   );
 
   return (
-    <div className="w-96 h-96 max-h-96 relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto">
+    <div className="w-full h-full relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto text-black">
       {todos.length > 0 ? (
         todos.map((todo: ITodoTypes) => {
           const { id, contents, isCompleted } = todo;
@@ -46,7 +46,7 @@ const TodoList = () => {
           );
         })
       ) : (
-        <div className="w-full text-center absolute top-1/2 left-0 font-bold text-white">
+        <div className="w-full text-center absolute top-1/2 left-0 font-bold">
           Todo가 없습니다. 자유롭게 추가해보세요!
         </div>
       )}
@@ -54,4 +54,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default Todo;
