@@ -16,6 +16,8 @@ import Signin from "./pages/signin";
 import Signup from "./pages/Signup";
 import { RecoilRoot } from "recoil";
 
+import TodoList from "./pages/TodoList";
+
 const Content = styled.div`
   min-height: 100vh;
   margin: 0 auto;
@@ -33,6 +35,7 @@ function App() {
         <Route path="/traffic" element={<TrafficDetail />} />
         <Route path="/login" element={<Signin />} />;
         <Route path="/Signup" element={<Signup />} />;
+        <Route path="/todo" element={<TodoList />} />;
       </Routes>
       <BottomBar />
       <Confirm />
