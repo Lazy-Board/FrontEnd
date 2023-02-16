@@ -9,7 +9,6 @@ const imageList = [
 ];
 
 // width 1일 떄 height의 비율
-const ASPECT_RADIO = 1;
 
 export default function YoutubeCarousel() {
   const [hide, setHide] = useState(true);
