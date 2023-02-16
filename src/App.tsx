@@ -10,16 +10,7 @@ import ExchangeDetail from "./components/Exchange/ExchangeDetail";
 import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
 import "./App.css";
-import { useState } from "react";
-import styled from "styled-components";
 
-import "./App.css";
-
-const Content = styled.div`
-  min-height: 100vh;
-  margin: 0 auto;
-  color: black;
-`;
 function App() {
   return (
     <BrowserRouter>
