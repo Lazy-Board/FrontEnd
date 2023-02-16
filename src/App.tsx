@@ -10,11 +10,10 @@ import ExchangeDetail from "./components/Exchange/ExchangeDetail";
 import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
 import "./App.css";
-import { useState } from "react";
+
 import styled from "styled-components";
 import Signin from "./pages/signin";
 import Signup from "./pages/Signup";
-import { RecoilRoot } from "recoil";
 
 import TodoList from "./pages/TodoList";
 
@@ -23,6 +22,7 @@ const Content = styled.div`
   margin: 0 auto;
   color: black;
 `;
+
 function App() {
   return (
     <BrowserRouter>
