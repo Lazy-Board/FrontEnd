@@ -9,19 +9,10 @@ import EditUserInfo from "./components/User/EditUserInfo";
 import ExchangeDetail from "./components/Exchange/ExchangeDetail";
 import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
-import "./App.css";
-
-import styled from "styled-components";
 import Signin from "./pages/signin";
 import Signup from "./pages/Signup";
-
 import TodoList from "./pages/TodoList";
-
-const Content = styled.div`
-  min-height: 100vh;
-  margin: 0 auto;
-  color: black;
-`;
+import "./App.css";
 
 function App() {
   return (
