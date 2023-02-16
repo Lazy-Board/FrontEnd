@@ -1,6 +1,4 @@
 import google from "../assets/google.png";
-import kakao from "../assets/kakao.png";
-import naver from "../assets/naver.png";
 import { authTokenState } from "../atom/auth";
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";

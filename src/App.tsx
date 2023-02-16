@@ -1,12 +1,16 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
+
 import Signin from "./pages/signin";
+import Signup from "./pages/Signup";
+import { RecoilRoot } from "recoil";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <Signin />;
+  return (
+    <RecoilRoot>
+      <Signin />;
+      <Signup />
+    </RecoilRoot>
+  );
 }
 
 export default App;
