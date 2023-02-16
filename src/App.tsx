@@ -12,8 +12,9 @@ import TrafficDetail from "./components/Traffic/TrafficDetail";
 import "./App.css";
 import { useState } from "react";
 import styled from "styled-components";
-
-import "./App.css";
+import Signin from "./pages/signin";
+import Signup from "./pages/Signup";
+import { RecoilRoot } from "recoil";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -30,6 +31,8 @@ function App() {
         <Route path="/user/userInfo" element={<EditUserInfo />} />
         <Route path="/exchange" element={<ExchangeDetail />} />
         <Route path="/traffic" element={<TrafficDetail />} />
+        <Route path="/login" element={<Signin />} />;
+        <Route path="/Signup" element={<Signup />} />;
       </Routes>
       <BottomBar />
       <Confirm />
