@@ -21,6 +21,11 @@ const Top = styled.div`
 const TopBar = ():JSX.Element => {
     const locationNow = useLocation();
     
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/Signup")
+    return (
+        <></>
+    );
+    
     // 로그인/회원가입 등에서는 보이지 않게 처리해야 
     if (locationNow.pathname==='/') 
     return (

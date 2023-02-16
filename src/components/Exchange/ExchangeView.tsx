@@ -43,7 +43,7 @@ const ExchangeView = ():JSX.Element => {
             </div>
             <LongWidth className="flex relative gap-3 overflow-hidden" ref={slideRef}>
                 {list.map(item=>(
-                    <div className="w-1/4 p-2 mt-2 text-left border border-slate-300 rounded-lg select-none">
+                    <div className="w-1/4 p-2 mt-2 text-left border border-slate-300 rounded-lg select-none" key={item.country}>
                         <p>{item.country} - KRW</p>
                         <p className="text-2xl font-semibold">{item.currency.toFixed(2)}</p>
                         <div className={`flex mt-2 items-center ${item.status==='-' ? 'text-blue-600' : 'text-red-500'}`}>

@@ -2,7 +2,7 @@ const click =
   typeof window !== "undefined" &&
   window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
-export default function registDragEvent({
+const RegistDragEvent = ({
   onDragChange,
   onDragEnd,
   stopPropagation,
@@ -10,7 +10,7 @@ export default function registDragEvent({
   onDragChange?: (Width: number, Height: number) => void;
   onDragEnd?: (Width: number, Height: number) => void;
   stopPropagation?: boolean;
-}) {
+}) => {
   if (click) {
     return {
       onTouchStart: (touchEvent: React.TouchEvent<HTMLDivElement>) => {
@@ -67,3 +67,5 @@ export default function registDragEvent({
     },
   };
 }
+
+export default RegistDragEvent;

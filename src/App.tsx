@@ -25,7 +25,7 @@ function App() {
         <Route path="/exchange" element={<ExchangeDetail />} />
         <Route path="/traffic" element={<TrafficDetail />} />
         <Route path="/login" element={<Signin />} />;
-        <Route path="/Signup" element={<Signup />} />;
+        <Route path="/signup" element={<Signup />} />;
         <Route path="/todo" element={<TodoList />} />;
       </Routes>
       <BottomBar />

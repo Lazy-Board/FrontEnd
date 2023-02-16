@@ -13,7 +13,7 @@ import {
 } from "../atom/signup";
 import { Link } from "react-router-dom";
 
-export default function Signup() {
+const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
   const [password, setPassword] = useRecoilState(passwordState);
   const [confirmPassword, setConfirmPassword] =
@@ -47,7 +47,7 @@ export default function Signup() {
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div className="w-1/3 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
+      <div className="w-1/3 bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
         <Link to="/">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
@@ -137,3 +137,5 @@ export default function Signup() {
     </div>
   );
 }
+
+export default Signup;
