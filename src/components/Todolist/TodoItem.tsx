@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { ITodoTypes } from "../../atom/Todo/Todo";
+import { ITodoTypes } from "../../atom/Todo";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { SetterOrUpdater } from "recoil";
@@ -39,7 +39,6 @@ const TodoItem = ({
       return;
     }
 
-    // Todo 업데이트 확인을 눌렀을때 객체 업데이트
     setTodos(
       todos.map((todo: ITodoTypes) => {
         return todo.id === id ? { ...todo, contents: modifyContents } : todo;

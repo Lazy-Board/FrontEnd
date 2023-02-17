@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { todosState, ITodoTypes } from "../../atom/Todo/Todo";
+import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
 
 const Todo = () => {
