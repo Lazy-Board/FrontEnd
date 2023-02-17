@@ -47,7 +47,7 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div className="w-1/3 bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
+      <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
         <Link to="/">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
@@ -136,6 +136,6 @@ const Signup = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Signup;
