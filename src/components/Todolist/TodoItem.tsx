@@ -51,7 +51,7 @@ const TodoItem = ({
 
   return (
     <>
-      <div className="flex justify-between items-center mb-3 pb-2  font-bold ">
+      <div className="flex justify-between items-center mb-3 pb-2  font-bold border-b border-slate-300">
         <div
           title={contents}
           className="text-black font-semibold"

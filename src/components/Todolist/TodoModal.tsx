@@ -33,7 +33,7 @@ const TodoModal = ({
 
   return (
     <>
-      <div className="w-2/5 h-2/5 outline-none bg-stone-200 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col">
+      <div className="w-full px-3 h-2/5 outline-none bg-stone-200 rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col">
         <div className="absolute right-2" onClick={onCloseModal}>
           X
         </div>
