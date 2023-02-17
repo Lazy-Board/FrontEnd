@@ -21,6 +21,10 @@ const Bottom = styled.div`
 
 const BottomBar = ():JSX.Element => {
     const locationNow = useLocation();
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup")
+    return (
+        <></>
+    );
 
     // 추후 링크 수정하기
     return (

@@ -18,11 +18,11 @@ const ExchangeDetail = ():JSX.Element => {
         {country:'호주 AUD', currency: 870.01, status: '+', compare: 0.08, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
         {country:'미국 USD', currency: 1259.00, status: '-', compare: 1.00, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
         {country:'일본 JPY', currency: 131.36, status: '-', compare: 0.46, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
-        {country:'일본 JPY', currency: 131.36, status: '-', compare: 0.46, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
+        {country:'일본 JPZ', currency: 131.36, status: '-', compare: 0.46, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
         {country:'뉴질랜드 NZD', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
-        {country:'뉴질랜드 NZD', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
-        {country:'뉴질랜드 NZD', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
-        {country:'뉴질랜드 NZD', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
+        {country:'뉴질랜드 NZE', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
+        {country:'뉴질랜드 NZF', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
+        {country:'뉴질랜드 NZG', currency: 800.60, status: '+', compare: 0.32, buy: 158.95, sell: 152.81, send: 157.43, receive: 154.33},
     ]
     
     return (
