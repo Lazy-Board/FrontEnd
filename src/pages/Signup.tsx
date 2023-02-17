@@ -46,13 +46,13 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
         <Link to="/">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-24">
-          <span className="items-center mb-16 text-2xl font-semibold text-gray-900 dark:text-white">
+          <span className="items-center text-2xl font-semibold text-gray-900 dark:text-white">
             회원가입
           </span>
           <form
@@ -126,7 +126,7 @@ const Signup = () => {
 
             <button
               type="submit"
-              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center font-bold"
+              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold"
               disabled={isLoading}
             >
               시작하기
