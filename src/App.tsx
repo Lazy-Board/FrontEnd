@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 
 import TodoList from "./pages/TodoList";
-import TodoMainView from "./components/TodoMainView";
+import TodoMainView from "./components/Todolist/TodoMainView";
 
 function App() {
   const [count, setCount] = useState(0);
