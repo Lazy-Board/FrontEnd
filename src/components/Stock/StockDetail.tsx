@@ -1,12 +1,45 @@
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
+
+import { getStockDetail } from "../../atom/Stock";
+import DetailTopBar from "../MenuBars/DetailTopBar";
+import StockDetailAccordion from "./StockDetailAccordion";
+
 const StockDetail = () => {
-  const StockList = [
-    { id: "1", stockname: "삼성전자", price: "40,120" },
-    { id: "2", stockname: "테슬라", price: "80,540" },
-    { id: "3", stockname: "현대차", price: "179,000" },
-    { id: "4", stockname: "기아자동차", price: "76,400" },
-    { id: "5", stockname: "코스피", price: "2,451" },
-    { id: "6", stockname: "삼성SDI", price: "703,000" },
-  ];
+  const data = useRecoilValue(getStockDetail);
+
+  // const [stockData, setStockData] = useRecoilState(StockData);
+
+  const Content = styled.div`
+    min-height: 100vh;
+    margin: 0 auto;
+    color: black;
+  `;
+
+  return (
+    <>
+      <DetailTopBar title="주식" />
+      <Content className="max-w-md bg-stone-100 p-3">
+        <div className="w-full mt-12">
+          {data.map((item: any) => (
+            <>
+              <StockDetailAccordion
+                stockName={item.stockName}
+                price={item.price}
+                dayRange={item.dayRange}
+                diffAmount={item.diffAmount}
+                lowPrice={item.lowPrice}
+                highPrice={item.highPrice}
+                tradingVolume={item.tradingVolume}
+                updateAt={item.updateAt}
+              ></StockDetailAccordion>
+            </>
+          ))}
+        </div>
+        {/* <button onClick={sortHandler}>낮은 가격순</button> */}
+      </Content>
+    </>
+  );
 };
 
 export default StockDetail;
