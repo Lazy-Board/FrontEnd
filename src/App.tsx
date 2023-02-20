@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { useState } from "react";
 import styled from "styled-components";
-=======
 import "./App.css";
-
-import Signin from "./pages/signin";
-import Signup from "./pages/Signup";
 import { RecoilRoot } from "recoil";
->>>>>>> cce4a7ba54fea62f0e22419790d72217b6e04a1f
-
-=======
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TopBar from "./components/MenuBars/TopBar";
 import BottomBar from "./components/MenuBars/BottomBar";
@@ -26,23 +16,11 @@ import TrafficDetail from "./components/Traffic/TrafficDetail";
 import Signin from "./pages/signin";
 import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
->>>>>>> 6ca9a20464695530fb5e294ce430dd895670ec6f
+
 import "./App.css";
 
 function App() {
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
-      <YoutubeCarousel />
-    </Content>
-=======
-    <RecoilRoot>
-      <Signin />;
-      <Signup />
-    </RecoilRoot>
->>>>>>> cce4a7ba54fea62f0e22419790d72217b6e04a1f
-=======
     <BrowserRouter>
       <TopBar />
       <Routes>
@@ -60,28 +38,6 @@ function App() {
       <SetLocationModal />
       <QuoteEditModal />
     </BrowserRouter>
->>>>>>> 6ca9a20464695530fb5e294ce430dd895670ec6f
-=======
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
-import StockView from "./components/Stock/StockView";
-import StockDetail from "./components/Stock/StockDetail";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <BrowserRouter>
-        <StockView />
-        <Routes>
-          <Route path="/stock" element={<StockDetail />} />
-        </Routes>
-      </BrowserRouter>
-    </>
->>>>>>> d4de9c1d187ea23f7d91c3972a7a8a98b0d210f4
   );
 }
 
