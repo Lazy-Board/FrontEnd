@@ -25,7 +25,7 @@ const StockDetailAccordion = ({
   updateAt,
 }: AccordionProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [wishlist, setWishlist] = useRecoilState(StockLike);
+  const [wishlist, setWishlist] = useRecoilState<String[]>(StockLike);
   const [contentHeight, setContentHeight] = useState<number | undefined>(
     undefined
   );
@@ -39,10 +39,8 @@ const StockDetailAccordion = ({
     setIsOpen(!isOpen);
   };
   const handleWishlist = () => {
-    // Check if the item is already in the wishlist
     const isInWishlist = wishlist.includes(stockName);
 
-    // Update the wishlist
     if (!isInWishlist) {
       setWishlist([...wishlist, stockName]);
     } else {
@@ -53,6 +51,7 @@ const StockDetailAccordion = ({
   useEffect(() => {
     console.log(wishlist);
   }, [wishlist]);
+
   return (
     <div className="border-none divide-y-2 ">
       <div className="flex items-center w-full py-2 px-4 focus:outline-none bg-white">

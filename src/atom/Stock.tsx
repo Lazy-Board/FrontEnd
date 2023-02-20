@@ -18,7 +18,7 @@ export const getStockDetail = selector({
   },
 });
 
-export const StockLike = atom({
-  key: "SortLowerPrice",
-  default: [""],
+export const StockLike = atom<String[]>({
+  key: "StockLike",
+  default: [],
 });
