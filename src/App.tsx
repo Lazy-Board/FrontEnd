@@ -34,7 +34,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />;
         <Route path="/todo" element={<TodoList />} />;
         <Route path="/stock" element={<StockDetail />} />;
-        <Route path="/news" element={<NewsDetailView />} />
+        <Route path="/news" element={<NewsDetailView />} />;
       </Routes>
       <BottomBar />
       <Confirm />
