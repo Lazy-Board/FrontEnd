@@ -17,11 +17,11 @@ const NewsDetailView = () => {
     setSelectedNews(item);
   };
 
-  let filteredList = [];
-  filteredList = data.filter((item: any) => item.title === selectedNewsList);
-  console.log(filteredList);
+  // let filteredList = [];
+  // filteredList = data.filter((item: any) => item.title === selectedNewsList);
+  // console.log(filteredList);
 
-  useEffect(() => {}, [selectedNewsTitle]);
+  // useEffect(() => {}, [selectedNewsTitle]);/
   return (
     <div className="dropdown dropdown-right">
       <label tabIndex={0} className="m-1 cursor-pointer">

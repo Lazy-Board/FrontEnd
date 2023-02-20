@@ -1,7 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-import NewsMainView from "./components/NewsMainView";
+import NewsMainView from "./components/News/NewsMainView";
 import NewsDetailView from "./components/News/NewsDetailView";
 
 function App() {

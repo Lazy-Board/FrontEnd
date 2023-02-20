@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { getNewsSelector } from "./atom/News";
+import { getNewsSelector } from "../atom/News";
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
 const NewsMainView = () => {
