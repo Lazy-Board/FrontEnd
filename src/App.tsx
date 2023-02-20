@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useState } from "react";
 import styled from "styled-components";
 =======
@@ -60,6 +61,27 @@ function App() {
       <QuoteEditModal />
     </BrowserRouter>
 >>>>>>> 6ca9a20464695530fb5e294ce430dd895670ec6f
+=======
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import StockView from "./components/Stock/StockView";
+import StockDetail from "./components/Stock/StockDetail";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <BrowserRouter>
+        <StockView />
+        <Routes>
+          <Route path="/stock" element={<StockDetail />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+>>>>>>> d4de9c1d187ea23f7d91c3972a7a8a98b0d210f4
   );
 }
 

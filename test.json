@@ -1,0 +1,130 @@
+{
+  "read": [
+    {
+      "stockName": "삼성전자",
+      "price": "62,600",
+      "diffAmount": "▼ 1,100",
+      "dayRange": "-1.73%",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "SK하이닉스",
+      "price": "92,000",
+      "diffAmount": "▼ 900",
+      "dayRange": "-0.97%",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "NAVER",
+      "price": "215,500",
+      "diffAmount": "▼ 5,000",
+      "dayRange": "-2.27%",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "updateAt": "2023.02.18 19:50:02"
+    }
+  ],
+
+  "detail": [
+    {
+      "stockName": "삼성전자",
+      "price": "62,600",
+      "diffAmount": "▼ 1,100",
+      "dayRange": "-1.73%",
+      "marketPrice": "62,900",
+      "highPrice": "63,300",
+      "lowPrice": "62,400",
+      "tradingVolume": "10,675,131",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "SK하이닉스",
+      "price": "92,000",
+      "diffAmount": "▼ 900",
+      "dayRange": "-0.97%",
+      "marketPrice": "91,400",
+      "highPrice": "92,700",
+      "lowPrice": "90,900",
+      "tradingVolume": "1,591,533",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "NAVER",
+      "price": "215,500",
+      "diffAmount": "▼ 5,000",
+      "dayRange": "-2.27%",
+      "marketPrice": "216,000",
+      "highPrice": "219,000",
+      "lowPrice": "212,000",
+      "tradingVolume": "901,801",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "marketPrice": "63,000",
+      "highPrice": "64,400",
+      "lowPrice": "62,400",
+      "tradingVolume": "1,573,691",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "marketPrice": "63,000",
+      "highPrice": "64,400",
+      "lowPrice": "62,400",
+      "tradingVolume": "1,573,691",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "marketPrice": "63,000",
+      "highPrice": "64,400",
+      "lowPrice": "62,400",
+      "tradingVolume": "1,573,691",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "marketPrice": "63,000",
+      "highPrice": "64,400",
+      "lowPrice": "62,400",
+      "tradingVolume": "1,573,691",
+      "updateAt": "2023.02.18 19:50:02"
+    },
+    {
+      "stockName": "카카오",
+      "price": "63,300",
+      "diffAmount": "▼ 900",
+      "dayRange": "-1.40%",
+      "marketPrice": "63,000",
+      "highPrice": "64,400",
+      "lowPrice": "62,400",
+      "tradingVolume": "1,573,691",
+      "updateAt": "2023.02.18 19:50:02"
+    }
+  ]
+}
