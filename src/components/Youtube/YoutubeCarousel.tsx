@@ -1,4 +1,4 @@
-import registDragEvent from "./Carousel";
+import RegistDragEvent from "./Carousel";
 import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
 
@@ -10,7 +10,7 @@ const imageList = [
 
 // width 1일 떄 height의 비율
 
-export default function YoutubeCarousel() {
+const YoutubeCarousel = () => {
   const [hide, setHide] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
@@ -29,24 +29,24 @@ export default function YoutubeCarousel() {
     <>
       <div
         ref={carouselRef}
-        className="w-full mt-5 p-3 pt-2 pb-6 relative border bg-white border-slate-300 rounded-lg overflow-hidden"
+        className="w-full mt-5 p-3 pt-2 relative border bg-white border-slate-300 rounded-lg overflow-hidden"
         style={{
           height,
           overflow: "hidden",
         }}
       >
-        <span className="font-semibold grid justify-items-start ">
+        <span className="grid justify-items-start">
           YouTube 추천
         </span>
         <div
-          className="flex mt-2"
+          className="flex mt-3"
           style={{
             transform: `translateX(${
               -currentIndex * (width as any) + transX
             }px)`,
             transition: `transform ${animate ? 300 : 0}ms ease-in-out 0s`,
           }}
-          {...registDragEvent({
+          {...RegistDragEvent({
             onDragChange: (e) => {
               setTransX(inrange(e, -width + 10, (width as any) - 10));
             },
@@ -82,7 +82,7 @@ export default function YoutubeCarousel() {
                   width={width}
                   className="cursor-pointer mx-1"
                 />
-                <h1 className="mt-3 grid ml-4 font-bold justify-items-start">
+                <h1 className="mt-2 grid ml-2 justify-items-start">
                   title
                 </h1>
               </div>
@@ -93,3 +93,5 @@ export default function YoutubeCarousel() {
     </>
   );
 }
+
+export default YoutubeCarousel;

@@ -4,8 +4,9 @@ import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function Signin() {
+const Signin = () => {
   const [authToken, setAuthToken] = useRecoilState(authTokenState);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,8 +25,8 @@ export default function Signin() {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div className="w-1/3 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
+    <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
+      <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-24">
           <span className="items-center mb-16 text-2xl font-semibold text-gray-900 dark:text-white">
             로그인
@@ -69,12 +70,14 @@ export default function Signin() {
             >
               로그인
             </button>
-            <div className="divider">간편 로그인</div>
+            <div className="divider text-sm">간편 로그인</div>
             <div className="flex justify-center">
               <img src={google} />
             </div>
             <div className="flex justify-center text-gray-400">
-              <span className="mr-4">회원가입</span>
+              <Link to="/signup">
+                <span className="mr-4">회원가입</span>
+              </Link>
               <span>|</span>
               <span className="ml-4">비밀번호 찾기</span>
             </div>
@@ -83,4 +86,6 @@ export default function Signin() {
       </div>
     </div>
   );
-}
+};
+
+export default Signin;
