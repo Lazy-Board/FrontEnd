@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import styled from "styled-components";
 import "./App.css";
 import { RecoilRoot } from "recoil";
@@ -16,8 +17,8 @@ import TrafficDetail from "./components/Traffic/TrafficDetail";
 import Signin from "./pages/signin";
 import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
-
-import "./App.css";
+import StockDetail from "./components/Stock/StockDetail";
+import NewsDetailView from "./components/News/NewsDetailView";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
         <Route path="/login" element={<Signin />} />;
         <Route path="/signup" element={<Signup />} />;
         <Route path="/todo" element={<TodoList />} />;
+        <Route path="/stock" element={<StockDetail />} />;
+        <Route path="/news" element={<NewsDetailView />} />
       </Routes>
       <BottomBar />
       <Confirm />

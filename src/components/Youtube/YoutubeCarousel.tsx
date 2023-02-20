@@ -35,9 +35,7 @@ const YoutubeCarousel = () => {
           overflow: "hidden",
         }}
       >
-        <span className="grid justify-items-start">
-          YouTube 추천
-        </span>
+        <span className="grid justify-items-start">YouTube 추천</span>
         <div
           className="flex mt-3"
           style={{
@@ -80,11 +78,9 @@ const YoutubeCarousel = () => {
                   src={item}
                   alt="img"
                   width={width}
-                  className="cursor-pointer mx-1"
+                  className="cursor-pointer mx-1 border border-slate-300 rounded-lg"
                 />
-                <h1 className="mt-2 grid ml-2 justify-items-start">
-                  title
-                </h1>
+                <h1 className="mt-2 grid ml-2 justify-items-start">title</h1>
               </div>
             </div>
           ))}
@@ -92,6 +88,6 @@ const YoutubeCarousel = () => {
       </div>
     </>
   );
-}
+};
 
 export default YoutubeCarousel;

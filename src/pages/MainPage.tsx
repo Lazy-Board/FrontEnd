@@ -4,6 +4,9 @@ import QuoteView from "../components/Quote/QuoteView";
 import ExchangeView from "../components/Exchange/ExchangeView";
 import TrafficView from "../components/Traffic/TrafficView";
 import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
+import StockView from "../components/Stock/StockView";
+import NewsMainView from "../components/News/NewsMainView";
+import TodoList from "./TodoList";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -20,6 +23,9 @@ const MainPage = (): JSX.Element => {
       <ExchangeView />
       <TrafficView />
       <YoutubeCarousel />
+      <StockView />
+      <TodoList />
+      <NewsMainView />
     </Content>
   );
 };

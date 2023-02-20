@@ -9,14 +9,14 @@ export default function TodoList() {
     color: black;
   `;
   return (
-    <Content className="max-w-md bg-stone-100 p-3">
-      <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 flex mt-5 h-fit">
-        <div className="m-auto flex flex-col items-center justify-center">
+    <div className="w-full mt-5 h-fit p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-hidden bg-white">
+      <div className="w-full bg-white md:mt-0 sm:max-w-md xl:p-0 flex ">
+        <div className="m-auto flex flex-col items-center justify-center ">
           <TodoTitle />
           <Todo />
           <TodoInput />
         </div>
       </div>
-    </Content>
+    </div>
   );
 }
