@@ -9,7 +9,7 @@ import EditUserInfo from "./components/User/EditUserInfo";
 import ExchangeDetail from "./components/Exchange/ExchangeDetail";
 import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
-import Signin from "./pages/signin";
+import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
 import "./App.css";
