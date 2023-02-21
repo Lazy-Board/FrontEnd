@@ -9,7 +9,11 @@ const Bottom = styled.div`
     position: fixed;
     bottom:0;
     z-index:200;
+<<<<<<< HEAD
     @media screen and (max-width: 1920px) {
+=======
+    @media screen and (max-width: 3840px) {
+>>>>>>> 27771d6d6ff1ae9f91955b58f941bcb36653473b
         width:448px;
         left: 50%;
         transform: translate(-50%, 0);

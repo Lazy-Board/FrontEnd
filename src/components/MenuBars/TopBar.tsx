@@ -8,7 +8,9 @@ const Top = styled.div`
     position: fixed;
     top:0;
     z-index:200;
-    @media screen and (max-width: 1920px) {
+
+    @media screen and (max-width: 3840px) {
+
         width:448px;
         left: 50%;
         transform: translate(-50%, 0);
@@ -29,7 +31,11 @@ const TopBar = ():JSX.Element => {
     // 로그인/회원가입 등에서는 보이지 않게 처리해야 
     if (locationNow.pathname==='/') 
     return (
-        <Top className="h-14 flex items-center justify-between px-4 bg-white">
+
+      
+
+        <Top className="h-14 flex items-center justify-between px-4 bg-white shadow-sm">
+
             <h2 className='text-lg font-semibold'>LAZIER</h2>
             <div className="flex gap-x-2">
                 <label htmlFor="confirm-modal" 
