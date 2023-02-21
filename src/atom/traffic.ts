@@ -30,7 +30,7 @@ export const getUserLocation =  selector<MyLocation> ({
     key:'myLocation',
     get: async ({get}) => {
         try {
-            const response = await axios.get('http://localhost:5175/weather/user-info');
+            const response = await axios.get('http://localhost:5175/traffic');
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
@@ -42,7 +42,7 @@ export const getLocation =  selector<Location> ({
     key:'location',
     get: async ({get}) => {
         try {
-            const response = await axios.get('http://localhost:5175/weather');
+            const response = await axios.get('http://localhost:5175/duration');
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
