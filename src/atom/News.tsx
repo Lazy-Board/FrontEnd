@@ -9,6 +9,7 @@ export const getNewsSelector = selector({
     return response.data;
   },
 });
+
 export const selectNewsBrand = atom({
   key: "selectNewsBrand",
   default: null,
