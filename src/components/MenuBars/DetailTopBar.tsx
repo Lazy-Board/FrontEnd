@@ -5,6 +5,7 @@ import { FiArrowLeft } from "react-icons/fi";
 const Top = styled.div`
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   width: 100%;
   position: fixed;
   top: 0;
@@ -39,6 +40,8 @@ export default DetailTopBar;
 =======
 =======
 >>>>>>> 5df3547e8c57d0ba333584f765e25334095515c2
+=======
+>>>>>>> a6ee64081247e89a04d46e78dac2739808830191
     width: 100%;
     position: fixed;
     top:0;
@@ -68,8 +71,12 @@ const DetailTopBar = ({title}:any) => {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default DetailTopBar;
 >>>>>>> 27771d6d6ff1ae9f91955b58f941bcb36653473b
 =======
 export default DetailTopBar;
 >>>>>>> 5df3547e8c57d0ba333584f765e25334095515c2
+=======
+export default DetailTopBar;
+>>>>>>> a6ee64081247e89a04d46e78dac2739808830191
