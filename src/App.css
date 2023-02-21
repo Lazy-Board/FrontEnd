@@ -4,7 +4,7 @@
   text-align: center;
 }
 
-body{
+body {
   background-color: #a9cac0;
   /* opacity: 0.8;
   background: repeating-linear-gradient( -45deg, #d0e2db, #d0e2db 3px, #a9cac0 3px, #a9cac0 25px ); */
@@ -13,6 +13,6 @@ body{
   /* background-repeat: no-repeat; */
 }
 
-img{
+img {
   object-fit: contain;
 }
