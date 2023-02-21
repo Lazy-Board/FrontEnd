@@ -16,8 +16,9 @@ const NewsMainView = () => {
       <div className="w-full h-fit mt-5 p-3 pt-2 pb-6 relative border rounded-lg overflow-hidden bg-white">
         <div className="text-left flex font-semibold border-b border-black pb-2">
           헤드라인 뉴스
-          {/* <Link to={`/news`}> */}
-          <BiChevronRight size={26} /> {/* </Link> */}
+          <Link to="/news">
+            <BiChevronRight size={26} />
+          </Link>
         </div>
 
         <div className="flex-row text-sm">
