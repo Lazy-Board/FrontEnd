@@ -1,12 +1,15 @@
 import registDragEvent from "./Carousel";
 import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
+import { selector, useRecoilValue } from "recoil";
+import axios from "axios";
+import { getYoutube } from "../atom/Youtube";
 
-const imageList = [
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2732BB3F583C95DD2C",
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2228F43F583C95E22F",
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2726EF3F583C95EA2B",
-];
+// const imageList = [
+//   "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2732BB3F583C95DD2C",
+//   "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2228F43F583C95E22F",
+//   "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2726EF3F583C95EA2B",
+// ];
 
 // width 1일 떄 height의 비율
 
@@ -15,7 +18,8 @@ export default function YoutubeCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
   const [animate, setAnimate] = useState(false);
-
+  const data = useRecoilValue(getYoutube);
+  let imageList = data.map((item: any) => item.imagePath);
   const slideList = [imageList.at(-1), ...imageList, imageList.at(0)];
 
   const { ref: carouselRef, width, height } = useCarouselSize();
@@ -25,6 +29,7 @@ export default function YoutubeCarousel() {
     if (v > max) return max;
     return v;
   };
+
   return (
     <>
       <div
@@ -72,12 +77,12 @@ export default function YoutubeCarousel() {
             }
           }}
         >
-          {slideList.map((item, i) => (
-            <div key={i} className="flex-shrink-0">
+          {data.map((item: any) => (
+            <div key={item.videoId} className="flex-shrink-0">
               <div className="flex-col">
                 <img
                   draggable={false}
-                  src={item}
+                  src={item.imagePath}
                   alt="img"
                   width={width}
                   className="cursor-pointer mx-1"
