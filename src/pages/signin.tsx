@@ -9,6 +9,7 @@ import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios from "axios";
 import { instance } from "../atom/signin";
+import api from "./refresh";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -30,7 +31,7 @@ const Signin = () => {
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       // setTime(response.data.expiredTime);
-      // localStorage.setItem("expiresAt", time);
+      localStorage.setItem("token", token);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("RefreshToken", refreshToken);
     } catch (err: any) {
@@ -46,7 +47,7 @@ const Signin = () => {
         });
 
         setAccessToken(response.data.accessToken);
-      } catch (err) {
+      } catch (err: any) {
         console.log(err);
       }
     };
@@ -55,10 +56,11 @@ const Signin = () => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
   };
+
   const todolist = async () => {
     try {
-      await axios.post(
-        `${API_URL}/todolist/write`,
+      await api.post(
+        "/todolist/write",
         {
           content: "1234",
         },
@@ -66,9 +68,7 @@ const Signin = () => {
           headers: headers,
         }
       );
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err: any) {}
   };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">

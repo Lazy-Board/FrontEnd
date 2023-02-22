@@ -1,67 +1,78 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { atom, useRecoilState } from "recoil";
+import axios from "axios";
 
-interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-}
-
-const accessTokenState = atom<string | null>({
-  key: "accessTokenState",
-  default: localStorage.getItem("accessToken"),
+// url 호출 시 기본 값 셋팅
+const api = axios.create({
+  baseURL: "http://3.35.129.231.8080",
+  headers: { "Content-type": "application/json" }, // data type
 });
 
-const refreshTokenState = atom<string | null>({
-  key: "refreshTokenState",
-  default: localStorage.getItem("RefreshToken"),
-});
+// Add a request interceptor
+api.interceptors.request.use(
+  (config: any) => {
+    const token = localStorage.getItem("token");
 
-const axiosInstance = axios.create({
-  baseURL: "http://",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-const Refresh = () => {
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
-
-  axiosInstance.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-    return config;
-  });
-
-  axiosInstance.interceptors.response.use(
-    (response: AxiosResponse) => response,
-    async (error) => {
-      const originalRequest = error.config;
-
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-
-        try {
-          const { data } = await axios.post<AuthResponse>("/refresh-token", {
-            refreshToken,
-          });
-
-          setAccessToken(data.accessToken);
-          setRefreshToken(data.refreshToken);
-
-          localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("RefreshToken", data.refreshToken);
-
-          return axiosInstance(originalRequest);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      return Promise.reject(error);
+    //요청시 AccessToken 계속 보내주기
+    if (!token) {
+      config.headers.accessToken = null;
+      config.headers.refreshToken = null;
+      return config;
     }
-  );
 
-  return { accessToken, refreshToken };
-};
+    if (config.headers && token) {
+      const { accessToken, refreshToken } = JSON.parse(token);
+      config.headers.authorization = `Bearer ${accessToken}`;
+      config.headers.refreshToken = `Bearer ${refreshToken}`;
+      return config;
+    }
+    // Do something before request is sent
+    console.log("request start", config);
+  },
+  function (error) {
+    // Do something with request error
+    console.log("request error", error);
+    return Promise.reject(error);
+  }
+);
 
-export { Refresh, axiosInstance };
+// Add a response interceptor
+api.interceptors.response.use(
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    console.log("get response", response);
+    return response;
+  },
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+    if (status === 401) {
+      const originalRequest = config;
+      const refreshToken = await localStorage.getItem("RefreshToken");
+      // token refresh 요청
+      const { data } = await axios.post(
+        `http://3.35.129.231:8080/reissue`, // token refresh api
+        {},
+        { headers: { authorization: `Bearer ${refreshToken}` } }
+      );
+      // 새로운 토큰 저장
+      // dispatch(userSlice.actions.setAccessToken(data.data.accessToken)); store에 저장
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        data;
+      await localStorage.multiSet([
+        ["accessToken", newAccessToken],
+        ["RefreshToken", newRefreshToken],
+      ]);
+      originalRequest.headers.authorization = `Bearer ${newAccessToken}`;
+      // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
+      return axios(originalRequest);
+    }
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    console.log("response error", error);
+    return Promise.reject(error);
+  }
+);
+
+export default api;
