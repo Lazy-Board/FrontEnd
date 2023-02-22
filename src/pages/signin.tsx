@@ -1,27 +1,47 @@
 import google from "../assets/google.png";
-import { authTokenState } from "../atom/auth";
+import {
+  accessTokenState,
+  authTokenState,
+  refreshTokenState,
+} from "../atom/auth";
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios from "axios";
 
-export default function Signin() {
-  const [authToken, setAuthToken] = useRecoilState(authTokenState);
+const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
-  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/user/login`, {
         userEmail,
         password,
       });
-      setAuthToken(response.data.token);
+
+      setAccessToken(response.data.accessToken);
+      setRefreshToken(response.data.refreshToken);
     } catch (err: any) {
-      setError(err);
+      if (err.response.status === 400) {
+        alert(err.response.msg);
+      }
     }
+
+    const onRefreshHandler = async () => {
+      try {
+        const response = await axios.post(`${API_URL}/user/reissue`, {
+          refreshToken,
+        });
+
+        setAccessToken(response.data.accessToken);
+      } catch (err) {
+        console.log(err);
+      }
+    };
   };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -33,7 +53,7 @@ export default function Signin() {
           <form
             className="space-y-4 md:space-y-6"
             action="#"
-            onSubmit={onSubmitHandler}
+            onSubmit={onLoginHandler}
           >
             <label className="block mb-4 text-sm font-medium text-gray-900 dark:text-white text-left">
               이메일
@@ -83,4 +103,6 @@ export default function Signin() {
       </div>
     </div>
   );
-}
+};
+
+export default Signin;
