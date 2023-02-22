@@ -27,13 +27,14 @@ export default function Signup() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post(`${API_URL}/user/signUp`, {
+      const response = await axios.post(`${API_URL}/user/signup`, {
         email,
         password,
         username,
         nickname,
         phonenumber,
       });
+      localStorage.setItem("token", response.data.token);
     } catch (err: any) {
       if (err) {
         const axiosError: any = err as AxiosError;
