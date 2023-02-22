@@ -19,8 +19,8 @@ const Signin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/user/login`, {
-        userEmail,
-        password,
+        userEmail: userEmail,
+        password: password,
       });
 
       setAccessToken(response.data.accessToken);
