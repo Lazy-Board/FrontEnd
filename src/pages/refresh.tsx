@@ -17,7 +17,7 @@ const refreshTokenState = atom<string | null>({
 });
 
 const axiosInstance = axios.create({
-  baseURL: "https://api.example.com",
+  baseURL: "http://",
   headers: {
     "Content-Type": "application/json",
   },
@@ -48,8 +48,8 @@ const Refresh = () => {
           setAccessToken(data.accessToken);
           setRefreshToken(data.refreshToken);
 
-          localStorage.setItem("access_token", data.accessToken);
-          localStorage.setItem("refresh_token", data.refreshToken);
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("RefreshToken", data.refreshToken);
 
           return axiosInstance(originalRequest);
         } catch (e) {
