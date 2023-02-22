@@ -8,13 +8,17 @@ import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios from "axios";
+import { instance } from "../atom/signin";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [token, setToken] = useRecoilState(authTokenState);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  // const [time, setTime] = useRecoilState(timeState);
+
   const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -22,9 +26,13 @@ const Signin = () => {
         userEmail: userEmail,
         password: password,
       });
-
+      setToken(response.data.token);
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
+      // setTime(response.data.expiredTime);
+      // localStorage.setItem("expiresAt", time);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("RefreshToken", refreshToken);
     } catch (err: any) {
       if (err.response.status === 400) {
         alert(err.response.msg);
@@ -42,6 +50,25 @@ const Signin = () => {
         console.log(err);
       }
     };
+  };
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
+  };
+  const todolist = async () => {
+    try {
+      await axios.post(
+        `${API_URL}/todolist/write`,
+        {
+          content: "1234",
+        },
+        {
+          headers: headers,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -100,6 +127,12 @@ const Signin = () => {
             </div>
           </form>
         </div>
+        <button onClick={todolist} className="btn">
+          todo
+        </button>
+        {/* <button onClick={refresh} className="btn">
+          리프레시
+        </button> */}
       </div>
     </div>
   );

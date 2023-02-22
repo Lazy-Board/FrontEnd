@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useRecoilState, atom, useRecoilValue } from "recoil";
-import { authTokenState } from "./auth";
+import { API_URL } from "../API/API";
+import { accessTokenState, authTokenState } from "./auth";
+const accessToken = useRecoilValue(accessTokenState);
+export const instance = axios.create({
+  baseURL: API_URL,
+  timeout: 180000,
+  withCredentials: false,
 
-const instance = axios.create();
-
-instance.interceptors.request.use((config) => {
-  const authToken = useRecoilValue(authTokenState);
-  if (authToken) {
-    config.headers.Authorization = `Bearer ${authToken}`;
-  }
-  return config;
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem(accessToken)}`,
+  },
 });
-
-export default instance;
