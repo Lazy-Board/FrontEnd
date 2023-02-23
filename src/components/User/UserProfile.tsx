@@ -12,7 +12,6 @@ const Content = styled.div`
 const UserProfile = ():JSX.Element => {
     const menus = [
         {id:1,name:'사용자 정보 수정', link:'user/userInfo'},
-        {id:2,name:'사용자 설정', link:''},
     ]
 
     const quits = [
@@ -25,11 +24,11 @@ const UserProfile = ():JSX.Element => {
     return(
         <>
         <DetailTopBar title={'계정 관리'}/>
-        <Content className="max-w-md bg-stone-100">
-            <div className='py-48'>
-                <img src="https://icons-for-free.com/download-icon-business+human+person+profile+seo+user+icon-1320186746402784223_512.png" 
+        <Content className="max-w-md bg-stone-100 flex items-center content-center">
+            <div className='my-24 mx-auto'>
+                <img src='/images/user-icon.png' 
                     alt="프로필 이미지" 
-                    className="w-24 mx-auto"
+                    className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
                 />
                 <p className='mt-4 font-semibold'>{`김철수`}</p>
                 <p className='mt-2'>{`example@email.com`}</p>

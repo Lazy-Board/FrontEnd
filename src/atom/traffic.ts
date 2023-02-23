@@ -21,16 +21,22 @@ export interface GetGeocode {
     destinationGeoCode: string;
 }
 
-export const locationState = atom<MyLocation>({
-    key: 'myLocationState',
-    default: {startingPoint:'',destination:''},
-});
+export const startingState = atom<string>({
+    key:'startingState',
+    default:'',
+})
 
+export const destinationState = atom<string>({
+    key:'destinationState',
+    default:'',
+})
+
+//상세
 export const getUserLocation =  selector<MyLocation> ({
     key:'myLocation',
     get: async ({get}) => {
         try {
-            const response = await axios.get('http://localhost:5175/weather/user-info');
+            const response = await axios.get(`${API_URL}/traffic`);
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
@@ -38,14 +44,27 @@ export const getUserLocation =  selector<MyLocation> ({
     }
 })
 
-export const getLocation =  selector<Location> ({
+//메인화면
+export const getLocation =  selector<Duration> ({
     key:'location',
     get: async ({get}) => {
         try {
-            const response = await axios.get('http://localhost:5175/weather');
+            // 추후 /traffic/duration으로 변경
+            const response = await axios.get(`${API_URL}/duration`);
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
         }
     }
 })
+
+// export const useCartLoad = () => {
+//     const cartStore = useRecoilValue(cartState);
+//     const setCartData=()=>{
+//         localStorage.setItem(CART_ITEM, JSON.stringify(cartStore));
+//     }
+//     useEffect(()=>{
+//         setCartData()
+//     }, [cartStore])
+// }
+// 이런거 세팅해줘야 바로바로 갱신처리를 할수 있는거 같은데..문제는 axios 데이터에도 이게 되느냐..지

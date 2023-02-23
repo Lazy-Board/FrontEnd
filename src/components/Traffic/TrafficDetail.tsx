@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useRecoilState } from "recoil";
 import { BiSortAlt2 } from "react-icons/bi";
+import { startingState, destinationState } from "../../atom/traffic";
+import axios from "axios";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 
 const Content = styled.div`
@@ -19,21 +21,36 @@ const Location = styled.input`
 `;
 
 const TrafficDetail = () => {
-    // 위치 설정..검색 방식이면 검색창 구현해야 함
-    // 그리고 검색 결과 보여줄 화면도 구현해야 함
-    const [depart, setDepart] = useState('');
-    const [arrive, setArrive] = useState('');
+    // 엔터 치면 관련 위치들 보여주는 식으로?
+    // 지도 관련해서 일단..로그인이나 다른 거 구현 진행되면 다시 물어보자...
+    // 지도를 어떻게 표시할지가 문제다
+    const [depart, setDepart] = useRecoilState(startingState);
+    const [arrive, setArrive] = useRecoilState(destinationState);
 
-    const switchValue = (e:any) => {
+    const switchValue = (e:React.FormEvent) => {
+        // 이 방식 말고 안되나??좋은 방법은 아닌거 같아서 신경쓰임 근데 뭐라고 검색해야 좋을지 모르겠음
         e.preventDefault();
         setDepart(arrive)
         setArrive(depart)
     }
 
-    const deleteText = (e:any) => {
+    const deleteText = (e:React.FormEvent) => {
         e.preventDefault();
         setDepart('')
         setArrive('')
+    }
+
+    const patchData = async() =>{
+        try{
+            await axios.patch("http://localhost:5175/traffic", { startingPoint:depart, destination:arrive })
+        } catch (error){
+            console.log(`Error: \n${error}`);
+        }
+    }
+
+    const submitData=(e:React.FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        patchData();
     }
 
     return (
@@ -41,9 +58,12 @@ const TrafficDetail = () => {
         <DetailTopBar title="출근 정보"/>
         <Content className="max-w-md pb-24 bg-stone-100 p-3">
             <div className="w-full h-fit mt-16 p-3 border border-slate-300 rounded-lg bg-white">
-                <p className="mb-2 text-left text-sm">도착 예정 시간</p>
-                <p className="text-3xl font-semibold text-left">1시간 34분</p>
-                <form action="#" className="w-full mt-7">
+                <p className="mb-2 text-left text-sm">예상 이동 시간</p>
+                <p className="text-3xl font-semibold text-left">
+                    {`1시간 34분`}
+                </p>
+                <p className="mt-4 text-left text-sm text-gray-400">* 정확한 주소를 입력해주세요!</p>
+                <form action="#" className="w-full mt-4" onSubmit={submitData}>
                     <div className="w-full relative border border-slate-300 rounded-lg">
                         <button className="absolute p-1 top-8 right-3 rounded-full border border-slate-300 bg-white hover:bg-green-400 text-slate-600 hover:text-white transition-colors">
                             <BiSortAlt2 size={20} onClick={switchValue}/>
@@ -57,14 +77,12 @@ const TrafficDetail = () => {
                             <Location type="search" value={arrive} onChange={(e)=>setArrive(e.target.value)} className="w-3/4 p-1 text-left" placeholder="도착지를 정해주세요."/>
                         </div>
                     </div>
-                    <div className="flex mt-4 justify-between">
+                    <div className="flex mt-6 justify-between">
                         <input type="reset" className="w-2/5 btn btn-outline" value={'내용 삭제'} onClick={deleteText}/>
-                        <input type="submit" className="w-2/5 btn btn-primary" value={'길 찾기'}/>
+                        <input type="submit" className="w-2/5 btn btn-primary" value={'길 찾기'} disabled={!depart || !arrive ? true:false}/>
                     </div>
                 </form>
-                <div className="w-full h-80 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200">
-                    여기에 지도가 들어가야 함(아마도) <br/>
-                    따로 지도 컴포넌트를 만들어서 넣어야 함
+                <div className="w-full h-80 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">
                 </div>
             </div>
         </Content>
