@@ -51,10 +51,9 @@ api.interceptors.response.use(
       const originalRequest = config;
       const refreshToken = await localStorage.getItem("RefreshToken");
       // token refresh 요청
-      const { data } = await axios.post(
-        `http://3.35.129.231:8080/reissue`, // token refresh api
-        {},
-        { headers: { authorization: `Bearer ${refreshToken}` } }
+      const { data } = await api.get(
+        "user/reissue", // token refresh api
+        { headers: { RefreshToken: `Bearer ${refreshToken}` } }
       );
       // 새로운 토큰 저장
       // dispatch(userSlice.actions.setAccessToken(data.data.accessToken)); store에 저장
