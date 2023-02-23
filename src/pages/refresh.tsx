@@ -47,7 +47,7 @@ api.interceptors.response.use(
       config,
       response: { status },
     } = error;
-    if (status === 401) {
+    if (error.response.status === 401) {
       const originalRequest = config;
       const refreshToken = await localStorage.getItem("RefreshToken");
       // token refresh 요청

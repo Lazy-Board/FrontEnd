@@ -56,6 +56,10 @@ const Signin = () => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
   };
+  const refreshHeaders = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${refreshToken}`,
+  };
 
   const todolist = async () => {
     try {
@@ -68,7 +72,9 @@ const Signin = () => {
           headers: headers,
         }
       );
-    } catch (err: any) {}
+    } catch (err: any) {
+      console.log(err);
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
