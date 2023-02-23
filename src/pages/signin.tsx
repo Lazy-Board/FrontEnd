@@ -31,27 +31,27 @@ const Signin = () => {
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       // setTime(response.data.expiredTime);
-      localStorage.setItem("token", token);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("RefreshToken", refreshToken);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("RefreshToken", response.data.refreshToken);
     } catch (err: any) {
       if (err.response.status === 400) {
         alert(err.response.msg);
       }
     }
-
-    const onRefreshHandler = async () => {
-      try {
-        const response = await axios.post(`${API_URL}/user/reissue`, {
-          refreshToken,
-        });
-
-        setAccessToken(response.data.accessToken);
-      } catch (err: any) {
-        console.log(err);
-      }
-    };
   };
+  // const onRefreshHandler = async () => {
+  //   try {
+  //     const response = await axios.post(`${API_URL}/user/reissue`, {
+  //       refreshToken,
+  //     });
+
+  //     setAccessToken(response.data.accessToken);
+  //   } catch (err: any) {
+  //     console.log(err);
+  //   }
+  // };
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
@@ -76,6 +76,7 @@ const Signin = () => {
       console.log(err);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <div className="w-1/3 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">

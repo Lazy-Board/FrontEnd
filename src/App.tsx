@@ -7,7 +7,7 @@ import { RecoilRoot } from "recoil";
 function App() {
   return (
     <RecoilRoot>
-      <Signin />;
+      <Signin />
       <Signup />
     </RecoilRoot>
   );
