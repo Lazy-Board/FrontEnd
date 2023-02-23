@@ -7,7 +7,7 @@ import {
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { instance } from "../atom/signin";
 import api from "./refresh";
 
@@ -34,31 +34,16 @@ const Signin = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("RefreshToken", response.data.refreshToken);
+      console.log(refreshToken);
     } catch (err: any) {
       if (err.response.status === 400) {
         alert(err.response.msg);
       }
     }
   };
-  // const onRefreshHandler = async () => {
-  //   try {
-  //     const response = await axios.post(`${API_URL}/user/reissue`, {
-  //       refreshToken,
-  //     });
-
-  //     setAccessToken(response.data.accessToken);
-  //   } catch (err: any) {
-  //     console.log(err);
-  //   }
-  // };
-
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
-  };
-  const refreshHeaders = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${refreshToken}`,
   };
 
   const todolist = async () => {
@@ -76,6 +61,50 @@ const Signin = () => {
       console.log(err);
     }
   };
+
+  interface AuthResponse {
+    accessToken: string;
+    refreshToken: string;
+  }
+
+  const api = axios.create({
+    baseURL: "http://3.35.129.231:8080",
+  });
+
+  api.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    async (error) => {
+      const originalRequest = error.config;
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        console.log(refreshToken);
+        try {
+          const res = await api.post<AuthResponse>("/user/reissue", null, {
+            headers: {
+              RefreshToken: `Bearer ${refreshToken}`,
+            },
+          });
+
+          setAccessToken(res.data.accessToken);
+          setRefreshToken(res.data.refreshToken);
+
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("RefreshToken", refreshToken);
+
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+
+          return api(originalRequest);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
