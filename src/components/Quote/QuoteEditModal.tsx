@@ -1,6 +1,7 @@
-import { myQuoteState, myQuote } from "../../atom/quote";
-import { useState } from "react";
+import { myQuoteState } from "../../atom/quote";
 import { useRecoilState } from "recoil";
+import { useMutation, useQueryClient } from "react-query";
+import { API_URL } from "../../API/API";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -19,33 +20,41 @@ const Edit = styled.textarea`
 
 const EditModal = ():JSX.Element => {
     const [userQuote, setUserQuote] = useRecoilState(myQuoteState);
-    const [myQuote, setMyQuote] = useState('');
+    const queryClient = useQueryClient();
 
     const changeText = (event:React.ChangeEvent<HTMLTextAreaElement>) => {
         const {target: {value}}=event;
-        setMyQuote(value);
+        setUserQuote({content:value});
     }
+
+    const saveQuoteMutation = useMutation((userQuote:string) =>
+        axios.post(`${API_URL}/userQuotes`, { content: userQuote })
+    );
+
+    const deleteQuoteMutation = useMutation(() =>
+        axios.post(`${API_URL}/userQuotes`)
+    );
 
     const saveText = async () => {
         try {
-            const response = await axios.post('http://localhost:5175/userQuotes', {content:myQuote})
+            const response = await saveQuoteMutation.mutateAsync(userQuote.content);
             setUserQuote(response.data)
+            queryClient.invalidateQueries('userQuotes');
         } catch (error){
-            console.log(error)
+            console.log(`Error: \n${error}`)
         }
     }
 
     const deleteText = async () => {
         try {
-            axios.post('http://localhost:5175/userQuotes',
-            {content:''})
-            setMyQuote('');
-            setUserQuote((prevMyQuote: myQuote) => ({
+            await deleteQuoteMutation.mutateAsync();
+            setUserQuote((prevMyQuote: any) => ({
                 ...prevMyQuote,
                 content: '',
             }));
+            queryClient.invalidateQueries('userQuotes');
         } catch (error) {
-            console.error(error);
+            console.error(`Error: \n${error}`);
         }
     }
 
@@ -54,9 +63,11 @@ const EditModal = ():JSX.Element => {
             <input type='checkbox' id='edit-modal' className="modal-toggle"/>
             <div className="modal">
                 <form className="modal-box w-96">
-                    <Edit className="w-full py-4" value={myQuote} onChange={changeText} placeholder="70자 이내로 당신의 명언을 적어주세요!" maxLength={70}/>
+                    <Edit className="w-full py-4" value={userQuote.content} onChange={changeText} placeholder="80자 이내로 당신의 명언을 적어주세요!" maxLength={80}/>
                     <div className="modal-action justify-center">
-                        <label htmlFor="edit-modal" className="btn btn-primary" onClick={saveText}>
+                        <label htmlFor="edit-modal" 
+                        className={`btn btn-primary ${userQuote.content==='' ? 'bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300':''}`}
+                        onClick={saveText}>
                             저장
                         </label>
                         <label htmlFor="edit-modal" className="btn btn-secondary" onClick={deleteText}>

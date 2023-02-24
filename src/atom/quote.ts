@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
 import axios from 'axios';
-// import { API_URL } from '../API/API';
+import { API_URL } from '../API/API';
 
 export interface userQuoteType {
     userId: string;
@@ -12,21 +12,16 @@ export interface QuoteType {
     writer:string;
 }
 
-export interface myQuote {
-    content:string
-}
-
-export const myQuoteState = atom<myQuote>({
+export const myQuoteState = atom({
     key: 'myQuoteState',
     default: {content:''},
-    // 여기에 get 값 있을 때 값을...설정해줄 수 있나??
 });
 
 export const quotesList = selector<QuoteType[]>({
     key:'quotes',
     get: async () => {
         try {
-            const response = await axios.get('http://localhost:5175/quotes');
+            const response = await axios.get(`${API_URL}/quotes`);
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
@@ -35,16 +30,12 @@ export const quotesList = selector<QuoteType[]>({
     }
 })
 
-//어떻게 처리해야 작성한게 바로 갱신될지 모르겠음...
-
-export const getQuotes =  selector<myQuote> ({
-    key:'userQuotes',
-    get: async ({get}) => {
-        try {
-            const response = await axios.get('http://localhost:5175/userQuotes');
-            return response.data;
-        } catch (error){
-            console.log(`Error: \n${error}`);
-        }
+export const getQuotes = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/userQuotes`);
+        return response.data;
+    } catch (error){
+        console.log(`Error: \n${error}`);
+        return [];
     }
-})
+};

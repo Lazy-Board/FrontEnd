@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { GrRotateRight } from "react-icons/gr";
-import { useSliders } from "../../hooks/useSliders";
-import DeleteModule from "../Buttons/DeleteModule";
 import { useRecoilValueLoadable } from "recoil";
 import { useState } from "react";
-import Loading from "./Loading";
+import { GrRotateRight } from "react-icons/gr";
+import { useSliders } from "../../hooks/useSliders";
 import { quotesList, QuoteType } from "../../atom/quote";
 import DisplayMyQuote from "./DisplayMyQuote";
+import DeleteModule from "../Buttons/DeleteModule";
+import Loading from "./Loading";
+import styled from "styled-components";
 
 const LongWidth = styled.div`
     width: 200%;
@@ -15,7 +15,7 @@ const LongWidth = styled.div`
     left:0;
 `
 
-const QuoteView = () => {
+const QuoteView = (): JSX.Element => {
     const listsLoadable = useRecoilValueLoadable(quotesList);
     let lists: QuoteType[] = 'hasValue' === listsLoadable.state ? listsLoadable.contents : [];
 
@@ -45,7 +45,7 @@ const QuoteView = () => {
                         -{lists[number].writer}
                     </p>
                     <button className="absolute -right-1 bottom-0" onClick={() => setNumber(getRandom)}>
-                        <GrRotateRight size={20} color="#999"/>
+                        <GrRotateRight size={20} className="text-gray-400 hover:text-green-500 transition-colors"/>
                     </button>
                 </div>
                 }
