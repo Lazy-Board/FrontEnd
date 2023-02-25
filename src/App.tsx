@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
+import { api } from "./atom/signin";
 
 function App() {
   return (
