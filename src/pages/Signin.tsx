@@ -8,8 +8,8 @@ import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { instance } from "../atom/signin";
 import { Link } from "react-router-dom";
+import { api } from "../atom/signin";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -51,15 +51,6 @@ const Signin = () => {
     accessToken: string;
     refreshToken: string;
   }
-
-  const api = axios.create({
-    baseURL: "http://3.35.129.231:8080",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
   api.interceptors.response.use(
     (response: AxiosResponse) => response,
     async (error) => {

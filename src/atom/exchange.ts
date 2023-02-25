@@ -1,7 +1,7 @@
 import axios from "axios";
 import { atom, selector } from "recoil";
 import { API_URL } from "../API/API";
-import { api } from "./auth";
+import { api } from "./signin";
 
 export interface AccordionProps {
   currencyName: string;
