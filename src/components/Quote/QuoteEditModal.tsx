@@ -1,6 +1,6 @@
-import { myQuoteState } from "../../atom/quote";
+import { myQuoteState, getQuotes } from "../../atom/quote";
 import { useRecoilState } from "recoil";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "react-query";
 import { API_URL } from "../../API/API";
 import axios from "axios";
 import styled from "styled-components";
@@ -21,6 +21,10 @@ const Edit = styled.textarea`
 const EditModal = ():JSX.Element => {
     const [userQuote, setUserQuote] = useRecoilState(myQuoteState);
     const queryClient = useQueryClient();
+    const { data: myQuote } = useQuery('userQuotes', getQuotes, {
+        refetchOnWindowFocus:false,
+    });
+    // 구조적으로 좀 보기 뭐시기한데 어떻게 수정해야 좋지
 
     const changeText = (event:React.ChangeEvent<HTMLTextAreaElement>) => {
         const {target: {value}}=event;
@@ -31,13 +35,29 @@ const EditModal = ():JSX.Element => {
         axios.post(`${API_URL}/userQuotes`, { content: userQuote })
     );
 
+    const editQuoteMutation = useMutation((userQuote:string) =>
+        axios.put(`${API_URL}/userQuotes`, { content: userQuote })
+    );
+
+    // json-server 404에러 문제: id 추가하고 구조를 배열로 바꿔야만 작동한다.....json server에서 받는 구조상 어쩔수 없는거 같음
+    // 실제 api에서 동작하는거 보고서 봐야할거 같음..
     const deleteQuoteMutation = useMutation(() =>
-        axios.post(`${API_URL}/userQuotes`)
+        axios.delete(`${API_URL}/userQuotes`)
     );
 
     const saveText = async () => {
         try {
             const response = await saveQuoteMutation.mutateAsync(userQuote.content);
+            setUserQuote(response.data)
+            queryClient.invalidateQueries('userQuotes');
+        } catch (error){
+            console.log(`Error: \n${error}`)
+        }
+    }
+
+    const editText = async () => {
+        try {
+            const response = await editQuoteMutation.mutateAsync(userQuote.content);
             setUserQuote(response.data)
             queryClient.invalidateQueries('userQuotes');
         } catch (error){
@@ -67,7 +87,7 @@ const EditModal = ():JSX.Element => {
                     <div className="modal-action justify-center">
                         <label htmlFor="edit-modal" 
                         className={`btn btn-primary ${userQuote.content==='' ? 'bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300':''}`}
-                        onClick={saveText}>
+                        onClick={!myQuote?.content ? saveText : editText}>
                             저장
                         </label>
                         <label htmlFor="edit-modal" className="btn btn-secondary" onClick={deleteText}>

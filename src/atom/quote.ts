@@ -17,7 +17,7 @@ export const myQuoteState = atom({
     default: {content:''},
 });
 
-export const quotesList = selector<QuoteType[]>({
+export const quotesList = selector<QuoteType>({
     key:'quotes',
     get: async () => {
         try {
@@ -25,7 +25,7 @@ export const quotesList = selector<QuoteType[]>({
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
-            return [];
+            return {};
         }
     }
 })
@@ -36,6 +36,6 @@ export const getQuotes = async () => {
         return response.data;
     } catch (error){
         console.log(`Error: \n${error}`);
-        return [];
+        return {};
     }
 };
