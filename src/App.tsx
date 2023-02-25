@@ -14,11 +14,12 @@ import EditUserInfo from "./components/User/EditUserInfo";
 import ExchangeDetail from "./components/Exchange/ExchangeDetail";
 import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
-import Signin from "./pages/signin";
+import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
+import { Refresh } from "./components/User/refresh";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
       <Confirm />
       <SetLocationModal />
       <QuoteEditModal />
+      <Refresh />
     </BrowserRouter>
   );
 }

@@ -28,13 +28,14 @@ const Signup = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axios.post(`${API_URL}/user/signUp`, {
-        email,
-        password,
-        username,
-        nickname,
-        phonenumber,
+      const response = await axios.post(`${API_URL}/user/signup`, {
+        userEmail: email,
+        password: password,
+        userName: username,
+        nickName: nickname,
+        phoneNumber: phonenumber,
       });
+      localStorage.setItem("token", response.data.token);
     } catch (err: any) {
       if (err) {
         const axiosError: any = err as AxiosError;
@@ -123,7 +124,17 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+              전화번호
+            </label>
+            <input
+              name="phonenumber"
+              id="phonenumber"
+              placeholder="010-0000-0000"
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              value={phonenumber}
+              onChange={(e) => setPhonenumber(e.target.value)}
+            />
             <button
               type="submit"
               className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold"

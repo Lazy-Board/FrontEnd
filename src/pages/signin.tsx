@@ -1,29 +1,68 @@
 import google from "../assets/google.png";
-import { authTokenState } from "../atom/auth";
+import {
+  accessTokenState,
+  authTokenState,
+  refreshTokenState,
+} from "../atom/auth";
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { instance } from "../atom/signin";
+import { api } from "../components/User/refresh";
 import { Link } from "react-router-dom";
 
 const Signin = () => {
-  const [authToken, setAuthToken] = useRecoilState(authTokenState);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [token, setToken] = useRecoilState(authTokenState);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  // const [time, setTime] = useRecoilState(timeState);
 
-  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/user/login`, {
-        userEmail,
-        password,
+        userEmail: userEmail,
+        password: password,
       });
-      setAuthToken(response.data.token);
+      setToken(response.data.token);
+      setAccessToken(response.data.accessToken);
+      setRefreshToken(response.data.refreshToken);
+      // setTime(response.data.expiredTime);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      localStorage.setItem("RefreshToken", response.data.refreshToken);
+      console.log(refreshToken);
     } catch (err: any) {
-      setError(err);
+      if (err.response.status === 400) {
+        alert(err.response.msg);
+      }
     }
   };
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  const todolist = async () => {
+    try {
+      await api.post(
+        "/todolist/write",
+        {
+          content: "1234",
+        },
+        {
+          headers: headers,
+        }
+      );
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
@@ -34,7 +73,7 @@ const Signin = () => {
           <form
             className="space-y-4 md:space-y-6"
             action="#"
-            onSubmit={onSubmitHandler}
+            onSubmit={onLoginHandler}
           >
             <label className="block mb-4 text-sm font-medium text-gray-900 dark:text-white text-left">
               이메일
@@ -83,6 +122,12 @@ const Signin = () => {
             </div>
           </form>
         </div>
+        <button onClick={todolist} className="btn">
+          todo
+        </button>
+        {/* <button onClick={refresh} className="btn">
+          리프레시
+        </button> */}
       </div>
     </div>
   );
