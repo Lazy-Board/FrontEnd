@@ -30,10 +30,11 @@ const Signin = () => {
       setToken(response.data.token);
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
-      // setTime(response.data.expiredTime);
+      //   // setTime(response.data.expiredTime);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("RefreshToken", response.data.refreshToken);
+      console.log(accessToken);
       console.log(refreshToken);
     } catch (err: any) {
       if (err.response.status === 400) {

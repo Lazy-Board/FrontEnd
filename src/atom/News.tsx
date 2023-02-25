@@ -1,11 +1,12 @@
 import axios from "axios";
 import { atom, selector } from "recoil";
 import { API_URL } from "../API/API";
+import { api } from "./auth";
 
 export const getNewsSelector = selector({
   key: "getNewsSelector",
   get: async ({ get }) => {
-    const response = await axios.get(`${API_URL}/news`);
+    const response = await api.get(`/news`);
     return response.data;
   },
 });
