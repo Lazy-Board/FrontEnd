@@ -1,21 +1,15 @@
 import RegistDragEvent from "./Carousel";
 import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
-
-const imageList = [
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2732BB3F583C95DD2C",
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2228F43F583C95E22F",
-  "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F2726EF3F583C95EA2B",
-];
-
-// width 1일 떄 height의 비율
-
+import { selector, useRecoilValue } from "recoil";
+import axios from "axios";
+import { getYoutube } from "../../atom/Youtube";
 const YoutubeCarousel = () => {
-  const [hide, setHide] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
   const [animate, setAnimate] = useState(false);
-
+  const data = useRecoilValue(getYoutube);
+  let imageList = data.map((item: any) => item);
   const slideList = [imageList.at(-1), ...imageList, imageList.at(0)];
 
   const { ref: carouselRef, width, height } = useCarouselSize();
@@ -25,6 +19,7 @@ const YoutubeCarousel = () => {
     if (v > max) return max;
     return v;
   };
+
   return (
     <>
       <div
@@ -35,7 +30,11 @@ const YoutubeCarousel = () => {
           overflow: "hidden",
         }}
       >
-        <span className="grid justify-items-start">YouTube 추천</span>
+        <div className="w-full flex border border-white border-b-black ">
+          <span className="font-semibold grid justify-items-start mb-1">
+            YouTube 추천
+          </span>
+        </div>
         <div
           className="flex mt-3"
           style={{
@@ -70,17 +69,26 @@ const YoutubeCarousel = () => {
             }
           }}
         >
-          {slideList.map((item, i) => (
+          {slideList.map((item: any, i) => (
             <div key={i} className="flex-shrink-0">
               <div className="flex-col">
                 <img
                   draggable={false}
-                  src={item}
+                  src={item.imagePath}
                   alt="img"
                   width={width}
-                  className="cursor-pointer mx-1 border border-slate-300 rounded-lg"
+                  className="mx-1 rounded-lg"
                 />
-                <h1 className="mt-2 grid ml-2 justify-items-start">title</h1>
+                <span className="absolute top-28 ml-20 text-sm text-white font-bold rounded-lg bg-black bg-opacity-50 px-1">
+                  {item.length}
+                </span>
+                <a href={item.videoUrl} target="_blank">
+                  <div className="w-56 ml-3 text-left">
+                    <span className=" text-sm font-sans font-semibold overflow-hidden">
+                      {item.contentName}
+                    </span>
+                  </div>
+                </a>
               </div>
             </div>
           ))}
