@@ -9,7 +9,6 @@ import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { instance } from "../atom/signin";
-import { api } from "../components/User/refresh";
 import { Link } from "react-router-dom";
 
 const Signin = () => {
@@ -47,21 +46,69 @@ const Signin = () => {
     Authorization: `Bearer ${accessToken}`,
   };
 
-  const todolist = async () => {
-    try {
-      await api.post(
-        "/todolist/write",
-        {
-          content: "1234",
-        },
-        {
-          headers: headers,
+  interface AuthResponse {
+    accessToken: string;
+    refreshToken: string;
+  }
+
+  const api = axios.create({
+    baseURL: "http://3.35.129.231:8080",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  api.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    async (error) => {
+      const originalRequest = error.config;
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        try {
+          const res = await api.post<AuthResponse>("/user/reissue", {
+            headers: {
+              RefreshToken: `Bearer ${refreshToken}`,
+            },
+          });
+
+          setAccessToken(res.data.accessToken);
+          setRefreshToken(res.data.refreshToken);
+
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("RefreshToken", refreshToken);
+
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+
+          return api(originalRequest);
+        } catch (e) {
+          console.error(e);
         }
-      );
-    } catch (err: any) {
-      console.log(err);
+      }
+
+      return Promise.reject(error);
     }
-  };
+  );
+
+  //   const todolist = async () => {
+  //     try {
+  //       await api.post(
+  //         "/todolist/write",
+  //         {
+  //           content: "1234",
+  //         },
+  //         {
+  //           headers: headers,
+  //         }
+  //       );
+  //     } catch (err: any) {
+  //       console.log(err);
+  //     }
+  //   };
 
   return (
     <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
@@ -122,9 +169,9 @@ const Signin = () => {
             </div>
           </form>
         </div>
-        <button onClick={todolist} className="btn">
+        {/* <button onClick={todolist} className="btn">
           todo
-        </button>
+        </button> */}
         {/* <button onClick={refresh} className="btn">
           리프레시
         </button> */}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import styled from "styled-components";
+import { API_URL } from "../../API/API";
 
 const Edit = styled.textarea`
   height: 120px;
@@ -30,7 +31,7 @@ const EditModal = (): JSX.Element => {
 
   const saveText = async () => {
     try {
-      const response = await axios.post("http://localhost:5175/userQuotes", {
+      const response = await axios.post(`${API_URL}/userQuotes`, {
         content: myQuote,
       });
       setUserQuote(response.data);
@@ -41,7 +42,7 @@ const EditModal = (): JSX.Element => {
 
   const deleteText = async () => {
     try {
-      axios.post("http://localhost:5175/userQuotes", { content: "" });
+      axios.post(`${API_URL}/userQuotes`, { content: "" });
       setMyQuote("");
       setUserQuote((prevMyQuote: myQuote) => ({
         ...prevMyQuote,

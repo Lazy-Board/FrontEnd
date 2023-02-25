@@ -19,7 +19,6 @@ import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
-import { Refresh } from "./components/User/refresh";
 
 function App() {
   return (
@@ -41,7 +40,6 @@ function App() {
       <Confirm />
       <SetLocationModal />
       <QuoteEditModal />
-      <Refresh />
     </BrowserRouter>
   );
 }
