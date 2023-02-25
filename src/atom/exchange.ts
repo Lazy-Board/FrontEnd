@@ -20,7 +20,7 @@ export interface AccordionProps {
 export const getExchangeMain = selector({
     key: "getExchangeMain",
     get: async ({ get }) => {
-        const response = await axios.get(`${API_URL}/exchange/search`);
+        const response = await axios.get(`${API_URL}/search`);
         return response.data;
     },
 });
@@ -33,8 +33,7 @@ export const ExchangeLike = atom<any>({
 export const getExchangeDetail = selector({
     key: "getExchangeDetail",
     get: async ({ get }) => {
-        const response = await axios.get(`${API_URL}/exchange/detail`);
+        const response = await axios.get(`${API_URL}/detail`);
         return response.data;
     },
 });
-

@@ -6,13 +6,21 @@ const ExchangeContent = styled.div`
 `
 
 const AccordionContent = (props:any, ref:any):JSX.Element => {
-    const { height, buyCash, sellCash, sendMoney, receiveMoney } = props;
+    const { height, comparedPreviousDay, fluctuationRate, buyCash, sellCash, sendMoney, receiveMoney } = props;
     
     return (
         <ExchangeContent className="w-full px-2 mt-2 overflow-hidden" 
         ref={ref} 
         style={{ height: height }}
         >
+            <p className="flex py-1 justify-between text-sm">
+                <span>전일 대비</span>
+                <span>{comparedPreviousDay}</span>
+            </p>
+            <p className="flex py-1 justify-between text-sm">
+                <span>등락율</span>
+                <span>{fluctuationRate}</span>
+            </p>
             <p className="flex py-1 justify-between text-sm">
                 <span>현찰 사실 때</span>
                 <span>{buyCash}</span>

@@ -16,13 +16,14 @@ const Flag = styled.img`
 
 const Accordions = (props:AccordionProps):JSX.Element => {
     const {countryName, currencyName, tradingStandardRate, comparedPreviousDay, fluctuationRate, classes, isOpened, handleOpening } = props;
+    
     const [height, setHeight] = useState<string>("0px");
     const [wishlist, setWishlist] = useRecoilState<String[]>(ExchangeLike);
     const contentElement = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isOpened) {
-            setHeight("120px");
+            setHeight("180px");
         } else {
             setHeight("0px");
         }
@@ -30,7 +31,6 @@ const Accordions = (props:AccordionProps):JSX.Element => {
 
     const handleWishlist = () => {
         const isInWishlist = wishlist.includes(currencyName);
-    
         if (!isInWishlist) {
             setWishlist([...wishlist, currencyName]);
         } else {
