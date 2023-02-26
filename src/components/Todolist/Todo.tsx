@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { todosState, ITodoTypes } from "../../atom/Todo";
@@ -20,9 +21,13 @@ const Todo = () => {
   );
 
   const onDelete = useCallback(
-    (id: number) => {
-      setTodos(todos.filter((todo: ITodoTypes) => todo.id !== id));
+    async (todo: any) => {
+      await axios.delete(`todolist/delete/${todo.id}`);
+      (id: number) => {
+        setTodos(todos.filter((todo: ITodoTypes) => todo.id !== id));
+      };
     },
+
     [setTodos, todos]
   );
 

@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, KeyboardEvent } from "react";
+import axios from "axios";
+import React, {
+  ChangeEvent,
+  useCallback,
+  KeyboardEvent,
+  FormEvent,
+} from "react";
 
 import { FaPen } from "react-icons/fa";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -10,25 +16,22 @@ const TodoInput = () => {
   const todos = useRecoilValue<ITodoTypes[]>(todosState);
   const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
 
-  const addTodo = useCallback((): void => {
-    if (!contents.trim()) {
-      // 빈칸 입력 방지
-      return;
-    }
-
-    const nextId: number =
-      todos.length > 0 ? todos[todos.length - 1].id + 1 : 0;
-
-    const todo: ITodoTypes = {
-      id: nextId,
-      contents,
-      isCompleted: false,
-    };
-
-    setTodos([...todos, todo]);
-
-    setContents("");
-  }, [contents, setContents, setTodos, todos]);
+  // useRecoilValue = get 변수
+  // useSetRecoilState = setter 지정
+  // 위와 같은형식으로 get과 setter를 분리하여 사용하는 방법도 있습니다.
+  const addTodo = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      const res = await axios.post("/api/todos", { content: contents });
+      setTodos([...todos, res.data]);
+      setContents("");
+      if (!contents.trim()) {
+        // 빈칸 입력 방지
+        return;
+      }
+    },
+    [contents, setContents, setTodos, todos]
+  );
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -39,9 +42,9 @@ const TodoInput = () => {
   );
 
   const onKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>): void => {
+    (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter") {
-        addTodo();
+        addTodo(e);
       }
     },
     [addTodo]
