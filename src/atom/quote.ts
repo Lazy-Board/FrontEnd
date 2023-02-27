@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 import axios from "axios";
 import { API_URL } from "../API/API";
+import { api } from "./signin";
 
 export interface userQuoteType {
   userId: string;
@@ -21,7 +22,7 @@ export const quotesList = selector<QuoteType>({
   key: "quotes",
   get: async () => {
     try {
-      const response = await axios.get(`${API_URL}/quotes`);
+      const response = await api.get(`/quotes`);
       return response.data;
     } catch (error) {
       console.log(`Error: \n${error}`);
@@ -32,7 +33,7 @@ export const quotesList = selector<QuoteType>({
 
 export const getQuotes = async () => {
   try {
-    const response = await axios.get(`${API_URL}/userQuotes`);
+    const response = await api.get(`/userQuotes`);
     return response.data;
   } catch (error) {
     console.log(`Error: \n${error}`);
