@@ -1,12 +1,11 @@
-import axios from "axios";
-import React, { FormEvent, useCallback } from "react";
+import { useEffect } from "react";
 
-import { todosState, ITodoTypes, todoSelector } from "../../atom/Todo";
+import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { api } from "../../atom/signin";
 const Todo = () => {
-  const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
-  const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
+  const [todos, setTodos] = useRecoilState(todosState);
 
   // const onComplete = useCallback(
   //   (id: number): void => {
@@ -21,32 +20,19 @@ const Todo = () => {
   //   [setTodos, todos]
   // );
 
-  const onDelete = useCallback(
-    async (todo: any) => {
-      await axios.post(`todolist/delete/`, { id: todo.id });
-      (id: number) => {
-        setTodos(todos.filter((todo: ITodoTypes) => todo.id !== id));
-      };
-    },
-
-    [setTodos, todos]
-  );
   return (
     <div className="w-full h-full relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto text-black">
       {todos.length > 0 ? (
         todos.map((todo: ITodoTypes) => {
-          const { id, contents } = todo;
+          const { id, content } = todo;
 
           return (
             <TodoItem
               key={id}
               id={id}
-              contents={contents}
+              contents={content}
               // isCompleted={isCompleted}
               // onComplete={onComplete}
-              onDelete={onDelete}
-              todos={todos}
-              setTodos={setTodos}
             />
           );
         })

@@ -1,33 +1,32 @@
-import React, { useCallback, useState } from "react";
-import { ITodoTypes } from "../../atom/Todo";
+import React, { useCallback, useEffect, useState } from "react";
+import { ITodoTypes, todosState } from "../../atom/Todo";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { SetterOrUpdater } from "recoil";
 import TodoModal from "./TodoModal";
-
+import { api } from "../../atom/signin";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import axios from "axios";
 interface PropTypes {
   id: number;
   contents: string;
   // isCompleted: boolean;
 
   // onComplete: (id: number) => void;
-  onDelete: (id: number) => void;
-
-  todos: ITodoTypes[];
-  setTodos: SetterOrUpdater<ITodoTypes[]>;
 }
 
 const TodoItem = ({
   id,
   contents,
-  // isCompleted,
-  // onComplete,
-  onDelete,
-  todos,
-  setTodos,
-}: PropTypes) => {
+}: // isCompleted,
+// onComplete,
+
+PropTypes) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [modifyContents, setModifyContents] = useState<string>("");
+  // const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
+  // const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
+  const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
 
   const onModify = useCallback((): void => {
     setIsModal(true);
@@ -48,6 +47,12 @@ const TodoItem = ({
     setIsModal(false);
   }, [id, modifyContents, setTodos, todos]);
 
+  const onDelete = useCallback(async () => {
+    await api.post(`todolist/delete`, { id: id });
+
+    setTodos(todos.filter((todo: ITodoTypes) => todo.id !== id));
+  }, [setTodos, todos]);
+
   return (
     <>
       <div className="flex justify-between items-center mb-3 pb-2  font-bold border-b border-slate-300">
@@ -63,7 +68,7 @@ const TodoItem = ({
           <FaPen className="bg-none cursor-pointer mr-2" onClick={onModify} />
           <MdClose
             className="bg-none font-semibold cursor-pointer"
-            onClick={() => onDelete(id)}
+            onClick={onDelete}
           />
         </div>
       </div>

@@ -9,18 +9,14 @@ import React, {
 import { FaPen } from "react-icons/fa";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { api } from "../../atom/signin";
-import {
-  inputState,
-  todosState,
-  ITodoTypes,
-  todoSelector,
-} from "../../atom/Todo";
+import { inputState, todosState, ITodoTypes } from "../../atom/Todo";
 
 const TodoInput = () => {
   const [contents, setContents] = useRecoilState<string>(inputState);
 
-  const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
-  const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
+  // const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
+  // const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
+  const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
 
   // useRecoilValue = get 변수
   // useSetRecoilState = setter 지정
