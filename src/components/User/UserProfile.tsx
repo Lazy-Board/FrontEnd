@@ -7,19 +7,17 @@ const Content = styled.div`
     margin:0 auto;
     color: black;
     `;
-    // content 따로 분리해서 layout용으로 만들기
 
 const UserProfile = ():JSX.Element => {
     const menus = [
-        {id:1,name:'사용자 정보 수정', link:'user/userInfo'},
+        {id:1,name:'프로필 수정', link:'user/userInfo'},
+        {id:2,name:'비밀번호 변경', link:'user/update-password'},
+        {id:3,name:'회원 탈퇴', link:'user/withdrawal'},
     ]
 
     const quits = [
-        {id:3,name:'로그아웃',modal:'confirm-modal'},
-        {id:4,name:'계정 탈퇴',modal:'confirm-modal'},
+        {id:4,name:'로그아웃',modal:'confirm-modal'},
     ]
-
-    // isLoading 일 때 프로필 이미지, 닉네임, 이메일 부분 skeletonUI 처리
     
     return(
         <>

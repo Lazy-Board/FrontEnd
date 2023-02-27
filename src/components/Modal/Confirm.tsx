@@ -12,6 +12,7 @@ const Confirm = ():JSX.Element => {
                     <div className="modal-action" >
                         <label htmlFor="confirm-modal" className="btn btn-primary" >
                             네
+                            {/* 네 누르면 로그아웃되었습니다 alert 창 띄우고 로그인 화면으로 리다이렉트하도록 */}
                         </label>
                         <label htmlFor="confirm-modal" className="btn btn-outline">
                             아니오

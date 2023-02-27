@@ -8,6 +8,9 @@ import EditUserInfo from "./components/User/EditUserInfo";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
 import UserSuccess from "./components/MainPage/UserSuccess";
 import SelectWidget from "./components/MainPage/SelectWidget";
+import UpdatePassword from "./components/User/UpdatePassword";
+import UserWithdrawal from "./components/MainPage/UserWithdrawal";
+import FindPassword from "./components/MainPage/FindPassword";
 import "./App.css";
 
 // 로그인X일 때 메인화면 접근 못하게
@@ -24,6 +27,9 @@ function App() {
         <Route path="/traffic" element={<TrafficDetail />} />
         <Route path="/auth-success" element={<UserSuccess/>}/>
         <Route path="/select-widget" element={<SelectWidget />} />
+        <Route path="/user/update-password" element={<UpdatePassword />} />
+        <Route path="/user/withdrawal" element={<UserWithdrawal />} />
+        <Route path="/user/find-password" element={<FindPassword />} />
       </Routes>
       <BottomBar />
       <Confirm />

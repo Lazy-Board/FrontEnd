@@ -21,7 +21,7 @@ const Top = styled.div`
 const TopBar = ():JSX.Element => {
     const locationNow = useLocation();
     
-    if (locationNow.pathname === "/login" || locationNow.pathname === "/Signup" || locationNow.pathname === "/auth-success" || locationNow.pathname === "/select-widget")
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/Signup" || locationNow.pathname === "/auth-success")
     return (
         <></>
     );

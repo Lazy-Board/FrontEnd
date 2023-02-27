@@ -1,14 +1,20 @@
 {
   "traffic": {
     "userId": "1111",
-    "startingPoint": "서울특별시 용산구 한강대로 405",
+    "startingPoint": "ddd",
     "startingGeoCode": "126.9717326,37.5548376",
-    "destination": "서울특별시 송파구 올림픽로 240",
+    "destination": "dddrr",
     "destinationGeoCode": "127.0981638,37.5110794"
   },
   "duration": {
     "startingPoint": "서울특별시 용산구 한강대로 405",
     "destination": "서울특별시 송파구 올림픽로 240",
     "duration": "1506"
+  },
+  "search": {
+    "phoneNumber":"010-1234-5678",
+    "socialType":"google",
+    "userEmail":"example@gmail.com",
+    "userName":"김철수"
   }
 }

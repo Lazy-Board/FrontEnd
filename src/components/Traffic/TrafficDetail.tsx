@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { BiSortAlt2 } from "react-icons/bi";
+import { API_URL } from "../../API/API";
 import { startingState, destinationState } from "../../atom/traffic";
 import axios from "axios";
 import DetailTopBar from "../MenuBars/DetailTopBar";
@@ -21,9 +22,7 @@ const Location = styled.input`
 `;
 
 const TrafficDetail = () => {
-    // 엔터 치면 관련 위치들 보여주는 식으로?
-    // 지도 관련해서 일단..로그인이나 다른 거 구현 진행되면 다시 물어보자...
-    // 지도를 어떻게 표시할지가 문제다
+    // 지도를 어떻게 표시할지가 문제다-일단은 목적지만 중심에 보여주자고 하긴 했는데
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
 
@@ -40,9 +39,10 @@ const TrafficDetail = () => {
         setArrive('')
     }
 
+    // 도착지 정보 put(업데이트),post(처음에 저장)/delete(삭제)
     const patchData = async() =>{
         try{
-            await axios.patch("http://localhost:5175/traffic", { startingPoint:depart, destination:arrive })
+            await axios.post(`${API_URL}/traffic`, { startingPoint:depart, destination:arrive })
         } catch (error){
             console.log(`Error: \n${error}`);
         }
