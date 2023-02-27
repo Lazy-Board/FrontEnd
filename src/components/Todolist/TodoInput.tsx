@@ -14,29 +14,21 @@ import { inputState, todosState, ITodoTypes } from "../../atom/Todo";
 const TodoInput = () => {
   const [contents, setContents] = useRecoilState<string>(inputState);
 
-  // const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
-  // const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
-  const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
+  const todos = useRecoilValue<ITodoTypes[]>(todosState);
+  const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
 
-  // useRecoilValue = get 변수
-  // useSetRecoilState = setter 지정
-  // 위와 같은형식으로 get과 setter를 분리하여 사용하는 방법도 있습니다.
   const addTodo = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
       const res = await api.post("/todolist/write", { content: contents });
       setTodos([...todos, res.data]);
       setContents("");
-      if (!contents.trim()) {
-        // 빈칸 입력 방지
-        return;
-      }
     },
-    [contents, setContents, setTodos, todos]
+    [contents, setContents, todos]
   );
 
   const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>): void => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
       setContents(value);
     },

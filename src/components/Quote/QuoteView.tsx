@@ -1,12 +1,11 @@
-import styled from "styled-components";
+import { useRecoilValueLoadable } from "recoil";
 import { GrRotateRight } from "react-icons/gr";
 import { useSliders } from "../../hooks/useSliders";
-import DeleteModule from "../Buttons/DeleteModule";
-import { useRecoilValueLoadable } from "recoil";
-import { useState } from "react";
-import Loading from "./Loading";
 import { quotesList, QuoteType } from "../../atom/quote";
 import DisplayMyQuote from "./DisplayMyQuote";
+import DeleteModule from "../Buttons/DeleteModule";
+import Loading from "./Loading";
+import styled from "styled-components";
 
 const LongWidth = styled.div`
   width: 200%;
@@ -14,17 +13,17 @@ const LongWidth = styled.div`
   display: flex;
   left: 0;
 `;
+// get할때마다 랜덤으로 뜨는 형식이라서 바꿔야 함
+// 걍 넣지 말자...
 
-const QuoteView = () => {
-  const listsLoadable = useRecoilValueLoadable(quotesList);
-  let lists: QuoteType[] =
-    "hasValue" === listsLoadable.state ? listsLoadable.contents : [];
+const QuoteView = (): JSX.Element => {
+  const quoteLoadable = useRecoilValueLoadable(quotesList);
+  let lists: QuoteType =
+    "hasValue" === quoteLoadable.state
+      ? quoteLoadable.contents
+      : { content: "", writer: "" };
 
-  const getRandom = Math.floor(Math.random() * lists.length);
   const { slideRef, dotRef, NextSlide, PrevSlide } = useSliders();
-  const [number, setNumber] = useState(
-    Math.floor(Math.random() * lists.length)
-  );
 
   const dots = [
     {
@@ -54,21 +53,15 @@ const QuoteView = () => {
         ))}
       </div>
       <LongWidth ref={slideRef}>
-        {listsLoadable.state === "loading" ||
-        listsLoadable.state === "hasError" ? (
+        {quoteLoadable.state === "loading" ? (
           <Loading />
         ) : (
           <div className="w-96 h-28 relative flex flex-col items-center justify-center pl-6 select-none">
-            <p className="max-w-xs mx-auto line-clamp-3">
-              {lists[number].content}
-            </p>
-            <p className="mt-2 text-gray-500">-{lists[number].writer}</p>
-            <button
-              className="absolute -right-1 bottom-0"
-              onClick={() => setNumber(getRandom)}
-            >
-              <GrRotateRight size={20} color="#999" />
-            </button>
+            <p className="max-w-xs mx-auto line-clamp-3">{lists.content}</p>
+            <p className="mt-2 text-gray-500">-{lists.writer}</p>
+            {/* <button className="absolute -right-1 bottom-0" >
+                        <GrRotateRight size={20} className="text-gray-400 hover:text-green-500 transition-colors"/>
+                    </button> */}
           </div>
         )}
         <DisplayMyQuote />

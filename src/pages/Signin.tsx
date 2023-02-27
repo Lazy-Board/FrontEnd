@@ -86,21 +86,19 @@ const Signin = () => {
     }
   );
 
-  //   const todolist = async () => {
-  //     try {
-  //       await api.post(
-  //         "/todolist/write",
-  //         {
-  //           content: "1234",
-  //         },
-  //         {
-  //           headers: headers,
-  //         }
-  //       );
-  //     } catch (err: any) {
-  //       console.log(err);
-  //     }
-  //   };
+  const stockPost = async () => {
+    try {
+      await api.post(
+        "/stock/add",
+        {},
+        {
+          headers: headers,
+        }
+      );
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
@@ -161,9 +159,9 @@ const Signin = () => {
             </div>
           </form>
         </div>
-        {/* <button onClick={todolist} className="btn">
-          todo
-        </button> */}
+        <button onClick={stockPost} className="btn">
+          stock
+        </button>
         {/* <button onClick={refresh} className="btn">
           리프레시
         </button> */}

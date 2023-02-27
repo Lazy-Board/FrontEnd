@@ -15,13 +15,22 @@ const StockDetail = () => {
     margin: 0 auto;
     color: black;
   `;
-
+  type AccordionProps = {
+    stockName: string;
+    price: number;
+    dayRange: any;
+    diffAmount: string;
+    lowPrice: number;
+    highPrice: number;
+    tradingVolume: number;
+    updateAt: string;
+  };
   return (
     <>
       <DetailTopBar title="주식" />
       <Content className="max-w-md bg-stone-100 p-3">
         <div className="w-full mt-12">
-          {data.map((item: any) => (
+          {data.map((item: AccordionProps) => {
             <>
               <StockDetailAccordion
                 stockName={item.stockName}
@@ -33,8 +42,8 @@ const StockDetail = () => {
                 tradingVolume={item.tradingVolume}
                 updateAt={item.updateAt}
               ></StockDetailAccordion>
-            </>
-          ))}
+            </>;
+          })}
         </div>
         {/* <button onClick={sortHandler}>낮은 가격순</button> */}
       </Content>
