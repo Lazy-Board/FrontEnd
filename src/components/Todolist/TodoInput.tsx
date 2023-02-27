@@ -8,12 +8,18 @@ import React, {
 
 import { FaPen } from "react-icons/fa";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { inputState, todosState, ITodoTypes } from "../../atom/Todo";
+import { api } from "../../atom/signin";
+import {
+  inputState,
+  todosState,
+  ITodoTypes,
+  todoSelector,
+} from "../../atom/Todo";
 
 const TodoInput = () => {
   const [contents, setContents] = useRecoilState<string>(inputState);
 
-  const todos = useRecoilValue<ITodoTypes[]>(todosState);
+  const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
   const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
 
   // useRecoilValue = get 변수
@@ -22,7 +28,7 @@ const TodoInput = () => {
   const addTodo = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
-      const res = await axios.post("/api/todos", { content: contents });
+      const res = await api.post("/todolist/write", { content: contents });
       setTodos([...todos, res.data]);
       setContents("");
       if (!contents.trim()) {

@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 import { useRecoilState } from "recoil";
-import { ITodoTypes, todosState } from "../../atom/Todo/Todo";
+import { ITodoTypes, todosState } from "../../atom/Todo";
 import Todo from "./Todo";
 const TodoMainView = () => {
   const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);

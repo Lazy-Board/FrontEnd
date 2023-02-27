@@ -1,9 +1,9 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+import { api } from "./signin";
 
 export interface ITodoTypes {
   id: number;
   contents: string;
-  isCompleted: boolean;
 }
 
 export const inputState = atom<string>({
@@ -11,27 +11,16 @@ export const inputState = atom<string>({
 
   default: "",
 });
+export const todoSelector = selector({
+  key: "getNewsSelector",
+  get: async ({ get }) => {
+    const response = await api.get(`/todolist/search`);
+    return response.data;
+  },
+});
 
 export const todosState = atom<ITodoTypes[]>({
   key: "todos",
 
-  default: [
-    {
-      id: 1,
-      contents: "Todo-List 를",
-      isCompleted: false,
-    },
-
-    {
-      id: 2,
-      contents: "자유롭게",
-      isCompleted: false,
-    },
-
-    {
-      id: 3,
-      contents: "추가해보세요!",
-      isCompleted: false,
-    },
-  ],
+  default: todoSelector,
 });

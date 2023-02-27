@@ -8,9 +8,9 @@ import TodoModal from "./TodoModal";
 interface PropTypes {
   id: number;
   contents: string;
-  isCompleted: boolean;
+  // isCompleted: boolean;
 
-  onComplete: (id: number) => void;
+  // onComplete: (id: number) => void;
   onDelete: (id: number) => void;
 
   todos: ITodoTypes[];
@@ -20,8 +20,8 @@ interface PropTypes {
 const TodoItem = ({
   id,
   contents,
-  isCompleted,
-  onComplete,
+  // isCompleted,
+  // onComplete,
   onDelete,
   todos,
   setTodos,
@@ -54,7 +54,7 @@ const TodoItem = ({
         <div
           title={contents}
           className="text-black font-semibold"
-          onClick={() => onComplete(id)}
+          // onClick={() => onComplete(id)}
         >
           {contents}
         </div>

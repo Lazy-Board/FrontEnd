@@ -17,7 +17,6 @@ import TrafficDetail from "./components/Traffic/TrafficDetail";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
-<<<<<<< HEAD
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
 import { api } from "./atom/signin";
@@ -44,14 +43,6 @@ function App() {
       <QuoteEditModal />
     </BrowserRouter>
   );
-=======
-import TodoMainView from "./components/Todolist/TodoMainView";
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return <TodoMainView />;
->>>>>>> 7df9e27dacff19d96d8aa9c7dd63b0fb842554ff
 }
 
 export default App;

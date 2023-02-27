@@ -7,18 +7,18 @@ import TodoItem from "./TodoItem";
 const Todo = () => {
   const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
 
-  const onComplete = useCallback(
-    (id: number): void => {
-      setTodos(
-        todos.map((todo: ITodoTypes) => {
-          return todo.id === id
-            ? { ...todo, isCompleted: !todo.isCompleted }
-            : todo;
-        })
-      );
-    },
-    [setTodos, todos]
-  );
+  // const onComplete = useCallback(
+  //   (id: number): void => {
+  //     setTodos(
+  //       todos.map((todo: ITodoTypes) => {
+  //         return todo.id === id
+  //           ? { ...todo, isCompleted: !todo.isCompleted }
+  //           : todo;
+  //       })
+  //     );
+  //   },
+  //   [setTodos, todos]
+  // );
 
   const onDelete = useCallback(
     async (todo: any) => {
@@ -35,15 +35,15 @@ const Todo = () => {
     <div className="w-full h-full relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto text-black">
       {todos.length > 0 ? (
         todos.map((todo: ITodoTypes) => {
-          const { id, contents, isCompleted } = todo;
+          const { id, contents } = todo;
 
           return (
             <TodoItem
               key={id}
               id={id}
               contents={contents}
-              isCompleted={isCompleted}
-              onComplete={onComplete}
+              // isCompleted={isCompleted}
+              // onComplete={onComplete}
               onDelete={onDelete}
               todos={todos}
               setTodos={setTodos}
