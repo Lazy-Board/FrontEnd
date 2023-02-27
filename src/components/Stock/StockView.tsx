@@ -1,6 +1,12 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { getStockDetail, getStockMain, StockLike } from "../../atom/Stock";
+import {
+  getStockDetail,
+  StockLike,
+  DetailStockProps,
+  MainStockProps,
+  StockWish,
+} from "../../atom/Stock";
 const Content = styled.div`
   min-height: 100vh;
   margin: 0 auto;
@@ -8,9 +14,16 @@ const Content = styled.div`
 `;
 
 const StockView = () => {
-  const StockList = useRecoilValue(getStockMain);
-  let LikeList = useRecoilValue(StockLike);
-  let Like = StockList.filter((item: any) => LikeList.includes(item.stockName));
+  const StockList = useRecoilValue<DetailStockProps[]>(getStockDetail);
+  const MainViewList = useRecoilValue<MainStockProps[]>(StockLike);
+  const [StockWishList, setStockWishList] = useRecoilState<String[]>(StockWish);
+
+  let like = MainViewList.map((item: MainStockProps) => item.stockName);
+  let Like = StockList.filter((item: DetailStockProps) =>
+    like.includes(item.stockName)
+  );
+
+  setStockWishList(like);
 
   return (
     <div className="w-full max-h-64 mt-5 p-3 pt-2 pb-6 border border-slate-300 rounded-lg overflow-hidden bg-white">

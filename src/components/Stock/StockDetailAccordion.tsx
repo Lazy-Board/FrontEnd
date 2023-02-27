@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { StockLike } from "../../atom/Stock";
+import {
+  MainStockProps,
+  StockLike,
+  DetailStockProps,
+  StockWish,
+} from "../../atom/Stock";
 import { useRecoilState } from "recoil";
 import LikeButton from "../../Quote/LikeButton";
-type AccordionProps = {
-  stockName: string;
-  price: number;
-  dayRange: any;
-  diffAmount: string;
-  lowPrice: number;
-  highPrice: number;
-  tradingVolume: number;
-  updateAt: string;
-};
 
 const StockDetailAccordion = ({
   stockName,
@@ -23,9 +18,9 @@ const StockDetailAccordion = ({
   highPrice,
   tradingVolume,
   updateAt,
-}: AccordionProps) => {
+}: DetailStockProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [wishlist, setWishlist] = useRecoilState<String[]>(StockLike);
+  const [wishlist, setWishlist] = useRecoilState(StockWish);
   const [contentHeight, setContentHeight] = useState<number | undefined>(
     undefined
   );
