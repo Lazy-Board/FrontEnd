@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useCallback } from "react";
-import { useRecoilState } from "recoil";
-import { todosState, ITodoTypes } from "../../atom/Todo";
-import TodoItem from "./TodoItem";
+import React, { FormEvent, useCallback } from "react";
 
+import { todosState, ITodoTypes, todoSelector } from "../../atom/Todo";
+import TodoItem from "./TodoItem";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 const Todo = () => {
-  const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
+  const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
+  const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
 
   // const onComplete = useCallback(
   //   (id: number): void => {
@@ -22,7 +23,7 @@ const Todo = () => {
 
   const onDelete = useCallback(
     async (todo: any) => {
-      await axios.delete(`todolist/delete/${todo.id}`);
+      await axios.post(`todolist/delete/`, { id: todo.id });
       (id: number) => {
         setTodos(todos.filter((todo: ITodoTypes) => todo.id !== id));
       };
@@ -30,7 +31,6 @@ const Todo = () => {
 
     [setTodos, todos]
   );
-
   return (
     <div className="w-full h-full relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto text-black">
       {todos.length > 0 ? (
