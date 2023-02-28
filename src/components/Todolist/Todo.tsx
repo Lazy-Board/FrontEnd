@@ -5,7 +5,7 @@ import TodoItem from "./TodoItem";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { api } from "../../atom/signin";
 const Todo = () => {
-  const [todos, setTodos] = useRecoilState(todosState);
+  const todos = useRecoilValue(todosState);
 
   // const onComplete = useCallback(
   //   (id: number): void => {
