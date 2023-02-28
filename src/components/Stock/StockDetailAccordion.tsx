@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import {
-  MainStockProps,
   StockLike,
-  DetailStockProps,
+  StockProps,
   StockWish,
   getStockDetail,
 } from "../../atom/Stock";
@@ -20,11 +19,12 @@ const StockDetailAccordion = ({
   highPrice,
   tradingVolume,
   updateAt,
-}: DetailStockProps) => {
+}: StockProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [wishlist, setWishlist] = useRecoilState<String[]>(StockWish);
-  const StockDetail = useRecoilValue<DetailStockProps[]>(getStockDetail);
-  const [selectedStock, setSelectedStock] = useRecoilState(StockLike);
+  const StockDetail = useRecoilValue<StockProps[]>(getStockDetail);
+  const [selectedStock, setSelectedStock] =
+    useRecoilState<StockProps[]>(StockLike);
   // setSelectedStock(
   //   StockDetail.filter((item: DetailStockProps) =>
   //     wishlist.includes(item.stockName)
@@ -50,11 +50,10 @@ const StockDetailAccordion = ({
     } else {
       setWishlist(wishlist.filter((id) => id !== stockName));
     }
-    setSelectedStock(
-      StockDetail.filter((item: DetailStockProps) =>
-        wishlist.includes(item.stockName)
-      )
+    const data = StockDetail.filter((item: StockProps) =>
+      wishlist.includes(item.stockName)
     );
+    setSelectedStock([...selectedStock, ...data]);
   };
 
   useEffect(() => {
@@ -72,7 +71,11 @@ const StockDetailAccordion = ({
           {dayRange}
         </span>
         <button className="mt-2" onClick={handleWishlist}>
-          {selectedStock ? <FillLikeButton /> : <EmptyLikeButton />}
+          {selectedStock.find((item) => item.stockName === stockName) ? (
+            <FillLikeButton />
+          ) : (
+            <EmptyLikeButton />
+          )}
         </button>
         <button type="button" onClick={toggleAccordion} className="ml-2">
           {isOpen ? <AiOutlineMinus /> : <AiOutlinePlus />}

@@ -7,6 +7,7 @@ import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
 import TodoList from "./TodoList";
+import TodoMainView from "../components/Todolist/TodoMainView";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -24,7 +25,7 @@ const MainPage = (): JSX.Element => {
       <TrafficView />
       <YoutubeCarousel />
       <StockView />
-      <TodoList />
+      <TodoMainView />
       <NewsMainView />
     </Content>
   );

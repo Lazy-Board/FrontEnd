@@ -1,12 +1,12 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { getStockDetail, DetailStockProps } from "../../atom/Stock";
+import { getStockDetail, StockProps } from "../../atom/Stock";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 import StockDetailAccordion from "./StockDetailAccordion";
 
 const StockDetail = () => {
-  const data = useRecoilValue<DetailStockProps[]>(getStockDetail);
+  const data = useRecoilValue<StockProps[]>(getStockDetail);
 
   // const [stockData, setStockData] = useRecoilState(StockData);
   console.log(data);
@@ -21,7 +21,7 @@ const StockDetail = () => {
       <DetailTopBar title="주식" />
       <Content className="max-w-md bg-stone-100 p-3">
         <div className="w-full mt-12">
-          {data.map((item: DetailStockProps) => (
+          {data.map((item: StockProps) => (
             <>
               <StockDetailAccordion
                 stockName={item.stockName}

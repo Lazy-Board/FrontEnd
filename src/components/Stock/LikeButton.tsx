@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { StockLike, StockLikeButton } from "../../atom/Stock";
+
 export const FillLikeButton = () => {
   const [StockLikeButton, setStockLikeButton] = useState(true);
 

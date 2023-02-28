@@ -10,7 +10,7 @@ import { api } from "./signin";
 //     return response.data;
 //   },
 // });
-export type DetailStockProps = {
+export type StockProps = {
   stockName: string;
   price: number;
   dayRange: any;
@@ -20,20 +20,19 @@ export type DetailStockProps = {
   tradingVolume: number;
   updateAt: string;
 };
-export type MainStockProps = {
-  stockName: string;
-  price: number;
-  dayRange: any;
-  diffAmount: string;
-  updateAt: string;
-};
 
 const getStockMain = async () => {
   const res = await api.get("/stock/search");
+
   return res.data;
 };
+const getWish = async () => {
+  const res = await api.get("/stock/search");
 
-export const getStockDetail = selector<DetailStockProps[]>({
+  return res.data.map((item: StockProps) => item.stockName);
+};
+
+export const getStockDetail = selector<StockProps[]>({
   key: "getStockDetail",
   get: async ({ get }) => {
     const response = await api.get(`/stock/detail`);
@@ -41,17 +40,12 @@ export const getStockDetail = selector<DetailStockProps[]>({
   },
 });
 
-export const StockLike = atom<MainStockProps[]>({
+export const StockLike = atom<StockProps[]>({
   key: "StockLike",
   default: getStockMain(),
 });
 
 export const StockWish = atom<String[]>({
   key: "StockWish",
-  default: [],
-});
-
-export const StockLikeButton = atom<boolean>({
-  key: "StockLikeButton",
-  default: false,
+  default: getWish(),
 });
