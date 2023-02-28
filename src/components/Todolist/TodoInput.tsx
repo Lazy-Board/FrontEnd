@@ -21,8 +21,12 @@ const TodoInput = () => {
     async (e: FormEvent) => {
       e.preventDefault();
       const res = await api.post("/todolist/write", { content: contents });
-      setTodos([...todos, res.data]);
-      setContents("");
+      if (todos.length < 3) {
+        setTodos([...todos, res.data]);
+        setContents("");
+      } else {
+        alert("todolist는 최대 3개까지 설정 가능합니다");
+      }
     },
     [contents, setContents, todos]
   );

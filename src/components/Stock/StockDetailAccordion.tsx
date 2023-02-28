@@ -5,8 +5,9 @@ import {
   StockLike,
   DetailStockProps,
   StockWish,
+  getStockDetail,
 } from "../../atom/Stock";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import LikeButton from "../../Quote/LikeButton";
 
 const StockDetailAccordion = ({
@@ -20,7 +21,14 @@ const StockDetailAccordion = ({
   updateAt,
 }: DetailStockProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [wishlist, setWishlist] = useRecoilState(StockWish);
+  const [wishlist, setWishlist] = useRecoilState<String[]>(StockWish);
+  const StockDetail = useRecoilValue<DetailStockProps[]>(getStockDetail);
+  const [selectedStock, setSelectedStock] = useRecoilState(StockLike);
+  // setSelectedStock(
+  //   StockDetail.filter((item: DetailStockProps) =>
+  //     wishlist.includes(item.stockName)
+  //   )
+  // );
   const [contentHeight, setContentHeight] = useState<number | undefined>(
     undefined
   );
@@ -41,6 +49,11 @@ const StockDetailAccordion = ({
     } else {
       setWishlist(wishlist.filter((id) => id !== stockName));
     }
+    setSelectedStock(
+      StockDetail.filter((item: DetailStockProps) =>
+        wishlist.includes(item.stockName)
+      )
+    );
   };
 
   useEffect(() => {
