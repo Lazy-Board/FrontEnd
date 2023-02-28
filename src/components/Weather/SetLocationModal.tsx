@@ -18,16 +18,16 @@ const SetLocationModal = ():JSX.Element => {
     };
 
     const uploadMutation = useMutation(()=>
-        api.post(`/weather/user-info`, {cityName:cityName,locationName:locationName})
+        api.post(`/weather/user-info`, { cityName, locationName })
     )
 
     const updateMutation = useMutation(()=>
-        api.put(`/weather/user-info`, {cityName:cityName,locationName:locationName})
+        api.put(`/weather/user-info`, { cityName, locationName })
     )
 
     // 안됨..
     const deleteMutation = useMutation(()=>
-        api.delete(`/user-info`)
+        api.delete(`/weather/user-info`)
     )
 
     const deleteBtn = () => {
