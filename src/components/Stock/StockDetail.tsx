@@ -9,7 +9,7 @@ const StockDetail = () => {
   const data = useRecoilValue<StockProps[]>(getStockDetail);
 
   // const [stockData, setStockData] = useRecoilState(StockData);
-  console.log(data);
+
   const Content = styled.div`
     min-height: 100vh;
     margin: 0 auto;
