@@ -1,6 +1,4 @@
 import { atom, selector } from "recoil";
-import axios from "axios";
-import { API_URL } from "../API/API";
 import { api } from "./signin";
 
 export interface userQuoteType {

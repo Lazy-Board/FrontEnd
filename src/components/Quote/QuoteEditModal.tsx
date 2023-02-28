@@ -2,8 +2,6 @@ import { myQuoteState, getQuotes } from "../../atom/quote";
 import { useRecoilState } from "recoil";
 import { api } from "../../atom/signin";
 import { useMutation, useQueryClient, useQuery } from "react-query";
-import { API_URL } from "../../API/API";
-import axios from "axios";
 import styled from "styled-components";
 
 const Edit = styled.textarea`

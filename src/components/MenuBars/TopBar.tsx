@@ -8,7 +8,7 @@ const Top = styled.div`
   position: fixed;
   top: 0;
   z-index: 200;
-  @media screen and (max-width: 3840px) {
+  @media screen and (max-width: 4200px) {
     width: 448px;
     left: 50%;
     transform: translate(-50%, 0);
@@ -21,7 +21,7 @@ const Top = styled.div`
 const TopBar = (): JSX.Element => {
   const locationNow = useLocation();
 
-  if (locationNow.pathname === "/login" || locationNow.pathname === "/Signup")
+  if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
     return <></>;
 
   // 로그인/회원가입 등에서는 보이지 않게 처리해야
