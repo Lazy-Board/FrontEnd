@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import DeleteModule from '../Buttons/DeleteModule';
 import { TbArrowNarrowDown, TbArrowNarrowUp } from "react-icons/tb";
+import { useQuery } from 'react-query';
 import { FiCrosshair } from 'react-icons/fi';
+import { getWeather } from '../../atom/weather';
 import WeatherBox from './WeatherBox'
+import WeatherLoading from './WeatherLoading'
 
 const TodayTemp = styled.div`
     @media screen and (max-width: 410px) {
@@ -20,51 +23,40 @@ const TodayData = styled.div`
     }
 `
 
-//임시 데이터
-const weatherData = 
-    {
-        "userId": "yoonyoonsung4@gmail.com",
-        "cityName": "서초구",
-        "locationName": "잠원동",
-        "temperature": "6.0°",
-        "effectiveTemperature": "4.2°",
-        "highestTemperature": "-3°",
-        "lowestTemperature": "10°",
-        "weatherInformation": "비",
-        "weatherComparison": "5.1° 높아요",
-        "humidity": "60%",
-        "ultraviolet": "좋음",
-        "fineParticle": "좋음",
-        "ultrafineParticle": "좋음",
-        "windSpeed": "2.3m/s",
-        "windDirection": "남풍",
-        "updatedAt": "2023.02.10 00:12:30"
-    }
-
 const WeatherView = ():JSX.Element => {
+    const { data:weatherData, isFetching } = useQuery(['weatherData'], getWeather, {
+        refetchOnWindowFocus:false,
+        staleTime:Infinity,
+    })
+
     const { cityName, locationName, temperature, effectiveTemperature,
     highestTemperature, lowestTemperature, weatherInformation, weatherComparison, humidity,ultraviolet, fineParticle,ultrafineParticle, windSpeed, windDirection, updatedAt }
-    = weatherData;
+    = weatherData || {};
 
     const changeImg = 
-    (weatherInformation.includes('비') ) ? 'heavy-rain'
-    : (weatherInformation === '맑음') ? 'sun'
-    : (weatherInformation === '눈') ? 'snow'
-    : (weatherInformation === '안개') ? 'foggy'
-    : (weatherInformation === '황사') ? 'sand'
-    : (weatherInformation === '흐림') ? 'cloudy'
-    : (weatherInformation === '우박') ? 'hail'
-    : (weatherInformation === '번개') ? 'thunder'
+    (weatherData && weatherInformation.includes('비') ) ? 'heavy-rain'
+    : (weatherData && weatherInformation.includes('맑음')) ? 'sun'
+    : (weatherData && weatherInformation.includes('눈')) ? 'snow'
+    : (weatherData && weatherInformation.includes('안개')) ? 'foggy'
+    : (weatherData && weatherInformation.includes('황사')) ? 'sand'
+    : (weatherData && weatherInformation.includes('흐림')) ? 'cloudy'
+    : (weatherData && weatherInformation.includes('우박')) ? 'hail'
+    : (weatherData && weatherInformation.includes('번개')) ? 'thunder'
     : 'moon'
-
-    // 날씨 정보를 등록하지 않았을 시에 'OO님의 위치 정보를 등록해주세요!'
-    // 랑 등록모달창 띄우는 버튼 출력해주기
 
     return (
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
             <DeleteModule />
+            {isFetching ? <WeatherLoading />:
+            cityName==="string" || !cityName ? 
+            <div className='w-full h-32 mt-6 p-4' >
+                <p>아직 위치를 설정하지 않으셨어요!</p>
+                <label htmlFor="location-modal"
+                className='btn btn-primary mt-4 cursor-pointer'
+                >위치 설정하기</label>
+            </div> 
+            :<>
             <TodayTemp>
-                {/* 날씨 데이터/시간 따라서 이미지 변경되게 */}
                 <p className="text-sm">
                     {cityName}&nbsp;{locationName}
                     <label htmlFor="location-modal" className='cursor-pointer'>
@@ -104,6 +96,8 @@ const WeatherView = ():JSX.Element => {
                 <WeatherBox status={ultraviolet} dataName={'자외선'}/>
                 <WeatherBox status={windSpeed} dataName={`바람(${windDirection})`} speed={windSpeed}/>
             </div>
+            </>
+            }
         </div>
     )
 }

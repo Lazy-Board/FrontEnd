@@ -1,0 +1,24 @@
+{
+  "weather": {
+    "userId": "yoonyoonsung4@gmail.com",
+    "cityName": "송파구",
+    "locationName": "잠실동",
+    "temperature": "6.0°",
+    "effectiveTemperature": "4.2°",
+    "highestTemperature": "-3°",
+    "lowestTemperature": "10°",
+    "weatherInformation": "맑음",
+    "weatherComparison": "5.1° 높아요",
+    "humidity": "60%",
+    "ultraviolet": "좋음",
+    "fineParticle": "좋음",
+    "ultrafineParticle": "좋음",
+    "windSpeed": "2.3m/s",
+    "windDirection": "남풍",
+    "updatedAt": "2023.02.10 00:12:30"
+  },
+  "user-info": {
+    "cityName": "양천구",
+    "locationName": "신정동"
+  }
+}

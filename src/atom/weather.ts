@@ -1,14 +1,9 @@
-import axios from "axios";
-import { atom, selector } from "recoil";
-import { API_URL } from "../API/API";
+import { api } from "./signin";
+import { atom } from "recoil";
+// import axios from "axios";
+// import { API_URL } from "../API/API";
 
 export interface MyWeatherLocation{
-    cityName:string;
-    locationName:string;
-}
-
-export interface MyWeatherLocationID{
-    userId:string;
     cityName:string;
     locationName:string;
 }
@@ -37,18 +32,20 @@ export const weatherLocationState = atom<MyWeatherLocation>({
     default: {cityName:'', locationName:''},
 });
 
-export const getUserWeather = selector<MyWeatherLocationID>({
-    key: "getUserWeather",
-    get: async ({ get }) => {
-        const response = await axios.get(`${API_URL}/weather/user-info`);
+export const getWeather = async() => {
+    try{
+        const response = await api.get(`/weather`)
         return response.data;
-    },
-});
+    } catch(error){
+        console.log(`Error: ${error}`)
+    }
+}
 
-export const getWeather = selector<WeatherType>({
-    key: "getWeather",
-    get: async ({ get }) => {
-        const response = await axios.get(`${API_URL}/weather`);
+export const getInfo = async() => {
+    try{
+        const response = await api.get(`/weather/user-info`)
         return response.data;
-    },
-});
+    } catch(error){
+        console.log(`Error: ${error}`)
+    }
+}
