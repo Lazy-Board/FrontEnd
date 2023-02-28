@@ -50,3 +50,8 @@ export const StockWish = atom<String[]>({
   key: "StockWish",
   default: [],
 });
+
+export const StockLikeButton = atom<boolean>({
+  key: "StockLikeButton",
+  default: false,
+});

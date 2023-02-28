@@ -9,6 +9,7 @@ import {
 } from "../../atom/Stock";
 import { useRecoilState, useRecoilValue } from "recoil";
 import LikeButton from "../../Quote/LikeButton";
+import { FillLikeButton, EmptyLikeButton } from "./LikeButton";
 
 const StockDetailAccordion = ({
   stockName,
@@ -71,7 +72,7 @@ const StockDetailAccordion = ({
           {dayRange}
         </span>
         <button className="mt-2" onClick={handleWishlist}>
-          <LikeButton />
+          {selectedStock ? <FillLikeButton /> : <EmptyLikeButton />}
         </button>
         <button type="button" onClick={toggleAccordion} className="ml-2">
           {isOpen ? <AiOutlineMinus /> : <AiOutlinePlus />}
