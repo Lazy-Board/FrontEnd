@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../../API/API';
 import DetailTopBar from '../MenuBars/DetailTopBar';
-
+import { API_URL } from '../../API/API';
+// import { api } from '../../atom/signin';
 // 비밀번호 변경 부분 분리함
 
 const Content = styled.div`
@@ -32,8 +32,8 @@ const UpdatePassword = ():JSX.Element => {
         e.preventDefault();
         try {
             await axios.put(`${API_URL}/user/updatePassword`,{
-                newPassword:userPassword.newPassword,
-                password:userPassword.password
+                newPassword:newPassword,
+                password:password
             })
             alert('비밀번호가 변경되었습니다.')
         } catch (error) {
@@ -61,12 +61,9 @@ const UpdatePassword = ():JSX.Element => {
                 onChange={changePassword} required
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
-                    <button className='w-1/3 mt-8 btn btn-outline'>
-                        취소
-                    </button>
-                    {/* 변화가 없는 상태에서는 disabled? */}
-                    <button className='w-1/3 mt-8 btn btn-primary' type='submit'>
-                        저장
+                    <button className='w-full mt-8 btn btn-primary' type='submit' 
+                    disabled={!password || !newPassword ? true : false}>
+                        이메일 전송
                     </button>
                 </div>
             </form>

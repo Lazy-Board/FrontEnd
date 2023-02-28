@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { BiSortAlt2 } from "react-icons/bi";
-import { API_URL } from "../../API/API";
-import { startingState, destinationState } from "../../atom/traffic";
-import axios from "axios";
+import { api } from "../../atom/signin";
+import { useMutation, useQueryClient, useQuery } from "react-query";
+import { getDur, startingState, destinationState } from "../../atom/traffic";
+import MapContainer from "./Map";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 
 const Content = styled.div`
@@ -22,35 +24,55 @@ const Location = styled.input`
 `;
 
 const TrafficDetail = () => {
-    // 지도를 어떻게 표시할지가 문제다-일단은 목적지만 중심에 보여주자고 하긴 했는데
+    const queryClient = useQueryClient();
+    const { data } = useQuery(['userPosition'], getDur, {
+        refetchOnWindowFocus:false,
+    });
+
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
 
+    useEffect(()=>{
+        if (data){
+            setDepart(data.startingPoint)
+            setArrive(data.destination)
+        }
+    },[data])
+
     const switchValue = (e:React.FormEvent) => {
-        // 이 방식 말고 안되나??좋은 방법은 아닌거 같아서 신경쓰임 근데 뭐라고 검색해야 좋을지 모르겠음
         e.preventDefault();
         setDepart(arrive)
         setArrive(depart)
     }
 
-    const deleteText = (e:React.FormEvent) => {
-        e.preventDefault();
-        setDepart('')
-        setArrive('')
-    }
+    const deleteMutation = useMutation(() => {
+        return api.delete(`/traffic`);
+    }, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['userPosition']);
+        }
+    });
 
     // 도착지 정보 put(업데이트),post(처음에 저장)/delete(삭제)
-    const patchData = async() =>{
-        try{
-            await axios.post(`${API_URL}/traffic`, { startingPoint:depart, destination:arrive })
-        } catch (error){
-            console.log(`Error: \n${error}`);
-        }
+    const postMutation = useMutation((newData) => api.post(`/traffic`, newData), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['userPosition']);
+        },
+    });
+
+    // 서버에서도 삭제되도록 처리해야 할..텐데 작동안됨
+    const deleteText = () => {
+        // deleteMutation.mutate()
+        setDepart('');
+        setArrive('');
     }
 
-    const submitData=(e:React.FormEvent<HTMLFormElement>)=>{
+    const submitData= async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        patchData();
+        const newData:any = { destination: arrive, startingPoint: depart };
+        await postMutation.mutateAsync(newData);
+        setDepart(newData.startingPoint);
+        setArrive(newData.destination);
     }
 
     return (
@@ -60,7 +82,11 @@ const TrafficDetail = () => {
             <div className="w-full h-fit mt-16 p-3 border border-slate-300 rounded-lg bg-white">
                 <p className="mb-2 text-left text-sm">예상 이동 시간</p>
                 <p className="text-3xl font-semibold text-left">
-                    {`1시간 34분`}
+                    {!data ? '00시간 00분':
+                    `
+                    ${Number(data.duration)%3600 > 0 ? '':`${Math.floor(Number(data.duration)/3600)}시간 `}
+                    ${`${Math.floor((Number(data.duration)% 3600)/60)}분`}`
+                    }
                 </p>
                 <p className="mt-4 text-left text-sm text-gray-400">* 정확한 주소를 입력해주세요!</p>
                 <form action="#" className="w-full mt-4" onSubmit={submitData}>
@@ -73,7 +99,7 @@ const TrafficDetail = () => {
                             <Location type="search" value={depart} onChange={(e)=>setDepart(e.target.value)} className="w-3/4 p-1 text-left" placeholder="출발지를 정해주세요."/>
                         </div>
                         <div className="p-2 px-3 flex items-center gap-3">
-                        <label htmlFor="">도착</label>
+                            <label htmlFor="">도착</label>
                             <Location type="search" value={arrive} onChange={(e)=>setArrive(e.target.value)} className="w-3/4 p-1 text-left" placeholder="도착지를 정해주세요."/>
                         </div>
                     </div>
@@ -83,6 +109,7 @@ const TrafficDetail = () => {
                     </div>
                 </form>
                 <div className="w-full h-80 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">
+                    <MapContainer />
                 </div>
             </div>
         </Content>

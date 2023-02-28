@@ -13,7 +13,11 @@ const TrafficView = ():JSX.Element => {
 
     const { startingPoint, destination, duration } = durationInfo;
 
-    //도착 예정 시간은 그 당시 시간 + duration하면 되나...? 근데 그 당시 시간을 고정할 수 있는 방법이?
+    const now=new Date();
+    const hour=now.getHours()*3600
+    const minutes=now.getMinutes()*60;
+    const seconds=now.getSeconds();
+    const nowSec=hour+minutes+seconds;
     
     return (
         <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 rounded-lg bg-white">
@@ -45,12 +49,16 @@ const TrafficView = ():JSX.Element => {
             <p className="mt-4 text-base">
                 지금 출발하시면 도착지까지 <br/> 
                 <span className="text-xl font-semibold">
-                    {Number(duration)/3600 > 0 ? '':`${Math.floor(Number(duration)/3600)}시간`}
+                    {Number(duration)%3600 > 0 ? '':`${Math.floor(Number(duration)/3600)}시간`}
                     {`${Math.floor((Number(duration)% 3600)/60)}분`}</span> 걸립니다. 
             </p>
             <p className="mt-2 mb-1 text-base">
                 도착 예정 시간은&nbsp;
-                <span className="text-xl font-semibold">{duration}</span>
+                <span className="text-xl font-semibold">
+                    {`${Math.floor((Number(nowSec)+Number(duration))/3600)}시`}
+                    &nbsp;
+                    {`${Math.floor(((Number(nowSec)+Number(duration))%3600)/60)}분`}
+                </span>
                 &nbsp;입니다.
             </p>
             </div>

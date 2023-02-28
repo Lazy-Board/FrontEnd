@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
-import axios from "axios";
-import { API_URL } from '../API/API';
+// import { API_URL } from '../API/API';
+// import axios from 'axios';
+import { api } from './signin';
 
 export interface userType{
     phoneNumber:string;
@@ -21,7 +22,7 @@ export const userInfoState = atom({
 
 export const withdrawUser = async () => {
     try {
-        await axios.post(`${API_URL}/user/userWithdrawal`, {})
+        await api.post(`/user/userWithdrawal`, {})
     } catch (error){
         alert(`Error: \n${error}`);
     }
@@ -29,11 +30,9 @@ export const withdrawUser = async () => {
 
 export const getUserInfo = async () => {
     try {
-        // api  ${API_URL}/user/search 로 변경해야 함
-        const response = await axios.get(`${API_URL}/search`);
+        const response = await api.get(`/user/search`);
         return response.data;
     } catch (error){
         console.log(`Error: \n${error}`);
-        return {};
     }
 };

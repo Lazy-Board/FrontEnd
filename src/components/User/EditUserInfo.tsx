@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import axios from 'axios';
+import { api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from 'react-query';
-import { API_URL } from '../../API/API';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getUserInfo, userType, userInfoState } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
 
@@ -16,11 +15,12 @@ const Content = styled.div`
 
 const EditUserInfo = ():JSX.Element => {
     // ${API_URL}/user/search 유저정보 불러오기 get
-    const { data:userInfo } = useQuery('userInfo', getUserInfo, {
+    const queryClient = useQueryClient();
+    const { data:userInfo } = useQuery(['userInfo'], getUserInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
-    // 처음 가입 시에는 userImg로 나오고, 사용자가 이미지를 변경하면 그 이미지로 출력되도록
+    // 처음 가입 시에는 userImg로 나오고, 사용자가 이미지를 변경하면 그 이미지로 출력되도록 - 이미지 관련해서 추가되면 더 수정해야 함
     const userImg = '/images/user-icon.png';
     const [newImg, setNewImg] = useState(userImg);
     // user 정보 받아와서 넣어주기
@@ -58,7 +58,7 @@ const EditUserInfo = ():JSX.Element => {
     },[userInfo]);
 
     const editUserMutation = useMutation(() =>
-        axios.put(`${API_URL}/user/update`, { 
+        api.put(`/user/update`, { 
             phoneNumber:phoneNumber,
             socialType:socialType,
             userEmail:userEmail,
@@ -66,10 +66,15 @@ const EditUserInfo = ():JSX.Element => {
         })
     );
 
-    const onSubmitData = (e:React.SyntheticEvent) => {
+    const onSubmitData = async(e:React.SyntheticEvent) => {
         e.preventDefault();
-        // ${API_URL}/user/update put
-        // 성공 시 저장됐다는 alert창 띄우고 실패 시 실패했다는 alert 띄우기
+        try {
+            const response = await editUserMutation.mutateAsync(userInfo);
+            setUserData(response.data)
+            queryClient.invalidateQueries(['userInfo']);
+        } catch (error){
+            console.log(`Error: \n${error}`)
+        }
     }
 
     return (
@@ -107,12 +112,7 @@ const EditUserInfo = ():JSX.Element => {
                 disabled={socialType==='google' ? true : false}
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
-                    <button className='w-1/3 mt-8 btn btn-outline'>
-                        취소
-                        {/* 없어도 될..지도 */}
-                    </button>
-                    {/* 변화가 없는 상태에서는 disabled? */}
-                    <button className='w-1/3 mt-8 btn btn-primary' type='submit'>
+                    <button className='w-full mt-8 btn btn-primary' type='submit'>
                         저장
                     </button>
                 </div>

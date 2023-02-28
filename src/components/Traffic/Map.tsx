@@ -1,12 +1,20 @@
 /* global-kakao */
 import { useEffect } from 'react'
-
-/* <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b35e79a6f9f2e46c13beccf05f6a97f9&libraries=services,clusterer"></script> */
-// api 키는 나중에 .env 처리해줘야 함
+import { useQuery, useQueryClient } from 'react-query';
+import { getLoc } from '../../atom/traffic';
 
 const { kakao }:any = window;
 
 const MapContainer = () => {
+    const queryClient=useQueryClient();
+    const {data} = useQuery(['destination'], getLoc, {
+        refetchOnWindowFocus: false,
+        staleTime:Infinity,
+        onSuccess:()=>{
+            queryClient.invalidateQueries()
+        }
+    })
+
     useEffect(() => {
         const container = document.getElementById('myMap');
 		const options = {
@@ -16,7 +24,8 @@ const MapContainer = () => {
         let geocoder = new kakao.maps.services.Geocoder();
         const map = new kakao.maps.Map(container, options);
 
-        geocoder.addressSearch('서울특별시 송파구 올림픽로 240', function(result:any, status:any) {
+        // 목적지 가리키도록 해야 함
+        geocoder.addressSearch(!data ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
             // 정상적으로 검색이 완료됐으면 
                 if (status === kakao.maps.services.Status.OK) {
         
@@ -29,10 +38,10 @@ const MapContainer = () => {
                 });
         
                 // 인포윈도우로 장소에 대한 설명을 표시합니다
-                // var infowindow = new kakao.maps.InfoWindow({
-                //     content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-                // });
-                // infowindow.open(map, marker);
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">도착지</div>'
+                });
+                infowindow.open(map, marker);
         
                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                 map.setCenter(coords);

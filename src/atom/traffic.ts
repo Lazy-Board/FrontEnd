@@ -1,11 +1,7 @@
 import { atom, selector } from 'recoil';
-import axios from 'axios';
-import { API_URL } from '../API/API';
-
-export interface MyLocation{
-    startingPoint:string;
-    destination:string;
-}
+import { api } from './signin';
+// import axios from 'axios';
+// import { API_URL } from '../API/API';
 
 export interface Duration {
     startingPoint:string;
@@ -31,12 +27,13 @@ export const destinationState = atom<string>({
     default:'',
 })
 
-//상세
-export const getUserLocation =  selector<MyLocation> ({
-    key:'myLocation',
+//메인화면
+export const getLocation =  selector<Duration> ({
+    key:'location',
     get: async ({get}) => {
         try {
-            const response = await axios.get(`${API_URL}/traffic`);
+            // await api.get(`/traffic/duration`)
+            const response = await api.get(`/traffic/duration`);
             return response.data;
         } catch (error){
             console.log(`Error: \n${error}`);
@@ -44,16 +41,21 @@ export const getUserLocation =  selector<MyLocation> ({
     }
 })
 
-//메인화면
-export const getLocation =  selector<Duration> ({
-    key:'location',
-    get: async ({get}) => {
-        try {
-            // 추후 /traffic/duration으로 변경
-            const response = await axios.get(`${API_URL}/duration`);
-            return response.data;
-        } catch (error){
-            console.log(`Error: \n${error}`);
-        }
+export const getLoc = async () => {
+    try {
+        const response = await api.get(`/traffic`)
+        // const response = await axios.get(`${API_URL}/traffic`);
+        return response.data;
+    } catch (error){
+        console.log(`Error: \n${error}`);
     }
-})
+}
+
+export const getDur = async () => {
+    try {
+        const response = await api.get(`traffic/duration`);
+        return response.data;
+    } catch (error){
+        console.log(`Error: \n${error}`);
+    }
+}

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getUserInfo } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
 
 const Content = styled.div`
@@ -9,15 +11,17 @@ const Content = styled.div`
     `;
 
 const UserProfile = ():JSX.Element => {
+    const { data:userInfo, isLoading } = useQuery(['userInfo'], getUserInfo, {
+        refetchOnWindowFocus:false,
+        staleTime:Infinity,
+    })
+
     const menus = [
         {id:1,name:'프로필 수정', link:'user/userInfo'},
         {id:2,name:'비밀번호 변경', link:'user/update-password'},
         {id:3,name:'회원 탈퇴', link:'user/withdrawal'},
     ]
-
-    const quits = [
-        {id:4,name:'로그아웃',modal:'confirm-modal'},
-    ]
+    // 유저 이메일, 이름 출력되도록 api 받아오기
     
     return(
         <>
@@ -28,15 +32,18 @@ const UserProfile = ():JSX.Element => {
                     alt="프로필 이미지" 
                     className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
                 />
-                <p className='mt-4 font-semibold'>{`김철수`}</p>
-                <p className='mt-2'>{`example@email.com`}</p>
+                {isLoading ? <div>Loading...</div> : 
+                (
+                    <>
+                    <p className='mt-4 font-semibold'>{userInfo.userName}</p>
+                    <p className='mt-2'>{userInfo.userEmail}</p>
+                    </>
+                )}
                 <div className='mt-6'>
                 {menus.map((menu)=>(
                     <Link to={`/${menu.link}`} className='w-9/12 btn btn-outline mt-5' key={menu.id}>{menu.name}</Link>
                 ))}
-                {quits.map((item)=>(
-                    <label htmlFor={item.modal} className='w-9/12 btn btn-outline mt-5' key={item.id}>{item.name}</label>
-                ))}
+                <label htmlFor='confirm-modal' className='w-9/12 btn btn-outline mt-5'>로그아웃</label>
                 </div>
             </div>
         </Content>
