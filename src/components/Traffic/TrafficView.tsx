@@ -2,6 +2,7 @@ import { BiChevronRight } from "react-icons/bi";
 import { FiMapPin } from "react-icons/fi";
 import { Link } from "react-router-dom";
 // import { useRecoilValueLoadable } from "recoil";
+import { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { getLocation, Duration, getDur } from "../../atom/traffic";
 import TrafficLoading from "./TrafficLoading";
@@ -17,7 +18,8 @@ const TrafficView = ():JSX.Element => {
     // let durationInfo:Duration = 
     // 'hasValue' === showDuration.state ? showDuration.contents : {startingPoint:'출발지점',destination:'도착지점',duration:'NaN'}
 
-    const { startingPoint, destination, duration } = durationInfo;
+
+    const { startingPoint, destination, duration } = durationInfo || {};
 
     const now=new Date();
     const hour=now.getHours()*3600
@@ -32,7 +34,7 @@ const TrafficView = ():JSX.Element => {
                 출근 정보
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>
             </div>
-            {isLoading ? <TrafficLoading />:
+            {isLoading || !durationInfo ? <TrafficLoading />:
             !startingPoint ? 
             <div className="w-full h-36 mt-4 border border-slate-300 rounded-lg">
                 <p className="mt-8">아직 위치를 설정하지 않으셨어요!</p>
