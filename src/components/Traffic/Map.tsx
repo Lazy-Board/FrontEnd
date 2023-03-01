@@ -1,12 +1,11 @@
 /* global-kakao */
 import { useEffect } from 'react'
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { getLoc } from '../../atom/traffic';
 
 const { kakao }:any = window;
 
 const MapContainer = () => {
-    // const queryClient=useQueryClient();
     const {data, isFetching} = useQuery(['destination'], getLoc, {
         refetchOnWindowFocus: false,
         staleTime:Infinity,

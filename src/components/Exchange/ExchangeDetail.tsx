@@ -2,7 +2,7 @@ import Accordion from "./Accordion";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { list } from "./list";
+import { getExchangeDetail, AccordionProps } from "../../atom/exchange";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 
 const Content = styled.div`
@@ -12,7 +12,7 @@ const Content = styled.div`
 `;
 
 const ExchangeDetail = (): JSX.Element => {
-  // const data = useRecoilValue(getExchangeDetail);
+  const data = useRecoilValue<AccordionProps[]>(getExchangeDetail);
   const [openAccordionIndex, setOpenAccordionIndex] = useState<number>(-1);
 
   return (
@@ -22,14 +22,14 @@ const ExchangeDetail = (): JSX.Element => {
         <div className="mt-16 text-left text-sm">
           <p>고시일시</p>
           <p>
-            {list[0].updateAt.replace("년", "년 ").replace("월", "월 ")}
-            &nbsp;({list[0].round})
+            {data[0].updateAt.replace("년", "년 ").replace("월", "월 ")}
+            &nbsp;({data[0].round})
           </p>
         </div>
         <div className="w-full h-fit mt-5 p-2 pt-1 border border-slate-300 rounded-lg bg-white">
-          {list.map((item, index) => (
+          {data.map((item:any, index:any) => (
             <Accordion
-              classes={index === list.length - 1 ? "pb-0" : "border-b pb-0"}
+              classes={index === data.length - 1 ? "pb-0" : "border-b pb-0"}
               {...item}
               isOpened={openAccordionIndex === index}
               handleOpening={() =>

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
-import { useRecoilState } from "recoil";
-import { ExchangeLike } from "../../atom/exchange";
 
 const LikeButton = () => {
     const [like, setLike] = useState(false);
-    const [likeExchange, setLikeExchange] = useRecoilState(ExchangeLike);
+
     const wishAddHandler = () => {
         setLike(!like);
     };

@@ -27,6 +27,7 @@ const TrafficDetail = () => {
     const queryClient = useQueryClient();
     const { data } = useQuery(['userPosition'], getDur, {
         refetchOnWindowFocus:false,
+        staleTime:Infinity,
     });
 
     const [depart, setDepart] = useRecoilState(startingState);
@@ -71,9 +72,11 @@ const TrafficDetail = () => {
         if (!data){
             await postMutation.mutateAsync(newData);
             queryClient.invalidateQueries(['userPosition']);
+            queryClient.invalidateQueries(['destination']);
         } else {
             await putMutation.mutateAsync(newData);
             queryClient.invalidateQueries(['userPosition']);
+            queryClient.invalidateQueries(['destination']);
         }
         setDepart(newData.startingPoint);
         setArrive(newData.destination);
