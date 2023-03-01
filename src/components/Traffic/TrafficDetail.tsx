@@ -70,10 +70,11 @@ const TrafficDetail = () => {
         const newData:any = { destination: arrive, startingPoint: depart };
         if (!data){
             await postMutation.mutateAsync(newData);
+            queryClient.invalidateQueries(['userPosition']);
         } else {
             await putMutation.mutateAsync(newData);
+            queryClient.invalidateQueries(['userPosition']);
         }
-        queryClient.invalidateQueries(['userPosition']);
         setDepart(newData.startingPoint);
         setArrive(newData.destination);
     }

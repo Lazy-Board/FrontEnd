@@ -7,7 +7,7 @@ const { kakao }:any = window;
 
 const MapContainer = () => {
     // const queryClient=useQueryClient();
-    const {data} = useQuery(['destination'], getLoc, {
+    const {data, isFetching} = useQuery(['destination'], getLoc, {
         refetchOnWindowFocus: false,
         staleTime:Infinity,
     })
@@ -22,7 +22,7 @@ const MapContainer = () => {
         const map = new kakao.maps.Map(container, options);
 
         // 목적지 가리키도록 해야 함
-        geocoder.addressSearch(!data ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
+        geocoder.addressSearch(!data || isFetching ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
             // 정상적으로 검색이 완료됐으면 
                 if (status === kakao.maps.services.Status.OK) {
         

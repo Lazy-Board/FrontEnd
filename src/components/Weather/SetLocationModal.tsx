@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { weatherLocationState, getInfo } from "../../atom/weather";
+import { weatherLocationState, getInfo, MyWeatherLocation } from "../../atom/weather";
 import { api } from "../../atom/signin";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
@@ -8,18 +8,11 @@ const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
     const { data:userLoc } = useQuery(['userWeatherData'], getInfo, {
         refetchOnWindowFocus:false,
-        staleTime:Infinity,
     })
-    const [locationNames, setLocationNames] = useRecoilState(weatherLocationState);
+    const [locationNames, setLocationNames] = useRecoilState<MyWeatherLocation>(weatherLocationState);
 
     const {cityName, locationName} = locationNames;
-
-    useEffect(()=>{
-        if (userLoc){
-            setLocationNames(userLoc)
-        }
-    },[userLoc])
-
+    
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
         setLocationNames({
@@ -28,12 +21,18 @@ const SetLocationModal = ():JSX.Element => {
         });
     };
 
+    useEffect(()=>{
+        if (userLoc){
+            setLocationNames(userLoc)
+        }
+    },[userLoc])
+
     const uploadMutation = useMutation(()=>
-        api.post(`/weather/user-info`, {cityName:cityName, locationName:locationName})
+        api.post(`/weather/user-info`, {cityName:locationNames.cityName, locationName:locationNames.locationName})
     )
 
     const updateMutation = useMutation(()=>
-        api.put(`/weather/user-info`, {cityName:cityName, locationName:locationName})
+        api.put(`/weather/user-info`, {cityName:locationNames.cityName, locationName:locationNames.locationName})
     )
 
     // 안됨..
@@ -45,7 +44,6 @@ const SetLocationModal = ():JSX.Element => {
         deleteMutation.mutate()
     }
 
-    // 차이가 mutateAsync 안에 뭘 썼냐 안 썼냐 차이 같은데 일단 자고 일어나서 수정해보자->이것도 안되는데
     const uploadText = async () => {
         try {
             const response = await uploadMutation.mutateAsync(userLoc);
