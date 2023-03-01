@@ -32,6 +32,7 @@ const StockDetail = () => {
                 highPrice={item.highPrice}
                 tradingVolume={item.tradingVolume}
                 updateAt={item.updateAt}
+                engName={item.engName}
               ></StockDetailAccordion>
             </>
           ))}

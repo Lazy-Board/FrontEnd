@@ -19,16 +19,15 @@ export type StockProps = {
   highPrice: number;
   tradingVolume: number;
   updateAt: string;
+  engName: string;
 };
 
 const getStockMain = async () => {
   const res = await api.get("/stock/search");
-
   return res.data;
 };
 const getWish = async () => {
   const res = await api.get("/stock/search");
-
   return res.data.map((item: StockProps) => item.stockName);
 };
 
