@@ -28,7 +28,6 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   } = props;
 
   const [height, setHeight] = useState<string>("0px");
-  const [numChecked, setNumChecked] = useState<number>(0);
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
   const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
   const [selectedExchange, setSelectedExchanged] = useRecoilState<ExchangeProps[]>(exchangeLike);
@@ -48,19 +47,12 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   );
 
   const handleWishlist = async () => {
-    if (numChecked >= 5 && !wishlist.includes(currencyName)) {
-      alert("4개까지만 체크할 수 있습니다.");
-      return;
-    }
-
     if (wishlist.includes(currencyName)) {
       await api.post("/exchange/update", { currencyName: `${currencyName}X` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
-      setNumChecked(numChecked - 1);
     } else {
       await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
-      setNumChecked(numChecked + 1);
     }
 
     setExchangeLikeButton(!exchangeLikeButton);
@@ -70,7 +62,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
 
   return (
     <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
-        <div className="flex justify-between cursor-pointer" onClick={()=>handleOpening()}>
+        <div className="flex justify-between cursor-pointer" >
             <div className="flex items-center pl-1 gap-2">
                 <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
                 <p className="text-sm object-contain">
@@ -91,7 +83,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
                     <RiStarLine color="#999" size={20} />
                   )}
                 </label>
-                <ToggleButton state={isOpened}/>
+                <ToggleButton state={isOpened} click={handleOpening}/>
             </div>
         </div>
         <AccordionContent 

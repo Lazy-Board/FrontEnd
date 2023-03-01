@@ -1,7 +1,7 @@
 import { BiChevronRight } from "react-icons/bi";
 import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import { exchangeLike, ExchangeProps } from "../../atom/exchange";
 import styled from "styled-components";
 import DeleteModule from "../Buttons/DeleteModule";
@@ -18,7 +18,8 @@ const DotPosition = styled.div`
 `;
 
 const ExchangeView = (): JSX.Element => {
-  const view = useRecoilValue<ExchangeProps[]>(exchangeLike);
+  const viewLoadable = useRecoilValueLoadable<ExchangeProps[]>(exchangeLike);
+  let view = 'hasValue' === viewLoadable.state ? viewLoadable.contents : [];
 
   const { slideRef, dotRef, NextSlide, PrevSlide } = useSliders();
 
@@ -42,7 +43,7 @@ const ExchangeView = (): JSX.Element => {
             환율 
             <Link to={`/exchange`} ><BiChevronRight size={26}/></Link>
         </div>
-        {view.length === 0 ? 
+        {view.length === 0 || viewLoadable.state === 'loading' ? 
         (<div className="pt-1" ref={slideRef} style={{width:'400px'}}>
             <p className="py-5">아직 아무것도 설정하지 않으셨어요!</p>
             <Link to={`/exchange`} className="btn btn-primary">
