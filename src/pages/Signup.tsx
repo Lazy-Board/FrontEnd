@@ -1,14 +1,13 @@
 import { FormEvent, useState } from "react";
 import { AiFillLeftCircle } from "react-icons/ai";
 import axios, { AxiosError } from "axios";
-import { API_URL } from "../API/API";
+import { api } from "../atom/signin";
 import { atom, useRecoilState } from "recoil";
 import {
   emailState,
   passwordState,
   confirmpasswordState,
   usernameState,
-  nicknameState,
   phonenumberState,
 } from "../atom/signup";
 import { Link } from "react-router-dom";
@@ -19,7 +18,6 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] =
     useRecoilState(confirmpasswordState);
   const [username, setUserName] = useRecoilState(usernameState);
-  const [nickname, setNickname] = useRecoilState(nicknameState);
   const [phonenumber, setPhonenumber] = useRecoilState(phonenumberState);
   const [error, setError] = useState<String | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,11 +26,10 @@ const Signup = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/user/signup`, {
+      const response = await api.post(`/user/signup`, {
         userEmail: email,
         password: password,
         userName: username,
-        nickName: nickname,
         phoneNumber: phonenumber,
       });
       localStorage.setItem("token", response.data.token);
@@ -86,18 +83,6 @@ const Signup = () => {
               placeholder="김철수"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
-            />
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              닉네임
-            </label>
-            <input
-              type="id"
-              name="id"
-              id="id"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="김철수"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
             />
 
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">

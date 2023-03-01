@@ -1,8 +1,4 @@
-import { useState } from "react";
-
-import styled from "styled-components";
 import "./App.css";
-import { RecoilRoot } from "recoil";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TopBar from "./components/MenuBars/TopBar";
 import BottomBar from "./components/MenuBars/BottomBar";
@@ -19,7 +15,11 @@ import Signup from "./pages/Signup";
 import TodoList from "./pages/TodoList";
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
-import { api } from "./atom/signin";
+import UserSuccess from "./pages/UserSuccess";
+import SelectWidget from "./pages/SelectWidget";
+import UpdatePassword from "./components/User/UpdatePassword";
+import UserWithdrawal from "./components/User/UserWithdrawal";
+import FindPassword from "./pages/FindPassword";
 
 function App() {
   return (
@@ -31,11 +31,16 @@ function App() {
         <Route path="/user/userInfo" element={<EditUserInfo />} />
         <Route path="/exchange" element={<ExchangeDetail />} />
         <Route path="/traffic" element={<TrafficDetail />} />
-        <Route path="/login" element={<Signin />} />;
-        <Route path="/signup" element={<Signup />} />;
-        <Route path="/todo" element={<TodoList />} />;
-        <Route path="/stock" element={<StockDetail />} />;
-        <Route path="/news" element={<NewsDetailView />} />;
+        <Route path="/login" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/todo" element={<TodoList />} />
+        <Route path="/stock" element={<StockDetail />} />
+        <Route path="/news" element={<NewsDetailView />} />
+        <Route path="/auth-success" element={<UserSuccess/>}/>
+        <Route path="/select-widget" element={<SelectWidget />} />
+        <Route path="/user/update-password" element={<UpdatePassword />} />
+        <Route path="/user/withdrawal" element={<UserWithdrawal />} />
+        <Route path="/user/find-password" element={<FindPassword />} />
       </Routes>
       <BottomBar />
       <Confirm />

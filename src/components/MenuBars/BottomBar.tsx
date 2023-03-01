@@ -1,5 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
-// import { FiSettings } from "react-icons/fi"; 
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TbApps } from "react-icons/tb";
 import { BiHome, BiCalendarAlt } from "react-icons/bi";
 import styled from 'styled-components';
@@ -9,19 +8,7 @@ const Bottom = styled.div`
     position: fixed;
     bottom:0;
     z-index:200;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    @media screen and (max-width: 1920px) {
-=======
-    @media screen and (max-width: 3840px) {
->>>>>>> 27771d6d6ff1ae9f91955b58f941bcb36653473b
-=======
-    @media screen and (max-width: 3840px) {
->>>>>>> 5df3547e8c57d0ba333584f765e25334095515c2
-=======
-    @media screen and (max-width: 3840px) {
->>>>>>> a6ee64081247e89a04d46e78dac2739808830191
+    @media screen and (max-width: 4200px) {
         width:448px;
         left: 50%;
         transform: translate(-50%, 0);
@@ -32,8 +19,9 @@ const Bottom = styled.div`
 `
 
 const BottomBar = ():JSX.Element => {
+    const navigate = useNavigate();
     const locationNow = useLocation();
-    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup")
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
     return (
         <></>
     );
@@ -47,7 +35,9 @@ const BottomBar = ():JSX.Element => {
             <Link to={`/`} className="px-8 hover:text-green-400 transition-colors">
                 <BiCalendarAlt size={24}/>
             </Link>
-            <button disabled={locationNow.pathname==='/' ? false : true} className="px-8 hover:text-green-400 transition-colors disabled:text-zinc-400">
+            <button disabled={locationNow.pathname==='/' ? false : true} className="px-8 hover:text-green-400 transition-colors disabled:text-zinc-400"
+            onClick={()=>navigate('/select-widget')}
+            >
                 <TbApps size={24}/>
             </button>
         </Bottom>

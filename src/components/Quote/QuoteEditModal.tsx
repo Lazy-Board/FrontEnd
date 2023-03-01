@@ -1,8 +1,7 @@
 import { myQuoteState, getQuotes } from "../../atom/quote";
 import { useRecoilState } from "recoil";
+import { api } from "../../atom/signin";
 import { useMutation, useQueryClient, useQuery } from "react-query";
-import { API_URL } from "../../API/API";
-import axios from "axios";
 import styled from "styled-components";
 
 const Edit = styled.textarea`
@@ -24,7 +23,6 @@ const EditModal = (): JSX.Element => {
   const { data: myQuote } = useQuery("userQuotes", getQuotes, {
     refetchOnWindowFocus: false,
   });
-  // 구조적으로 좀 보기 뭐시기한데 어떻게 수정해야 좋지
 
   const changeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -34,17 +32,17 @@ const EditModal = (): JSX.Element => {
   };
 
   const saveQuoteMutation = useMutation((userQuote: string) =>
-    axios.post(`${API_URL}/userQuotes`, { content: userQuote })
+    api.post(`/userQuotes`, { content: userQuote })
   );
 
   const editQuoteMutation = useMutation((userQuote: string) =>
-    axios.put(`${API_URL}/userQuotes`, { content: userQuote })
+    api.put(`/userQuotes`, { content: userQuote })
   );
 
   // json-server 404에러 문제: id 추가하고 구조를 배열로 바꿔야만 작동한다.....json server에서 받는 구조상 어쩔수 없는거 같음
   // 실제 api에서 동작하는거 보고서 봐야할거 같음..
   const deleteQuoteMutation = useMutation(() =>
-    axios.delete(`${API_URL}/userQuotes`)
+    api.delete(`/userQuotes`)
   );
 
   const saveText = async () => {
@@ -100,7 +98,7 @@ const EditModal = (): JSX.Element => {
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300"
                   : ""
               }`}
-              onClick={!myQuote?.content ? saveText : editText}
+              onClick={!myQuote?.content || myQuote?.content==="string" ? saveText : editText}
             >
               저장
             </label>
