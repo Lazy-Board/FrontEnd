@@ -28,11 +28,11 @@ const SetLocationModal = ():JSX.Element => {
     },[userLoc])
 
     const uploadMutation = useMutation(()=>
-        api.post(`/weather/user-info`, {cityName:locationNames.cityName, locationName:locationNames.locationName})
+        api.post(`/weather/user-info`, {cityName:cityName, locationName:locationName})
     )
 
     const updateMutation = useMutation(()=>
-        api.put(`/weather/user-info`, {cityName:locationNames.cityName, locationName:locationNames.locationName})
+        api.put(`/weather/user-info`, {cityName:cityName, locationName:locationName})
     )
 
     // 안됨..
@@ -80,10 +80,12 @@ const SetLocationModal = ():JSX.Element => {
                         <input type="text" required
                         placeholder="예: OO시/ OO구/ OO군"
                         onChange={changeLoc} name="cityName"
+                        value={cityName}
                         className="w-full p-2 bg-stone-100 border-b border-stone-300 text-neutral-600 text-base"/>
                         <label className='block text-sm text-gray-900 dark:text-white text-left'>동/읍/면</label>
                         <input type="text" required
                         placeholder="예: OO동/ OO읍/ OO면"
+                        value={locationName}
                         onChange={changeLoc} name="locationName"
                         className="w-full p-2 bg-stone-100 border-b border-stone-300 text-neutral-600 text-base"/>
                     </div>
