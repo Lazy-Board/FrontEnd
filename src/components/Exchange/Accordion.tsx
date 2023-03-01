@@ -56,7 +56,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     }
 
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchanged([...selectedExchange, ...data]);
+    setSelectedExchanged(data);
   };
 
   return (
