@@ -2,7 +2,7 @@ import { BiChevronRight } from "react-icons/bi";
 import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { exchangeLike, AccordionProps } from "../../atom/exchange";
+import { exchangeLike, ExchangeProps } from "../../atom/exchange";
 import styled from "styled-components";
 import DeleteModule from "../Buttons/DeleteModule";
 
@@ -18,7 +18,7 @@ const DotPosition = styled.div`
 `;
 
 const ExchangeView = (): JSX.Element => {
-  const view = useRecoilValue<AccordionProps[]>(exchangeLike);
+  const view = useRecoilValue<ExchangeProps[]>(exchangeLike);
 
   const { slideRef, dotRef, NextSlide, PrevSlide } = useSliders();
 

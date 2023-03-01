@@ -1,7 +1,7 @@
 import { atom, selector } from "recoil";
 import { api } from "./signin";
 
-export interface AccordionProps {
+export interface ExchangeProps {
   currencyName: string;
   countryName: string;
   tradingStandardRate: string;
@@ -19,24 +19,36 @@ export interface AccordionProps {
 }
 
 export const getExchangeMain = async()=>{
-  const response = await api.get(`/exchange/search`);
-  return response.data;
+  try {
+    const response = await api.get(`/exchange/search`);
+    return response.data;
+  } catch (error){
+    console.log(`Error: ${error}`)
+  }
 }
 
-export const getExchangeDetail = selector<AccordionProps[]>({
+export const getExchangeDetail = selector<ExchangeProps[]>({
   key: "getExchangeDetail",
   get: async ({ get }) => {
-    const response = await api.get(`/exchange/detail`);
-    return response.data;
+    try {
+      const response = await api.get(`/exchange/detail`);
+      return response.data;
+    } catch (error) {
+      console.log(`Error: ${error}`)
+    }
   },
 });
 
 export const getExchangeWish = async () => {
-  const res = await api.get("/exchange/search");
-  return res.data.map((item: AccordionProps) => item.currencyName);
+  try{
+    const response = await api.get("/exchange/search");
+    return response.data.map((item: ExchangeProps) => item.currencyName);
+  } catch (error) {
+    console.log(`Error: ${error}`)
+  }
 };
 
-export const exchangeLike = atom<AccordionProps[]>({
+export const exchangeLike = atom<ExchangeProps[]>({
   key: "exchangeLike",
   default: getExchangeMain(),
 });

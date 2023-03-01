@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { exchangeWish, exchangeLike, getExchangeDetail, AccordionProps } from "../../atom/exchange";
+import { exchangeWish, exchangeLike, getExchangeDetail, ExchangeProps } from "../../atom/exchange";
 import { api } from "../../atom/signin";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
 import ToggleButton from "./ToggleButton";
@@ -15,7 +15,7 @@ const Flag = styled.img`
   background-color: #999;
 `;
 
-const Accordions = (props: AccordionProps): JSX.Element => {
+const Accordions = (props: ExchangeProps): JSX.Element => {
   const {
     countryName,
     currencyName,
@@ -26,10 +26,12 @@ const Accordions = (props: AccordionProps): JSX.Element => {
     isOpened,
     handleOpening,
   } = props;
+
   const [height, setHeight] = useState<string>("0px");
+  const [numChecked, setNumChecked] = useState<number>(0);
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
-  const StockDetail = useRecoilValue<AccordionProps[]>(getExchangeDetail);
-  const [selectedExchange, setSelectedExchanged] = useRecoilState<AccordionProps[]>(exchangeLike);
+  const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
+  const [selectedExchange, setSelectedExchanged] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);
 
@@ -41,25 +43,34 @@ const Accordions = (props: AccordionProps): JSX.Element => {
     }
   }, [isOpened, contentElement]);
 
-  const data = StockDetail.filter((item: AccordionProps) =>
+  const data = exchangeDetails.filter((item: ExchangeProps) =>
     wishlist.includes(item.currencyName)
   );
 
   const handleWishlist = async () => {
-    if (wishlist.includes(currencyName)) {
-      await api.post("exchange/update", { exchangeName: `${currencyName}X` });
-      setWishlist(wishlist.filter((id: String) => id !== currencyName));
-    } else {
-      await api.post("exchange/update", { exchangeName: currencyName });
-      setWishlist([...wishlist, currencyName]);
+    if (numChecked >= 5 && !wishlist.includes(currencyName)) {
+      alert("4개까지만 체크할 수 있습니다.");
+      return;
     }
+
+    if (wishlist.includes(currencyName)) {
+      await api.post("/exchange/update", { currencyName: `${currencyName}X` });
+      setWishlist(wishlist.filter((id: String) => id !== currencyName));
+      setNumChecked(numChecked - 1);
+    } else {
+      await api.post("/exchange/update", { currencyName: currencyName });
+      setWishlist([...wishlist, currencyName]);
+      setNumChecked(numChecked + 1);
+    }
+
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchanged([...selectedExchange, ...data]);
+    setSelectedExchanged(data);
+    // setSelectedExchanged([...selectedExchange, ...data]);
   };
 
   return (
     <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
-        <div className="flex justify-between">
+        <div className="flex justify-between cursor-pointer" onClick={()=>handleOpening}>
             <div className="flex items-center pl-1 gap-2">
                 <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
                 <p className="text-sm object-contain">
@@ -80,7 +91,7 @@ const Accordions = (props: AccordionProps): JSX.Element => {
                     <RiStarLine color="#999" size={20} />
                   )}
                 </label>
-                <ToggleButton state={isOpened} click={handleOpening}/>
+                <ToggleButton state={isOpened}/>
             </div>
         </div>
         <AccordionContent 
@@ -89,7 +100,7 @@ const Accordions = (props: AccordionProps): JSX.Element => {
             {...props}
         />
     </div>
-)
+  )
 };
 
 export default Accordions;
