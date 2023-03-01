@@ -47,10 +47,10 @@ const Accordions = (props: AccordionProps): JSX.Element => {
 
   const handleWishlist = async () => {
     if (wishlist.includes(currencyName)) {
-      await api.post("exchange/update", { currencyName: `${currencyName}` });
+      await api.post("exchange/update", { exchangeName: `${currencyName}` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
     } else {
-      await api.post("exchange/update", { currencyName: currencyName });
+      await api.post("exchange/update", { exchangeName: currencyName });
       setWishlist([...wishlist, currencyName]);
     }
     setExchangeLikeButton(!exchangeLikeButton);
