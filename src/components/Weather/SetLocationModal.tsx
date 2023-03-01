@@ -6,7 +6,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
-    const { data:userLoc } = useQuery(['weatherData'], getInfo, {
+    const { data:userLoc } = useQuery(['userWeatherData'], getInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
@@ -45,12 +45,12 @@ const SetLocationModal = ():JSX.Element => {
         deleteMutation.mutate()
     }
 
-    // 차이가 mutateAsync 안에 뭘 썼냐 안 썼냐 차이 같은데 일단 자고 일어나서 수정해보자
+    // 차이가 mutateAsync 안에 뭘 썼냐 안 썼냐 차이 같은데 일단 자고 일어나서 수정해보자->이것도 안되는데
     const uploadText = async () => {
         try {
             const response = await uploadMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
-            queryClient.invalidateQueries(['weatherData']);
+            queryClient.invalidateQueries(['userWeatherData']);
             alert('저장되었습니다.')
         } catch (error){
             setLocationNames({cityName:'',locationName:''})
@@ -62,7 +62,7 @@ const SetLocationModal = ():JSX.Element => {
         try {
             const response = await updateMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
-            queryClient.invalidateQueries(['weatherData']);
+            queryClient.invalidateQueries(['userWeatherData']);
             alert('저장되었습니다.')
         } catch (error){
             setLocationNames({cityName:'',locationName:''})

@@ -1,15 +1,21 @@
 import { BiChevronRight } from "react-icons/bi";
 import { FiMapPin } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
-import { getLocation, Duration } from "../../atom/traffic";
+// import { useRecoilValueLoadable } from "recoil";
+import { useQuery, useQueryClient } from "react-query";
+import { getLocation, Duration, getDur } from "../../atom/traffic";
 import TrafficLoading from "./TrafficLoading";
 import DeleteModule from "../Buttons/DeleteModule";
 
 const TrafficView = ():JSX.Element => {
-    const showDuration = useRecoilValueLoadable(getLocation);
-    let durationInfo:Duration = 
-    'hasValue' === showDuration.state ? showDuration.contents : {startingPoint:'출발지점',destination:'도착지점',duration:'NaN'}
+    // const queryClient = useQueryClient();
+    const { data:durationInfo, isLoading } = useQuery(['userPosition'], getDur, {
+        refetchOnWindowFocus:false,
+    });
+
+    // const showDuration = useRecoilValueLoadable(getLocation);
+    // let durationInfo:Duration = 
+    // 'hasValue' === showDuration.state ? showDuration.contents : {startingPoint:'출발지점',destination:'도착지점',duration:'NaN'}
 
     const { startingPoint, destination, duration } = durationInfo;
 
@@ -26,7 +32,7 @@ const TrafficView = ():JSX.Element => {
                 출근 정보
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>
             </div>
-            {showDuration.state === 'loading' ? <TrafficLoading />:
+            {isLoading ? <TrafficLoading />:
             !startingPoint ? 
             <div className="w-full h-36 mt-4 border border-slate-300 rounded-lg">
                 <p className="mt-8">아직 위치를 설정하지 않으셨어요!</p>
