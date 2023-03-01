@@ -94,8 +94,7 @@ const SetLocationModal = ():JSX.Element => {
                     <div className="modal-action pr-1 flex gap-4" >
                         <label htmlFor="location-modal" className="btn btn-primary" 
                         onClick={
-                            !userLoc.cityName || userLoc == undefined 
-                            ? uploadText : updateText}>
+                            !cityName || !userLoc ? uploadText : updateText}>
                             저장
                         </label>
                         <label htmlFor="location-modal" className="btn btn-secondary" onClick={deleteBtn}>
