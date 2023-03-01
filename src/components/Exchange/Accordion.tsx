@@ -72,13 +72,14 @@ const Accordions = (props: AccordionProps): JSX.Element => {
                     {comparedPreviousDay.includes('▼') ? <BiCaretDown className="inline-block"/> : <BiCaretUp className="inline-block"/>}
                     {fluctuationRate}%
                 </p>
-                <button onClick={handleWishlist}>
+                <input type="checkbox" id="checked" className="hidden"/>
+                <label onClick={handleWishlist} className="transition-colors cursor-pointer" htmlFor="checked">
                   {wishlist.find((item) => item === currencyName) ? (
                     <RiStarFill color="#f5c516" size={20} />
                   ) : (
                     <RiStarLine color="#999" size={20} />
                   )}
-                </button>
+                </label>
                 <ToggleButton state={isOpened} click={handleOpening}/>
             </div>
         </div>
