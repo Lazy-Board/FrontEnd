@@ -28,9 +28,9 @@ const TrafficView = ():JSX.Element => {
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>
             </div>
             {isLoading || !durationInfo ? <TrafficLoading />:
-            !startingPoint ? 
+            !durationInfo.startingPoint ? 
             <div className="w-full h-36 mt-4 border border-slate-300 rounded-lg">
-                <p className="mt-8">아직 위치를 설정하지 않으셨어요!</p>
+                <p className="mt-8">아직 출근정보를 설정하지 않으셨어요!</p>
                 <Link to={`/traffic`} className="btn btn-primary mt-4">
                     설정하기
                 </Link>
