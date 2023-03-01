@@ -1,13 +1,24 @@
 import { useRecoilState } from "recoil";
-import { weatherLocationState } from "../../atom/weather";
+import { useEffect } from "react";
+import { weatherLocationState, getInfo } from "../../atom/weather";
 import { api } from "../../atom/signin";
-import { useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
+    const { data:userLoc } = useQuery(['weatherData'], getInfo, {
+        refetchOnWindowFocus:false,
+        staleTime:Infinity,
+    })
     const [locationNames, setLocationNames] = useRecoilState(weatherLocationState);
 
     const {cityName, locationName} = locationNames;
+
+    useEffect(()=>{
+        if (userLoc){
+            setLocationNames(userLoc)
+        }
+    },[userLoc])
 
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -18,11 +29,11 @@ const SetLocationModal = ():JSX.Element => {
     };
 
     const uploadMutation = useMutation(()=>
-        api.post(`/weather/user-info`, { cityName, locationName })
+        api.post(`/weather/user-info`, {cityName:cityName, locationName:locationName})
     )
 
     const updateMutation = useMutation(()=>
-        api.put(`/weather/user-info`, { cityName, locationName })
+        api.put(`/weather/user-info`, {cityName:cityName, locationName:locationName})
     )
 
     // 안됨..
@@ -34,9 +45,10 @@ const SetLocationModal = ():JSX.Element => {
         deleteMutation.mutate()
     }
 
+    // 차이가 mutateAsync 안에 뭘 썼냐 안 썼냐 차이 같은데 일단 자고 일어나서 수정해보자
     const uploadText = async () => {
         try {
-            const response = await uploadMutation.mutateAsync();
+            const response = await uploadMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
             queryClient.invalidateQueries(['weatherData']);
             alert('저장되었습니다.')
@@ -48,7 +60,7 @@ const SetLocationModal = ():JSX.Element => {
 
     const updateText = async () => {
         try {
-            const response = await updateMutation.mutateAsync();
+            const response = await updateMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
             queryClient.invalidateQueries(['weatherData']);
             alert('저장되었습니다.')

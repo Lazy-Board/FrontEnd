@@ -20,7 +20,7 @@ const EditUserInfo = ():JSX.Element => {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
-    // 처음 가입 시에는 userImg로 나오고, 사용자가 이미지를 변경하면 그 이미지로 출력되도록 - 이미지 관련해서 추가되면 더 수정해야 함
+    // 처음 가입 시에는 userImg로 나오고, 사용자가 이미지를 변경하면 그 이미지로 출력되도록 - 이미지 관련해서 추가되면 수정해야 함
     const userImg = '/images/user-icon.png';
     const [newImg, setNewImg] = useState(userImg);
     // user 정보 받아와서 넣어주기
@@ -72,6 +72,7 @@ const EditUserInfo = ():JSX.Element => {
             const response = await editUserMutation.mutateAsync(userInfo);
             setUserData(response.data)
             queryClient.invalidateQueries(['userInfo']);
+            alert('저장되었습니다.')
         } catch (error){
             console.log(`Error: \n${error}`)
         }
