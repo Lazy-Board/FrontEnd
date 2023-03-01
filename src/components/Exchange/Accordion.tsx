@@ -35,7 +35,7 @@ const Accordions = (props: AccordionProps): JSX.Element => {
 
   useEffect(() => {
     if (isOpened) {
-      setHeight("120px");
+      setHeight("180px");
     } else {
       setHeight("0px");
     }
