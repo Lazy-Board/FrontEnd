@@ -9,6 +9,8 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import LikeButton from "../../Quote/LikeButton";
 import { FillLikeButton, EmptyLikeButton } from "./LikeButton";
+import { api } from "../../atom/signin";
+import { RiStarFill, RiStarLine } from "react-icons/ri";
 
 const StockDetailAccordion = ({
   stockName,
@@ -19,12 +21,14 @@ const StockDetailAccordion = ({
   highPrice,
   tradingVolume,
   updateAt,
+  engName,
 }: StockProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [wishlist, setWishlist] = useRecoilState<String[]>(StockWish);
   const StockDetail = useRecoilValue<StockProps[]>(getStockDetail);
   const [selectedStock, setSelectedStock] =
     useRecoilState<StockProps[]>(StockLike);
+  const [StockLikeButton, setStockLikeButton] = useState(false);
   // setSelectedStock(
   //   StockDetail.filter((item: DetailStockProps) =>
   //     wishlist.includes(item.stockName)
@@ -42,23 +46,25 @@ const StockDetailAccordion = ({
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
-  const handleWishlist = () => {
-    const isInWishlist = wishlist.includes(stockName);
+  const data = StockDetail.filter((item: StockProps) =>
+    wishlist.includes(item.stockName)
+  );
 
-    if (!isInWishlist) {
-      setWishlist([...wishlist, stockName]);
+  const handleWishlist = async () => {
+    if (wishlist.includes(stockName)) {
+      await api.post("stock/update", { stockName: `${stockName}N` });
+      setWishlist(wishlist.filter((id: String) => id !== stockName));
     } else {
-      setWishlist(wishlist.filter((id) => id !== stockName));
+      await api.post("stock/update", { stockName: stockName });
+      setWishlist([...wishlist, stockName]);
     }
-    const data = StockDetail.filter((item: StockProps) =>
-      wishlist.includes(item.stockName)
-    );
+    setStockLikeButton(!StockLikeButton);
     setSelectedStock([...selectedStock, ...data]);
   };
 
-  useEffect(() => {
-    console.log(wishlist);
-  }, [wishlist]);
+  // useEffect(() => {
+
+  // }, [wishlist]);
 
   return (
     <div className="border-none divide-y-2 ">
@@ -66,15 +72,17 @@ const StockDetailAccordion = ({
         <span className="mr-auto text-sm my-2 font-bold">{stockName}</span>
         <span className="text-sm mr-2">{price}</span>
         <span
-          className={`mr-2 ${dayRange > 0 ? "text-red-500" : "text-blue-500"}`}
+          className={`mr-2 ${
+            dayRange[0] === "+" ? "text-red-500" : "text-blue-500"
+          }`}
         >
           {dayRange}
         </span>
-        <button className="mt-2" onClick={handleWishlist}>
-          {selectedStock.find((item) => item.stockName === stockName) ? (
-            <FillLikeButton />
+        <button onClick={handleWishlist}>
+          {wishlist.find((item) => item === stockName) ? (
+            <RiStarFill color="#f5c516" size={20} />
           ) : (
-            <EmptyLikeButton />
+            <RiStarLine color="#999" size={20} />
           )}
         </button>
         <button type="button" onClick={toggleAccordion} className="ml-2">

@@ -25,11 +25,11 @@ const NewsMainView = () => {
           {data.map((item: any) => (
             <div className="border-b flex text-left py-3 h-fit border-stone-300">
               <img
-                src={item.urlToImage}
-                className={`${item.urlToImage ? "w-28 mr-2" : "pl-1"}`}
+                src={item.imagePath}
+                className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
               />
               <a href={`${item.url}`}>
-                <span>{item.title}</span>
+                <span>{item.subject}</span>
               </a>
             </div>
           ))}
