@@ -64,13 +64,13 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     }
 
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchanged(data);
-    // setSelectedExchanged([...selectedExchange, ...data]);
+    // setSelectedExchanged(data);
+    setSelectedExchanged([...selectedExchange, ...data]);
   };
 
   return (
     <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
-        <div className="flex justify-between cursor-pointer" onClick={()=>handleOpening}>
+        <div className="flex justify-between cursor-pointer" onClick={()=>handleOpening()}>
             <div className="flex items-center pl-1 gap-2">
                 <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
                 <p className="text-sm object-contain">
