@@ -6,13 +6,10 @@ import { getLoc } from '../../atom/traffic';
 const { kakao }:any = window;
 
 const MapContainer = () => {
-    const queryClient=useQueryClient();
+    // const queryClient=useQueryClient();
     const {data} = useQuery(['destination'], getLoc, {
         refetchOnWindowFocus: false,
         staleTime:Infinity,
-        onSuccess:()=>{
-            queryClient.invalidateQueries()
-        }
     })
 
     useEffect(() => {
