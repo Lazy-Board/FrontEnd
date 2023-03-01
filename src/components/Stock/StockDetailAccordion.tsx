@@ -6,7 +6,7 @@ import {
   StockWish,
   getStockDetail,
 } from "../../atom/Stock";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import LikeButton from "../../Quote/LikeButton";
 import { FillLikeButton, EmptyLikeButton } from "./LikeButton";
 import { api } from "../../atom/signin";
@@ -25,7 +25,7 @@ const StockDetailAccordion = ({
 }: StockProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [wishlist, setWishlist] = useRecoilState<String[]>(StockWish);
-  const StockDetail = useRecoilValue<StockProps[]>(getStockDetail);
+  const StockDetail = useRecoilValueLoadable<StockProps[]>(getStockDetail);
   const [selectedStock, setSelectedStock] =
     useRecoilState<StockProps[]>(StockLike);
   const [StockLikeButton, setStockLikeButton] = useState(false);
@@ -46,13 +46,26 @@ const StockDetailAccordion = ({
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
-  const data = StockDetail.filter((item: StockProps) =>
-    wishlist.includes(item.stockName)
-  );
-
+  let data: StockProps[] = [];
+  // const data = StockDetail.filter((item: StockProps) =>
+  //   wishlist.includes(item.stockName)
+  // );
+  switch (StockDetail.state) {
+    case "hasValue":
+      data = StockDetail.contents.filter((item: StockProps) =>
+        wishlist.includes(item.stockName)
+      );
+      break;
+    case "hasError":
+      console.log(StockDetail.contents.message);
+      break;
+    case "loading":
+      alert("Loading...");
+      break;
+  }
   const handleWishlist = async () => {
     if (wishlist.includes(stockName)) {
-      await api.post("stock/update", { stockName: `${stockName}N` });
+      await api.post("stock/update", { stockName: `${stockName}F` });
       setWishlist(wishlist.filter((id: String) => id !== stockName));
     } else {
       await api.post("stock/update", { stockName: stockName });

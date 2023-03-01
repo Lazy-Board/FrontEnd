@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValueLoadable } from "recoil";
 import styled from "styled-components";
 
 import { getStockDetail, StockProps } from "../../atom/Stock";
@@ -6,8 +6,19 @@ import DetailTopBar from "../MenuBars/DetailTopBar";
 import StockDetailAccordion from "./StockDetailAccordion";
 
 const StockDetail = () => {
-  const data = useRecoilValue<StockProps[]>(getStockDetail);
+  const StockView = useRecoilValueLoadable<StockProps[]>(getStockDetail);
 
+  let data: StockProps[] = [];
+  switch (StockView.state) {
+    case "hasValue":
+      data = StockView.contents;
+      break;
+    case "hasError":
+      console.log(StockView.contents.message);
+      break;
+    case "loading":
+      return <progress className="progress w-56">Loading...</progress>;
+  }
   // const [stockData, setStockData] = useRecoilState(StockData);
 
   const Content = styled.div`

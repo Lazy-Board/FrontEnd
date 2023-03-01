@@ -30,10 +30,8 @@ const YoutubeCarousel = () => {
           overflow: "hidden",
         }}
       >
-        <div className="w-full flex border border-white border-b-black ">
-          <span className="font-semibold grid justify-items-start mb-1">
-            YouTube 추천
-          </span>
+        <div className="w-full flex border border-white border-b-slate-300 ">
+          <span className="grid justify-items-start mb-1">YouTube 추천</span>
         </div>
         <div
           className="flex mt-3"
