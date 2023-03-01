@@ -23,9 +23,11 @@ const SetLocationModal = ():JSX.Element => {
 
     useEffect(()=>{
         if (userLoc){
-            setLocationNames(userLoc)
+            setLocationNames({cityName:userLoc.cityName, locationName:userLoc.locationName})
         }
     },[userLoc])
+
+    console.log(userLoc)
 
     const uploadMutation = useMutation(()=>
         api.post(`/weather/user-info`, {cityName:cityName, locationName:locationName})
