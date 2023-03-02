@@ -27,12 +27,13 @@ function App() {
       <TopBar />
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/find-password" element={<FindPassword />} />
         <Route path="/user" element={<UserProfile />} />
         <Route path="/user/userInfo" element={<EditUserInfo />} />
         <Route path="/exchange" element={<ExchangeDetail />} />
         <Route path="/traffic" element={<TrafficDetail />} />
-        <Route path="/login" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/todo" element={<TodoList />} />
         <Route path="/stock" element={<StockDetail />} />
         <Route path="/news" element={<NewsDetailView />} />
@@ -40,7 +41,6 @@ function App() {
         <Route path="/select-widget" element={<SelectWidget />} />
         <Route path="/user/update-password" element={<UpdatePassword />} />
         <Route path="/user/withdrawal" element={<UserWithdrawal />} />
-        <Route path="/user/find-password" element={<FindPassword />} />
       </Routes>
       <BottomBar />
       <Confirm />

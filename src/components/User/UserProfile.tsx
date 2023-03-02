@@ -21,7 +21,6 @@ const UserProfile = ():JSX.Element => {
         {id:2,name:'비밀번호 변경', link:'user/update-password'},
         {id:3,name:'회원 탈퇴', link:'user/withdrawal'},
     ]
-    // 유저 이메일, 이름 출력되도록 api 받아오기
     
     return(
         <>
@@ -32,7 +31,7 @@ const UserProfile = ():JSX.Element => {
                     alt="프로필 이미지" 
                     className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
                 />
-                {isLoading ? <div>Loading...</div> : 
+                {isLoading ? <div className='mx-auto'>Loading...</div> : 
                 (
                     <>
                     <p className='mt-4 font-semibold'>{userInfo.userName}</p>

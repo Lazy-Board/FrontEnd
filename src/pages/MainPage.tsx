@@ -6,7 +6,6 @@ import TrafficView from "../components/Traffic/TrafficView";
 import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
-import TodoList from "./TodoList";
 import TodoMainView from "../components/Todolist/TodoMainView";
 
 const Content = styled.div`

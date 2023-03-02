@@ -155,7 +155,9 @@ const Signin = () => {
                 <span className="mr-4">회원가입</span>
               </Link>
               <span>|</span>
-              <span className="ml-4">비밀번호 찾기</span>
+              <Link to="/find-password">
+                <span className="ml-4">비밀번호 찾기 </span>
+              </Link>
             </div>
           </form>
         </div>

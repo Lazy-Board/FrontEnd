@@ -46,24 +46,22 @@ const TrafficDetail = () => {
         setArrive(depart)
     }
 
-    const deleteMutation = useMutation(() => {
-        return api.delete(`/traffic`);
-    }, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['userPosition']);
-        }
-    });
-
     // 도착지 정보 put(업데이트),post(처음에 저장)/delete(삭제)
     const postMutation = useMutation((newData) => api.post(`/traffic`, newData));
-
     const putMutation = useMutation((newData) => api.put(`/traffic`, newData));
+    const deleteMutation = useMutation(() => api.delete(`/traffic`));
 
-    // 서버에서도 삭제되도록 처리해야 할..텐데 작동안됨
-    const deleteText = () => {
-        deleteMutation.mutate()
-        setDepart('');
-        setArrive('');
+    const deleteText = async () => {
+        try {
+            await deleteMutation.mutateAsync();
+            setDepart('')
+            setArrive('')
+            queryClient.invalidateQueries(['userPosition']);
+            queryClient.invalidateQueries(['destination']);
+            alert('삭제되었습니다.')
+        } catch (error) {
+            console.error(`Error: \n${error}`);
+        }
     }
 
     const submitData= async (e:React.FormEvent<HTMLFormElement>)=>{
@@ -115,7 +113,7 @@ const TrafficDetail = () => {
                         <input type="submit" className="w-2/5 btn btn-primary" value={'길 찾기'} disabled={!depart || !arrive ? true:false}/>
                     </div>
                 </form>
-                <div className="w-full h-80 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">
+                <div className="w-full h-96 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">
                     <MapContainer />
                 </div>
             </div>

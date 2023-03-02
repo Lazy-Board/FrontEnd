@@ -1,7 +1,6 @@
 import { BiChevronRight } from "react-icons/bi";
 import { FiMapPin } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
 import { useQuery } from "react-query";
 import { getDur } from "../../atom/traffic";
 import TrafficLoading from "./TrafficLoading";

@@ -43,7 +43,6 @@ const TopBar = (): JSX.Element => {
       </Top>
     );
 
-  // 위젯 따라 타이틀 변경-분리해서 따로 만들지 어쩔지 고민 중
   return <></>;
 };
 

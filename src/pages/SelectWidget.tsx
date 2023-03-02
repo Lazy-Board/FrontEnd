@@ -1,4 +1,5 @@
 import styled from "styled-components";
+// import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useState, useEffect } from "react";
@@ -14,16 +15,15 @@ const List = styled.div`
     width:calc(50% - 4px);
 `
 
-// 추후 api 연동해야...
 const list = [
-    {id:'WeatherWidget',name:'날씨'},
-    {id:'TodoWidget',name:'투두리스트'},
-    {id:'YouTubeWidget',name:'유튜브'},
-    {id:'StockWidget',name:'주식'},
-    {id:'ExchangeWidget',name:'환율'},
-    {id:'TrafficWidget',name:'출근정보'},
-    {id:'QuoteWidget',name:'오늘의 명언'},
-    {id:'NewsWidget',name:'뉴스'},
+    {id:'weather',name:'날씨'},
+    {id:'todo',name:'투두리스트'},
+    {id:'youtube',name:'유튜브'},
+    {id:'stock',name:'주식'},
+    {id:'exchange',name:'환율'},
+    {id:'traffic',name:'출근정보'},
+    {id:'quote',name:'오늘의 명언'},
+    {id:'news',name:'뉴스'},
 ]
 
 const SelectWidget = ():JSX.Element => {
@@ -36,6 +36,7 @@ const SelectWidget = ():JSX.Element => {
             setCheckboxes(checkboxes.filter((el:any) => el !== id));
         }
     };
+    // api.post('/user/saveModule',{userId:"", userModuleList:""})
 
     // 2개 이상 checked되어야 버튼 클릭할 수 있음
     const isDisabled = checkboxes.filter((checked:boolean) => checked).length < 2;

@@ -35,25 +35,35 @@ const SetLocationModal = ():JSX.Element => {
         api.put(`/weather/user-info`, {cityName:cityName, locationName:locationName})
     )
 
-    // 안됨..
     const deleteMutation = useMutation(()=>
         api.delete(`/weather/user-info`)
     )
 
-    const deleteBtn = () => {
-        deleteMutation.mutate()
-    }
+    const deleteBtn = async () => {
+        try {
+            await deleteMutation.mutateAsync();
+            setLocationNames((prevLoc: any) => ({
+                ...prevLoc,
+                cityName: "", locationName:""
+            }));
+            queryClient.invalidateQueries(['userWeatherData']);
+            queryClient.invalidateQueries(['weatherData']);
+            alert('삭제되었습니다.')
+        } catch (error) {
+            console.error(`Error: \n${error}`);
+        }
+    };
 
     const uploadText = async () => {
         try {
             const response = await uploadMutation.mutateAsync(userLoc);
-            setLocationNames(response.data)
+            setLocationNames(response.data);
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('저장되었습니다.')
+            alert('저장되었습니다.');
         } catch (error){
             setLocationNames({cityName:'',locationName:''})
-            alert(`Error: \n${error}`)
+            alert(`Error: \n${error}`);
         }
     }
 
@@ -63,10 +73,10 @@ const SetLocationModal = ():JSX.Element => {
             setLocationNames(response.data)
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('업데이트되었습니다.')
+            alert('업데이트되었습니다.');
         } catch (error){
             setLocationNames({cityName:'',locationName:''})
-            alert(`Error: \n${error}`)
+            alert(`Error: \n${error}`);
         }
     }
 
@@ -94,7 +104,7 @@ const SetLocationModal = ():JSX.Element => {
                     <div className="modal-action pr-1 flex gap-4" >
                         <label htmlFor="location-modal" className="btn btn-primary" 
                         onClick={
-                            userLoc && userLoc.cityName === "" ? uploadText : updateText}>
+                            !userLoc ? uploadText : updateText}>
                             저장
                         </label>
                         <label htmlFor="location-modal" className="btn btn-secondary" onClick={deleteBtn}>
