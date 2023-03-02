@@ -51,7 +51,7 @@ const ExchangeView = (): JSX.Element => {
             </Link>
         </div>)
         : viewLoadable.state === 'loading' ? 
-        <div className="w-full h-36 mt-1 bg-gray-300 rounded-md animate-pulse"></div>
+        <div className="w-full h-36 mt-1 bg-gray-300 rounded-md animate-pulse" ref={slideRef}></div>
         :
         (<LongWidth className="flex relative gap-3 overflow-hidden cursor-pointer" style={{width:`${2 < view.length ? '200%':'400px'}`}} ref={slideRef}>
             {view.map((item:any)=>(

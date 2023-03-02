@@ -1,5 +1,4 @@
 import { useRecoilValueLoadable } from "recoil";
-import { GrRotateRight } from "react-icons/gr";
 import { useSliders } from "../../hooks/useSliders";
 import { quotesList, QuoteType } from "../../atom/quote";
 import DisplayMyQuote from "./DisplayMyQuote";
@@ -13,8 +12,6 @@ const LongWidth = styled.div`
   display: flex;
   left: 0;
 `;
-// get할때마다 랜덤으로 뜨는 형식이라서 바꿔야 함
-// 걍 넣지 말자...
 
 const QuoteView = (): JSX.Element => {
   const quoteLoadable = useRecoilValueLoadable(quotesList);
@@ -59,9 +56,6 @@ const QuoteView = (): JSX.Element => {
           <div className="w-96 h-28 relative flex flex-col items-center justify-center pl-6 select-none">
             <p className="max-w-xs mx-auto line-clamp-3">{lists.content}</p>
             <p className="mt-2 text-gray-500">-{lists.writer}</p>
-            {/* <button className="absolute -right-1 bottom-0" >
-                        <GrRotateRight size={20} className="text-gray-400 hover:text-green-500 transition-colors"/>
-                    </button> */}
           </div>
         )}
         <DisplayMyQuote />

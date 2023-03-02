@@ -46,7 +46,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     if (wishlist.includes(currencyName)) {
       await api.post("/exchange/update", { currencyName: `${currencyName}X` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
-    } else if (wishlist.length < 5) {
+    } else if (wishlist.length < 4) {
       await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
     } else {
@@ -55,7 +55,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     }
 
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchange([...selectedExchange, ...data]);
+    setSelectedExchange(data);
   };
 
   return (
