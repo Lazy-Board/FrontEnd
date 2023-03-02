@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+
 import {
   StockLike,
   StockProps,
@@ -74,8 +75,8 @@ const StockDetailAccordion = ({
   };
 
   const StockImg = styled.img`
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     border-radius: 100px;
     background-color: #999;
   `;
@@ -86,7 +87,11 @@ const StockDetailAccordion = ({
   return (
     <div className="border-none divide-y-2 ">
       <div className="flex items-center w-full py-2 px-4 focus:outline-none bg-white">
-        <StockImg src={`/stockImage/${stockName}.svg`} alt={stockName} />
+        <StockImg
+          src={`/stockImage/${stockName}.svg`}
+          alt={stockName}
+          className="mr-2"
+        />
         <span className="mr-auto text-sm my-2 font-bold">{stockName}</span>
         <span className="text-sm mr-2">{price}</span>
         <span

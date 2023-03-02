@@ -23,6 +23,7 @@
     "react-router-dom": "^6.8.0",
     "recoil": "^0.7.6",
     "styled-components": "^5.3.6",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "twin.macro": "^3.1.0"
   },
   "devDependencies": {
