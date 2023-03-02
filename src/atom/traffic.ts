@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 import { api } from './signin';
 
 export interface Duration {
@@ -23,19 +23,6 @@ export const startingState = atom<string>({
 export const destinationState = atom<string>({
     key:'destinationState',
     default:'',
-})
-
-//메인화면
-export const getLocation =  selector<Duration> ({
-    key:'location',
-    get: async ({get}) => {
-        try {
-            const response = await api.get(`/traffic/duration`);
-            return response.data;
-        } catch (error){
-            console.log(`Error: \n${error}`);
-        }
-    }
 })
 
 export const getLoc = async () => {

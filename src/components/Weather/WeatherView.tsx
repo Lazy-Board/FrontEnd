@@ -50,7 +50,7 @@ const WeatherView = ():JSX.Element => {
             {isFetching ? <WeatherLoading />:
             cityName==="string" || !cityName ? 
             <div className='w-full h-32 mt-6 p-4' >
-                <p>아직 위치를 설정하지 않으셨어요!</p>
+                <p>아직 날씨 지역을 설정하지 않으셨어요!</p>
                 <label htmlFor="location-modal"
                 className='btn btn-primary mt-4 cursor-pointer'
                 >위치 설정하기</label>

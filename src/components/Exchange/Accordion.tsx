@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
-import { useRecoilState } from "recoil";
-import { ExchangeLike, AccordionProps } from "../../atom/exchange";
-import LikeButton from "./LikeButton";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { exchangeWish, exchangeLike, getExchangeDetail, ExchangeProps } from "../../atom/exchange";
+import { api } from "../../atom/signin";
+import { RiStarLine, RiStarFill } from "react-icons/ri";
 import ToggleButton from "./ToggleButton";
 import AccordionContent from "./AccordionContent";
 
@@ -14,7 +15,7 @@ const Flag = styled.img`
   background-color: #999;
 `;
 
-const Accordions = (props: AccordionProps): JSX.Element => {
+const Accordions = (props: ExchangeProps): JSX.Element => {
   const {
     countryName,
     currencyName,
@@ -25,62 +26,72 @@ const Accordions = (props: AccordionProps): JSX.Element => {
     isOpened,
     handleOpening,
   } = props;
+
   const [height, setHeight] = useState<string>("0px");
-  const [wishlist, setWishlist] = useRecoilState<String[]>(ExchangeLike);
+  const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
+  const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
+  const [selectedExchange, setSelectedExchanged] = useRecoilState<ExchangeProps[]>(exchangeLike);
+  const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpened) {
-      setHeight("120px");
+      setHeight("180px");
     } else {
       setHeight("0px");
     }
   }, [isOpened, contentElement]);
 
-  const handleWishlist = () => {
-    const isInWishlist = wishlist.includes(currencyName);
+  const data = exchangeDetails.filter((item: ExchangeProps) =>
+    wishlist.includes(item.currencyName)
+  );
 
-    if (!isInWishlist) {
-      setWishlist([...wishlist, currencyName]);
+  const handleWishlist = async () => {
+    if (wishlist.includes(currencyName)) {
+      await api.post("/exchange/update", { currencyName: `${currencyName}X` });
+      setWishlist(wishlist.filter((id: String) => id !== currencyName));
     } else {
-      setWishlist(wishlist.filter((id) => id !== currencyName));
+      await api.post("/exchange/update", { currencyName: currencyName });
+      setWishlist([...wishlist, currencyName]);
     }
+
+    setExchangeLikeButton(!exchangeLikeButton);
+    setSelectedExchanged(data);
   };
 
   return (
     <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
-      <div className="flex justify-between">
-        <div className="flex items-center pl-1 gap-2">
-          <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
-          <p className="text-sm object-contain">
-            {countryName}&nbsp;{currencyName}
-          </p>
+        <div className="flex justify-between cursor-pointer" >
+            <div className="flex items-center pl-1 gap-2">
+                <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
+                <p className="text-sm object-contain">
+                    {countryName}&nbsp;{currencyName}
+                </p>
+            </div>
+            <div className="flex items-center gap-3">
+                <p className="text-sm">{tradingStandardRate}</p>
+                <p className={`w-16 text-sm ${comparedPreviousDay.includes('▼') ? 'text-blue-600': 'text-red-500'}`}>
+                    {comparedPreviousDay.includes('▼') ? <BiCaretDown className="inline-block"/> : <BiCaretUp className="inline-block"/>}
+                    {fluctuationRate}%
+                </p>
+                <input type="checkbox" id="checked" className="hidden"/>
+                <label onClick={handleWishlist} className="transition-colors cursor-pointer" htmlFor="checked">
+                  {wishlist.find((item) => item === currencyName) ? (
+                    <RiStarFill color="#f5c516" size={20} />
+                  ) : (
+                    <RiStarLine color="#999" size={20} />
+                  )}
+                </label>
+                <ToggleButton state={isOpened} click={handleOpening}/>
+            </div>
         </div>
-        <div className="flex items-center gap-3">
-          <p className="text-sm">{tradingStandardRate}</p>
-          <p
-            className={`w-16 text-sm ${
-              comparedPreviousDay.includes("▼")
-                ? "text-blue-600"
-                : "text-red-500"
-            }`}
-          >
-            {comparedPreviousDay.includes("▼") ? (
-              <BiCaretDown className="inline-block" />
-            ) : (
-              <BiCaretUp className="inline-block" />
-            )}
-            {fluctuationRate}%
-          </p>
-          <button onClick={handleWishlist}>
-            <LikeButton />
-          </button>
-          <ToggleButton state={isOpened} click={handleOpening} />
-        </div>
-      </div>
-      <AccordionContent ref={contentElement} height={height} {...props} />
+        <AccordionContent 
+            ref={contentElement}
+            height={height}
+            {...props}
+        />
     </div>
-  );
+  )
 };
 
 export default Accordions;

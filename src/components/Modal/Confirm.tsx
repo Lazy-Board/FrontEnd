@@ -1,10 +1,13 @@
 import { api } from '../../atom/signin'
+import { useNavigate } from 'react-router-dom'
 
 const Confirm = ():JSX.Element => {
+    const navigate = useNavigate()
     const logout= async () =>{
         try {
-            await api.post(`/user/logout`,{})
+            await api.post(`/user/logout`)
             alert('로그아웃되었습니다.')
+            navigate('/login')
         } catch (error) {
             alert(`Error: ${error}`)
         }

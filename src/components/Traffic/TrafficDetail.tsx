@@ -27,6 +27,7 @@ const TrafficDetail = () => {
     const queryClient = useQueryClient();
     const { data } = useQuery(['userPosition'], getDur, {
         refetchOnWindowFocus:false,
+        staleTime:Infinity,
     });
 
     const [depart, setDepart] = useRecoilState(startingState);
@@ -54,15 +55,13 @@ const TrafficDetail = () => {
     });
 
     // 도착지 정보 put(업데이트),post(처음에 저장)/delete(삭제)
-    const postMutation = useMutation((newData) => api.post(`/traffic`, newData), {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['userPosition']);
-        },
-    });
+    const postMutation = useMutation((newData) => api.post(`/traffic`, newData));
+
+    const putMutation = useMutation((newData) => api.put(`/traffic`, newData));
 
     // 서버에서도 삭제되도록 처리해야 할..텐데 작동안됨
     const deleteText = () => {
-        // deleteMutation.mutate()
+        deleteMutation.mutate()
         setDepart('');
         setArrive('');
     }
@@ -70,7 +69,15 @@ const TrafficDetail = () => {
     const submitData= async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         const newData:any = { destination: arrive, startingPoint: depart };
-        await postMutation.mutateAsync(newData);
+        if (!data){
+            await postMutation.mutateAsync(newData);
+            queryClient.invalidateQueries(['userPosition']);
+            queryClient.invalidateQueries(['destination']);
+        } else {
+            await putMutation.mutateAsync(newData);
+            queryClient.invalidateQueries(['userPosition']);
+            queryClient.invalidateQueries(['destination']);
+        }
         setDepart(newData.startingPoint);
         setArrive(newData.destination);
     }

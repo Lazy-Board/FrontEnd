@@ -1,9 +1,7 @@
-import axios from "axios";
 import { atom, selector } from "recoil";
-import { API_URL } from "../API/API";
 import { api } from "./signin";
 
-export interface AccordionProps {
+export interface ExchangeProps {
   currencyName: string;
   countryName: string;
   tradingStandardRate: string;
@@ -13,28 +11,49 @@ export interface AccordionProps {
   sellCash: string;
   sendMoney: string;
   receiveMoney: string;
+  updateAt:string;
+  round:string;
   classes: string;
   isOpened: boolean;
   handleOpening: Function;
 }
 
-export const getExchangeMain = selector({
-  key: "getExchangeMain",
-  get: async ({ get }) => {
+export const getExchangeMain = async()=>{
+  try {
     const response = await api.get(`/exchange/search`);
     return response.data;
-  },
-});
+  } catch (error){
+    console.log(`Error: ${error}`)
+  }
+}
 
-export const ExchangeLike = atom<any>({
-  key: "exchangeLike",
-  default: [],
-});
-
-export const getExchangeDetail = selector({
+export const getExchangeDetail = selector<ExchangeProps[]>({
   key: "getExchangeDetail",
   get: async ({ get }) => {
-    const response = await api.get(`/exchange/detail`);
-    return response.data;
+    try {
+      const response = await api.get(`/exchange/detail`);
+      return response.data;
+    } catch (error) {
+      console.log(`Error: ${error}`)
+    }
   },
+});
+
+export const getExchangeWish = async () => {
+  try{
+    const response = await api.get("/exchange/search");
+    return response.data.map((item: ExchangeProps) => item.currencyName);
+  } catch (error) {
+    console.log(`Error: ${error}`)
+  }
+};
+
+export const exchangeLike = atom<ExchangeProps[]>({
+  key: "exchangeLike",
+  default: getExchangeMain(),
+});
+
+export const exchangeWish = atom<String[]>({
+  key: "exchangeWish",
+  default: getExchangeWish(),
 });

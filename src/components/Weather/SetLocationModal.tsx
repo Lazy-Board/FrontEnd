@@ -1,25 +1,18 @@
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { weatherLocationState, getInfo } from "../../atom/weather";
+import { weatherLocationState, getInfo, MyWeatherLocation } from "../../atom/weather";
 import { api } from "../../atom/signin";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
-    const { data:userLoc } = useQuery(['weatherData'], getInfo, {
+    const { data:userLoc } = useQuery(['userWeatherData'], getInfo, {
         refetchOnWindowFocus:false,
-        staleTime:Infinity,
     })
-    const [locationNames, setLocationNames] = useRecoilState(weatherLocationState);
+    const [locationNames, setLocationNames] = useRecoilState<MyWeatherLocation>(weatherLocationState);
 
     const {cityName, locationName} = locationNames;
-
-    useEffect(()=>{
-        if (userLoc){
-            setLocationNames(userLoc)
-        }
-    },[userLoc])
-
+    
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
         setLocationNames({
@@ -27,6 +20,12 @@ const SetLocationModal = ():JSX.Element => {
             [name]: value,
         });
     };
+
+    useEffect(()=>{
+        if (userLoc){
+            setLocationNames({cityName:userLoc.cityName, locationName:userLoc.locationName})
+        }
+    },[userLoc])
 
     const uploadMutation = useMutation(()=>
         api.post(`/weather/user-info`, {cityName:cityName, locationName:locationName})
@@ -45,11 +44,11 @@ const SetLocationModal = ():JSX.Element => {
         deleteMutation.mutate()
     }
 
-    // 차이가 mutateAsync 안에 뭘 썼냐 안 썼냐 차이 같은데 일단 자고 일어나서 수정해보자
     const uploadText = async () => {
         try {
             const response = await uploadMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
+            queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
             alert('저장되었습니다.')
         } catch (error){
@@ -62,8 +61,9 @@ const SetLocationModal = ():JSX.Element => {
         try {
             const response = await updateMutation.mutateAsync(userLoc);
             setLocationNames(response.data)
+            queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('저장되었습니다.')
+            alert('업데이트되었습니다.')
         } catch (error){
             setLocationNames({cityName:'',locationName:''})
             alert(`Error: \n${error}`)
@@ -82,15 +82,19 @@ const SetLocationModal = ():JSX.Element => {
                         <input type="text" required
                         placeholder="예: OO시/ OO구/ OO군"
                         onChange={changeLoc} name="cityName"
+                        value={cityName}
                         className="w-full p-2 bg-stone-100 border-b border-stone-300 text-neutral-600 text-base"/>
                         <label className='block text-sm text-gray-900 dark:text-white text-left'>동/읍/면</label>
                         <input type="text" required
                         placeholder="예: OO동/ OO읍/ OO면"
+                        value={locationName}
                         onChange={changeLoc} name="locationName"
                         className="w-full p-2 bg-stone-100 border-b border-stone-300 text-neutral-600 text-base"/>
                     </div>
                     <div className="modal-action pr-1 flex gap-4" >
-                        <label htmlFor="location-modal" className="btn btn-primary" onClick={!cityName ? uploadText : updateText}>
+                        <label htmlFor="location-modal" className="btn btn-primary" 
+                        onClick={
+                            userLoc && userLoc.cityName === "" ? uploadText : updateText}>
                             저장
                         </label>
                         <label htmlFor="location-modal" className="btn btn-secondary" onClick={deleteBtn}>
