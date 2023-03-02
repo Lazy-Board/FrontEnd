@@ -12,9 +12,9 @@ const Content = styled.div`
 `;
 
 const ExchangeDetail = (): JSX.Element => {
+  const [openAccordionIndex, setOpenAccordionIndex] = useState<number>(0);
   const dataLoadable = useRecoilValueLoadable<ExchangeProps[]>(getExchangeDetail);
   let data = 'hasValue' === dataLoadable.state ? dataLoadable.contents : [];
-  const [openAccordionIndex, setOpenAccordionIndex] = useState<number>(0);
 
   return (
     <>

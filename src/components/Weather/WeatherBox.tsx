@@ -14,8 +14,7 @@ const normalColor = '#5a9c5a';
 const goodBgc = '#ebf7ff';
 const goodColor = '#2552ba';
 
-//...타입지정 어떻게 하냐
-const Boxes:any= styled.div`
+const Boxes:any = styled.div`
     width: calc(25% - 6px);
     ${(props:WeatherType) => 
         (props.status === '나쁨') ? css`

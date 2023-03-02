@@ -18,8 +18,8 @@ const Edit = styled.textarea`
 `;
 
 const EditModal = (): JSX.Element => {
-  const [userQuote, setUserQuote] = useRecoilState(myQuoteState);
   const queryClient = useQueryClient();
+  const [userQuote, setUserQuote] = useRecoilState(myQuoteState);
   const { data: myQuote } = useQuery("userQuotes", getQuotes, {
     refetchOnWindowFocus: false,
   });
@@ -39,26 +39,19 @@ const EditModal = (): JSX.Element => {
     api.put(`/userQuotes`, { content: userQuote })
   );
 
-  // json-server 404에러 문제: id 추가하고 구조를 배열로 바꿔야만 작동한다.....json server에서 받는 구조상 어쩔수 없는거 같음
-  // 실제 api에서 동작하는거 보고서 봐야할거 같음..
   const deleteQuoteMutation = useMutation(() =>
     api.delete(`/userQuotes`)
   );
 
   const saveText = async () => {
     try {
-      const response = await saveQuoteMutation.mutateAsync(userQuote.content);
-      setUserQuote(response.data);
-      queryClient.invalidateQueries("userQuotes");
-    } catch (error) {
-      console.log(`Error: \n${error}`);
-    }
-  };
-
-  const editText = async () => {
-    try {
-      const response = await editQuoteMutation.mutateAsync(userQuote.content);
-      setUserQuote(response.data);
+      if (!myQuote){
+        const response = await saveQuoteMutation.mutateAsync(userQuote.content);
+        setUserQuote(response.data);
+      } else {
+        const response = await editQuoteMutation.mutateAsync(userQuote.content);
+        setUserQuote(response.data);
+      }
       queryClient.invalidateQueries("userQuotes");
     } catch (error) {
       console.log(`Error: \n${error}`);
@@ -98,7 +91,7 @@ const EditModal = (): JSX.Element => {
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300"
                   : ""
               }`}
-              onClick={!myQuote?.content || myQuote?.content==="string" ? saveText : editText}
+              onClick={saveText}
             >
               저장
             </label>

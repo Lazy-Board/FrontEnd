@@ -53,7 +53,7 @@ const WeatherView = ():JSX.Element => {
                 <p>아직 날씨 지역을 설정하지 않으셨어요!</p>
                 <label htmlFor="location-modal"
                 className='btn btn-primary mt-4 cursor-pointer'
-                >위치 설정하기</label>
+                >날씨 지역 설정하기</label>
             </div> 
             :<>
             <TodayTemp>

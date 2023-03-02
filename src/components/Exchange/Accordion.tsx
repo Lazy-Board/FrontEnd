@@ -30,16 +30,12 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   const [height, setHeight] = useState<string>("0px");
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
   const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
-  const [selectedExchange, setSelectedExchanged] = useRecoilState<ExchangeProps[]>(exchangeLike);
+  const [selectedExchange, setSelectedExchange] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpened) {
-      setHeight("180px");
-    } else {
-      setHeight("0px");
-    }
+    setHeight(isOpened ? "180px" : "0px");
   }, [isOpened, contentElement]);
 
   const data = exchangeDetails.filter((item: ExchangeProps) =>
@@ -50,13 +46,16 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     if (wishlist.includes(currencyName)) {
       await api.post("/exchange/update", { currencyName: `${currencyName}X` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
-    } else {
+    } else if (wishlist.length < 5) {
       await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
+    } else {
+      alert("4개까지만 체크할 수 있습니다.");
+      return;
     }
 
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchanged(data);
+    setSelectedExchange([...selectedExchange, ...data]);
   };
 
   return (
