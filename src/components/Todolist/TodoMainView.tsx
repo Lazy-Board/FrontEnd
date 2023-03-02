@@ -1,6 +1,3 @@
-import TodoItem from "./TodoItem";
-import { useRecoilState } from "recoil";
-import { ITodoTypes, todosState } from "../../atom/Todo";
 import Todo from "./Todo";
 import TodoInput from "./TodoInput";
 const TodoMainView = () => {

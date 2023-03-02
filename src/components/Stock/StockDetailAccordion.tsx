@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import {
   StockLike,
@@ -6,11 +6,11 @@ import {
   StockWish,
   getStockDetail,
 } from "../../atom/Stock";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import LikeButton from "../../Quote/LikeButton";
-import { FillLikeButton, EmptyLikeButton } from "./LikeButton";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
+
 import { api } from "../../atom/signin";
 import { RiStarFill, RiStarLine } from "react-icons/ri";
+import styled from "styled-components";
 
 const StockDetailAccordion = ({
   stockName,
@@ -47,9 +47,7 @@ const StockDetailAccordion = ({
     setIsOpen(!isOpen);
   };
   let data: StockProps[] = [];
-  // const data = StockDetail.filter((item: StockProps) =>
-  //   wishlist.includes(item.stockName)
-  // );
+
   switch (StockDetail.state) {
     case "hasValue":
       data = StockDetail.contents.filter((item: StockProps) =>
@@ -75,6 +73,12 @@ const StockDetailAccordion = ({
     setSelectedStock([...selectedStock, ...data]);
   };
 
+  const StockImg = styled.img`
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    background-color: #999;
+  `;
   // useEffect(() => {
 
   // }, [wishlist]);
@@ -82,6 +86,7 @@ const StockDetailAccordion = ({
   return (
     <div className="border-none divide-y-2 ">
       <div className="flex items-center w-full py-2 px-4 focus:outline-none bg-white">
+        <StockImg src={`/stockImage/${stockName}.png`} alt={stockName} />
         <span className="mr-auto text-sm my-2 font-bold">{stockName}</span>
         <span className="text-sm mr-2">{price}</span>
         <span

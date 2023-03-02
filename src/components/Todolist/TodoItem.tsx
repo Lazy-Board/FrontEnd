@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ITodoTypes, todosState } from "../../atom/Todo";
 import { FaPen } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-import { SetterOrUpdater } from "recoil";
 import TodoModal from "./TodoModal";
 import { api } from "../../atom/signin";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import axios from "axios";
+import { useRecoilState } from "recoil";
+
 interface PropTypes {
   id: number;
   contents: string;

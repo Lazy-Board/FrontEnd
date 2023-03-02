@@ -1,14 +1,7 @@
-import { useEffect } from "react";
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import styled from "styled-components";
+import { useRecoilValueLoadable } from "recoil";
 import { StockLike, StockProps } from "../../atom/Stock";
-const Content = styled.div`
-  min-height: 100vh;
-  margin: 0 auto;
-  color: black;
-`;
 
 const StockView = () => {
   const MainViewList = useRecoilValueLoadable<StockProps[]>(StockLike);

@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
 import { FaPen } from "react-icons/fa";
 
 interface PropTypes {

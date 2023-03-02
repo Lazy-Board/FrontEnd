@@ -1,14 +1,7 @@
-import { useEffect } from "react";
-
 import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
-import {
-  useRecoilState,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useSetRecoilState,
-} from "recoil";
-import { api } from "../../atom/signin";
+import { useRecoilValueLoadable } from "recoil";
+
 const Todo = () => {
   const getTodo = useRecoilValueLoadable(todosState);
 

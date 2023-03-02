@@ -18,12 +18,6 @@ const NewsMainView = () => {
       return <progress className="progress w-56">Loading...</progress>;
   }
 
-  const Content = styled.div`
-    min-height: 100vh;
-    margin: 0 auto;
-    color: black;
-  `;
-
   return (
     <div className="w-full h-fit max-h-80 mt-5 p-3 pt-2 pb-6 relative border rounded-lg overflow-hidden bg-white">
       <div className="text-left flex font-semibold border-b border-slate-300 pb-2">
