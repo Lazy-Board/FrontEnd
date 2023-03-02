@@ -10,3 +10,15 @@ export const getYoutube = selector({
     return response.data;
   },
 });
+
+export type YoutubeProps = {
+  channelName: string;
+  contentName: string;
+  createdAt: any;
+  hit: string;
+  imagePath: string;
+  length: number;
+  updatedAt: null;
+  videoId: string;
+  videoUrl: string;
+};

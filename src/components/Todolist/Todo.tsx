@@ -2,10 +2,27 @@ import { useEffect } from "react";
 
 import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useRecoilValueLoadable,
+  useSetRecoilState,
+} from "recoil";
 import { api } from "../../atom/signin";
 const Todo = () => {
-  const todos = useRecoilValue(todosState);
+  const getTodo = useRecoilValueLoadable(todosState);
+
+  let LoadablegetTodo: ITodoTypes[] = [];
+  switch (getTodo.state) {
+    case "hasValue":
+      LoadablegetTodo = getTodo.contents;
+      break;
+    case "hasError":
+      console.log(getTodo.contents.message);
+      break;
+    case "loading":
+      return <progress className="progress w-56">Loading...</progress>;
+  }
 
   // const onComplete = useCallback(
   //   (id: number): void => {
@@ -21,9 +38,9 @@ const Todo = () => {
   // );
 
   return (
-    <div className="w-full h-full relative border-solid border-white rounded-lg mb-2 overflow-x-hidden overflow-y-auto text-black">
-      {todos.length > 0 ? (
-        todos.map((todo: ITodoTypes) => {
+    <div className="w-full h-full relative mb-2 overflow-x-hidden overflow-y-auto text-black">
+      {LoadablegetTodo.length > 0 ? (
+        LoadablegetTodo.map((todo: ITodoTypes) => {
           const { id, content } = todo;
 
           return (

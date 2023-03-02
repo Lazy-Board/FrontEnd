@@ -1,15 +1,27 @@
 import RegistDragEvent from "./Carousel";
 import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
-import { selector, useRecoilValue } from "recoil";
+import { selector, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import axios from "axios";
-import { getYoutube } from "../../atom/Youtube";
+import { getYoutube, YoutubeProps } from "../../atom/Youtube";
 const YoutubeCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
   const [animate, setAnimate] = useState(false);
-  const data = useRecoilValue(getYoutube);
-  let imageList = data.map((item: any) => item);
+  const Youtube = useRecoilValueLoadable(getYoutube);
+
+  let LoadablegetYoutube: YoutubeProps[] = [];
+  switch (Youtube.state) {
+    case "hasValue":
+      LoadablegetYoutube = Youtube.contents;
+      break;
+    case "hasError":
+      console.log(Youtube.contents.message);
+      break;
+    case "loading":
+      return <progress className="progress w-56">Loading...</progress>;
+  }
+  let imageList = LoadablegetYoutube.map((item: YoutubeProps) => item);
   const slideList = [imageList.at(-1), ...imageList, imageList.at(0)];
 
   const { ref: carouselRef, width, height } = useCarouselSize();

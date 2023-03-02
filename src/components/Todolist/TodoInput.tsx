@@ -1,10 +1,4 @@
-import axios from "axios";
-import React, {
-  ChangeEvent,
-  useCallback,
-  KeyboardEvent,
-  FormEvent,
-} from "react";
+import { ChangeEvent, useCallback, KeyboardEvent, FormEvent } from "react";
 
 import { FaPen } from "react-icons/fa";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -49,16 +43,19 @@ const TodoInput = () => {
   );
 
   return (
-    <div className="w-full flex justify-between items-center py-1">
+    <div className="w-full flex justify-between items-center py-1 border-none">
       <input
         type="text"
-        className="border-black  bg-stone-400 px-1 py-1 font-semibold placeholder:text-black mr-3"
+        className="w-full px-1 py-1 font-semibold placeholder:text-black mr-3 border-2 border-slate-300 rounded-lg "
         value={contents}
         onChange={onChange}
         placeholder="Todo를 입력해보세요!"
         onKeyDown={onKeyDown}
       />
-      <FaPen className="bg-none cursor-pointer w-8 h-8" onClick={addTodo} />
+      <FaPen
+        className="bg-none fill-slate-300 cursor-pointer w-8 h-8"
+        onClick={addTodo}
+      />
     </div>
   );
 };

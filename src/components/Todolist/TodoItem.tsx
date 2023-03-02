@@ -15,17 +15,9 @@ interface PropTypes {
   // onComplete: (id: number) => void;
 }
 
-const TodoItem = ({
-  id,
-  contents,
-}: // isCompleted,
-// onComplete,
-
-PropTypes) => {
+const TodoItem = ({ id, contents }: PropTypes) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [modifyContents, setModifyContents] = useState<string>("");
-  // const todos = useRecoilValue<ITodoTypes[]>(todoSelector);
-  // const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
   const [todos, setTodos] = useRecoilState<ITodoTypes[]>(todosState);
 
   const onModify = useCallback((): void => {
@@ -33,14 +25,16 @@ PropTypes) => {
     setModifyContents(contents);
   }, [contents]);
 
-  const onModifyTodo = useCallback((): void => {
-    if (!modifyContents.trim()) {
-      return;
-    }
+  const onModifyTodo = useCallback(async () => {
+    api.put("/todolist/update", {
+      content: modifyContents,
+      id: id,
+    });
 
+    // [...todos, { content: modifyContents, id: id } : todos]
     setTodos(
       todos.map((todo: ITodoTypes) => {
-        return todo.id === id ? { ...todo, contents: modifyContents } : todo;
+        return todo.id === id ? { ...todo, content: modifyContents } : todo;
       })
     );
 
@@ -55,23 +49,29 @@ PropTypes) => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-3 pb-2  font-bold border-b border-slate-300">
+      <div className="flex justify-between items-center pb-2 font-bold border-b-slate-300 ">
         <div
           title={contents}
-          className="text-black font-semibold"
+          className="text-black text-sm p-2"
           // onClick={() => onComplete(id)}
         >
           {contents}
         </div>
 
         <div className="flex">
-          <FaPen className="bg-none cursor-pointer mr-2" onClick={onModify} />
+          <a href="#my-modal-2">
+            <FaPen
+              className="bg-none cursor-pointer mr-2 fill-slate-300"
+              onClick={onModify}
+            />
+          </a>
           <MdClose
             className="bg-none font-semibold cursor-pointer"
             onClick={onDelete}
           />
         </div>
       </div>
+
       {isModal && (
         <TodoModal
           setIsModal={setIsModal}
