@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { api } from '../../atom/signin';
+import { imgApi, api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
@@ -21,7 +21,7 @@ const EditUserInfo = ():JSX.Element => {
     })
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
-    const [newImg, setNewImg] = useState<any>(userData && !profile ? '/images/user-icon.png' : profile);
+    const [newImg, setNewImg] = useState<any>(!profile ? '/images/user-icon.png' : profile);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -32,10 +32,6 @@ const EditUserInfo = ():JSX.Element => {
     }
 
     const onFileChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-        // if (event.target.files !== null){
-        //     const imageFile = event.target.files[0];
-        //     setNewImg(imageFile);
-        // }
         const {target:{files}} = event;
         const ImgFile = (files as FileList)[0];
         const reader = new FileReader();
@@ -64,21 +60,14 @@ const EditUserInfo = ():JSX.Element => {
         })
     );
 
-    const imgMutation = useMutation((formData: FormData) =>
-        api.post(`/user/image`, formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data',
-            },
-        })
-    );
-
     const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('fileName',newImg)
+        formData.append('multipartFile', newImg)
         try {
             const response = await editUserMutation.mutateAsync(userInfo);
-            const resImg = await imgMutation.mutateAsync(newImg);
+            const { data } = await api.post('/user/image', formData);
+            setNewImg(data.imageUrl);
             setUserData(response.data);
             queryClient.invalidateQueries(['userInfo']);
             alert('저장되었습니다.');
@@ -86,8 +75,6 @@ const EditUserInfo = ():JSX.Element => {
             console.log(`Error: \n${error}`);
         }
     };
-
-    console.log(newImg)
 
     return (
         <>

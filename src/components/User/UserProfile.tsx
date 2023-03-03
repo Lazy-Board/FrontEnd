@@ -28,7 +28,7 @@ const UserProfile = ():JSX.Element => {
         <Content className="max-w-md bg-stone-100 flex items-center content-center">
             <div className='my-24 mx-auto'>
                 <img src={isLoading ? '/images/user-icon.png' : 
-                userInfo && !userInfo.profile ? '/images/user-icon.png' :
+                !userInfo.profile ? '/images/user-icon.png' :
                 userInfo.profile} 
                     alt="프로필 이미지" 
                     className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
