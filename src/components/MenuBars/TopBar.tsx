@@ -21,8 +21,8 @@ const Top = styled.div`
 const TopBar = (): JSX.Element => {
   const locationNow = useLocation();
 
-  if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
-    return <></>;
+  // if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
+  //   return <></>;
 
   // 로그인/회원가입 등에서는 보이지 않게 처리해야
   if (locationNow.pathname === "/")
@@ -43,7 +43,7 @@ const TopBar = (): JSX.Element => {
       </Top>
     );
 
-  return <></>;
+  else return <></>;
 };
 
 export default TopBar;

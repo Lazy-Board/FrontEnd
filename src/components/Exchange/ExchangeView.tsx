@@ -1,8 +1,10 @@
 import { BiChevronRight } from "react-icons/bi";
 import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
-import { exchangeLike, ExchangeProps } from "../../atom/exchange";
+// import { useRecoilValueLoadable } from "recoil";
+import { useQuery } from "react-query";
+import { getExchangeWish } from "../../atom/exchange";
+// import { exchangeLike, ExchangeProps } from "../../atom/exchange";
 import styled from "styled-components";
 import DeleteModule from "../Buttons/DeleteModule";
 
@@ -18,8 +20,12 @@ const DotPosition = styled.div`
 `;
 
 const ExchangeView = (): JSX.Element => {
-  const viewLoadable = useRecoilValueLoadable<ExchangeProps[]>(exchangeLike);
-  let view = 'hasValue' === viewLoadable.state ? viewLoadable.contents : [];
+  // const viewLoadable = useRecoilValueLoadable<ExchangeProps[]>(exchangeLike);
+  // let view = 'hasValue' === viewLoadable.state ? viewLoadable.contents : [];
+  const { data:view, isFetching } = useQuery(['exchangeView'], getExchangeWish, {
+    refetchOnWindowFocus: false,
+    staleTime:Infinity,
+  })
 
   const { slideRef, dotRef, NextSlide, PrevSlide } = useSliders();
 
@@ -50,8 +56,8 @@ const ExchangeView = (): JSX.Element => {
                 환율 상세보기
             </Link>
         </div>)
-        : viewLoadable.state === 'loading' ? 
-        <div className="w-full h-36 mt-1 bg-gray-300 rounded-md animate-pulse" ref={slideRef}></div>
+        : isFetching ? 
+        <div className="w-full h-36 mt-1 bg-gray-300 rounded-md animate-pulse"></div>
         :
         (<LongWidth className="flex relative gap-3 overflow-hidden cursor-pointer" style={{width:`${2 < view.length ? '200%':'400px'}`}} ref={slideRef}>
             {view.map((item:any)=>(

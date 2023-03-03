@@ -6,7 +6,7 @@ import { getLoc } from '../../atom/traffic';
 const { kakao }:any = window;
 
 const MapContainer = () => {
-    const { data, isLoading } = useQuery(['destination'], getLoc, {
+    const { data } = useQuery(['destination'], getLoc, {
         refetchOnWindowFocus: false,
         staleTime:Infinity,
     })
@@ -21,25 +21,23 @@ const MapContainer = () => {
         const map = new kakao.maps.Map(container, options);
 
         // 목적지 가리키도록 해야 함
-        geocoder.addressSearch(!data || isLoading ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
+        geocoder.addressSearch(!data ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
             // 정상적으로 검색이 완료됐으면 
                 if (status === kakao.maps.services.Status.OK) {
-        
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        
-                // 결과값으로 받은 위치를 마커로 표시합니다
+                // 결과값으로 받은 위치를 마커로 표시
                 var marker = new kakao.maps.Marker({
                     map: map,
                     position: coords
                 });
         
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                // 인포윈도우로 장소에 대한 설명을 표시
                 var infowindow = new kakao.maps.InfoWindow({
                     content: '<div style="width:150px;text-align:center;padding:6px 0;">도착지</div>'
                 });
                 infowindow.open(map, marker);
         
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                // 지도의 중심을 결과값으로 받은 위치로 이동
                 map.setCenter(coords);
             } 
         })

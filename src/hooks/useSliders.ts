@@ -11,10 +11,10 @@ export const useSliders = () => {
   const dotRef = useRef<any[]>([]);
 
   useEffect(() => {
-    slideRef.current!.style.transition = "all 0.4s ease-in-out";
-    slideRef.current!.style.left = `-${currentSlide}00%`;
-
     if (slideRef.current) {
+      slideRef.current!.style.transition = "all 0.4s ease-in-out";
+      slideRef.current!.style.left = `-${currentSlide}00%`;
+
       slideRef.current.addEventListener("mousedown", (e: MouseEvent) => {
         startPoint = e.pageX;
       });
@@ -31,11 +31,11 @@ export const useSliders = () => {
         }
       });
     }
-    if (currentSlide !== 1) {
+    if (dotRef.current && currentSlide !== 1) {
       dotRef.current[currentSlide].style.backgroundColor = "#66CC8A";
       dotRef.current[currentSlide + 1].style.backgroundColor = "#6b728085";
     }
-    if (currentSlide === 1) {
+    if (dotRef.current && currentSlide === 1) {
       dotRef.current[currentSlide].style.backgroundColor = "#66CC8A";
       dotRef.current[currentSlide - 1].style.backgroundColor = "#6b728085";
     }
