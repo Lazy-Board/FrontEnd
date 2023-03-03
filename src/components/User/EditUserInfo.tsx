@@ -20,9 +20,9 @@ const EditUserInfo = ():JSX.Element => {
         staleTime:Infinity,
     })
     const userImg = '/images/user-icon.png';
-    const [newImg, setNewImg] = useState<string>(userImg);
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
+    const [newImg, setNewImg] = useState<string>(!profile ? userImg : profile);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -46,7 +46,7 @@ const EditUserInfo = ():JSX.Element => {
     };
 
     useEffect(()=>{
-        if (!userImg){
+        if (!userImg || !profile){
             setNewImg(newImg)
         }
         if (userInfo) {
@@ -64,8 +64,8 @@ const EditUserInfo = ():JSX.Element => {
         })
     );
 
-    const imgeMutation = useMutation((formData: FormData) =>
-        api.put(`/user/image`, formData, {
+    const imgMutation = useMutation((formData: FormData) =>
+        api.post(`/user/image`, formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
             },
@@ -75,9 +75,10 @@ const EditUserInfo = ():JSX.Element => {
     const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
+            // const formData = new FormData();
+            // formData.append("profile", newImg);
             const response = await editUserMutation.mutateAsync(userInfo);
             setUserData(response.data);
-            setNewImg()
             queryClient.invalidateQueries(['userInfo']);
             alert('저장되었습니다.');
         } catch (error) {
@@ -85,29 +86,17 @@ const EditUserInfo = ():JSX.Element => {
         }
     };
 
-    // const onSubmitData = async(e:React.SyntheticEvent) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await editUserMutation.mutateAsync(userInfo);
-    //         setUserData(response.data)
-    //         queryClient.invalidateQueries(['userInfo']);
-    //         alert('저장되었습니다.')
-    //     } catch (error){
-    //         console.log(`Error: \n${error}`)
-    //     }
-    // }
-
     return (
         <>
         <DetailTopBar title="프로필 수정"/>
         <Content className="max-w-md flex flex-col items-center justify-center bg-stone-100">
         <form className='h-fit my-24' action='#' onSubmit={onSubmitData}>
             <div className='relative mx-auto'>
-                <img src={!profile ? newImg : profile}
+                <img src={newImg}
                 alt="프로필 이미지" 
                 className="w-24 h-24 mx-auto rounded-full bg-gray-300 object-cover"
                 />
-                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} />
+                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} formEncType="multipart/form-data"/>
                 <label htmlFor='img-upload' className='absolute p-1 bottom-0 right-28 bg-emerald-400 border-2 border-cyan-600 rounded-full hover:bg-cyan-600 transition-colors cursor-pointer'>
                 <FiEdit2 color='white'/>
                 </label>
