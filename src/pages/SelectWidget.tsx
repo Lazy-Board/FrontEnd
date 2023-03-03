@@ -37,6 +37,7 @@ const SelectWidget = ():JSX.Element => {
         }
     };
     // api.post('/user/saveModule',{userId:"", userModuleList:""})
+    // api.post('/user/updateModule',{userModuleList:""})
 
     // 2개 이상 checked되어야 버튼 클릭할 수 있음
     const isDisabled = checkboxes.filter((checked:boolean) => checked).length < 2;

@@ -3,6 +3,7 @@ import { api } from './signin';
 
 export interface userType{
     phoneNumber:string;
+    profile:string;
     socialType:string;
     userEmail:string;
     userName:string;
@@ -12,6 +13,7 @@ export const userInfoState = atom({
     key:'userInfoState',
     default:{
         phoneNumber:'',
+        profile:'',
         socialType:'',
         userEmail:'',
         userName:''

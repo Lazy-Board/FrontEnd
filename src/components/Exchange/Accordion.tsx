@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useQuery, useMutation } from "react-query";
 import { exchangeWish, exchangeLike, getExchangeDetail, ExchangeProps } from "../../atom/exchange";
 import { api } from "../../atom/signin";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
@@ -31,7 +30,6 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   const [height, setHeight] = useState<string>("0px");
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
   const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
-  const eD = useQuery(['exchangeDetails'])
   const [selectedExchange, setSelectedExchange] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);

@@ -27,15 +27,6 @@ export const getExchangeMain = async()=>{
   }
 }
 
-export const getExchangeDetails = async () => {
-  try{
-    const response = await api.get("/exchange/detail");
-    return response.data;
-  } catch (error) {
-    console.log(`Error: ${error}`)
-  }
-}
-
 export const getExchangeDetail = selector<ExchangeProps[]>({
   key: "getExchangeDetail",
   get: async ({ get }) => {

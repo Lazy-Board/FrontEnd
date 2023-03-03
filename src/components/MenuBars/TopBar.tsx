@@ -21,10 +21,6 @@ const Top = styled.div`
 const TopBar = (): JSX.Element => {
   const locationNow = useLocation();
 
-  // if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
-  //   return <></>;
-
-  // 로그인/회원가입 등에서는 보이지 않게 처리해야
   if (locationNow.pathname === "/")
     return (
       <Top className="h-14 flex items-center justify-between px-4 bg-white shadow-sm">

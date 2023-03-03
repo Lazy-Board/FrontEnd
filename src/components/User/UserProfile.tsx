@@ -27,7 +27,7 @@ const UserProfile = ():JSX.Element => {
         <DetailTopBar title={'계정 관리'}/>
         <Content className="max-w-md bg-stone-100 flex items-center content-center">
             <div className='my-24 mx-auto'>
-                <img src='/images/user-icon.png' 
+                <img src={!userInfo.profile ? '/images/user-icon.png' : userInfo.profile} 
                     alt="프로필 이미지" 
                     className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
                 />

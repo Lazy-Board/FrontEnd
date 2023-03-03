@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { api } from '../../atom/signin';
+// import { api } from '../../atom/signin';
+import axios from 'axios';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
@@ -14,18 +15,16 @@ const Content = styled.div`
     `;
 
 const EditUserInfo = ():JSX.Element => {
-    // ${API_URL}/user/search 유저정보 불러오기 get
+    const accessToken = localStorage.getItem("accessToken");
     const queryClient = useQueryClient();
     const { data:userInfo } = useQuery(['userInfo'], getUserInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
-    // 처음 가입 시에는 userImg로 나오고, 사용자가 이미지를 변경하면 그 이미지로 출력되도록 - 이미지 관련해서 추가되면 수정해야 함
     const userImg = '/images/user-icon.png';
     const [newImg, setNewImg] = useState(userImg);
-    // user 정보 받아와서 넣어주기
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
-    const { phoneNumber, socialType, userEmail, userName } = userData;
+    const { phoneNumber, profile, socialType, userEmail, userName } = userData;
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -57,26 +56,56 @@ const EditUserInfo = ():JSX.Element => {
         }
     },[userInfo]);
 
-    const editUserMutation = useMutation(() =>
-        api.put(`/user/update`, { 
-            phoneNumber:phoneNumber,
-            socialType:socialType,
-            userEmail:userEmail,
-            userName:userName
+    // const editUserMutation = useMutation(() =>
+    //     api.put(`/user/update`, { 
+    //         phoneNumber:phoneNumber,
+    //         profile: profile,
+    //         socialType:socialType,
+    //         userEmail:userEmail,
+    //         userName:userName
+    //     })
+    // );
+
+    const editUserMutation = useMutation((formData: FormData) =>
+        axios.put(`/user/update`, formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`,
+            },
         })
     );
 
-    const onSubmitData = async(e:React.SyntheticEvent) => {
+    const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
-            const response = await editUserMutation.mutateAsync(userInfo);
-            setUserData(response.data)
+            const formData = new FormData();
+            formData.append('phoneNumber', phoneNumber);
+            formData.append('profile', profile);
+            formData.append('socialType', socialType);
+            formData.append('userEmail', userEmail);
+            formData.append('userName', userName);
+            formData.append('image', newImg);
+        
+            const response = await editUserMutation.mutateAsync(formData);
+            setUserData(response.data);
             queryClient.invalidateQueries(['userInfo']);
-            alert('저장되었습니다.')
-        } catch (error){
-            console.log(`Error: \n${error}`)
+            alert('저장되었습니다.');
+        } catch (error) {
+            console.log(`Error: \n${error}`);
         }
-    }
+    };
+
+    // const onSubmitData = async(e:React.SyntheticEvent) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await editUserMutation.mutateAsync(userInfo);
+    //         setUserData(response.data)
+    //         queryClient.invalidateQueries(['userInfo']);
+    //         alert('저장되었습니다.')
+    //     } catch (error){
+    //         console.log(`Error: \n${error}`)
+    //     }
+    // }
 
     return (
         <>
@@ -84,11 +113,11 @@ const EditUserInfo = ():JSX.Element => {
         <Content className="max-w-md flex flex-col items-center justify-center bg-stone-100">
         <form className='h-fit my-24' action='#' onSubmit={onSubmitData}>
             <div className='relative mx-auto'>
-                <img src={newImg}
+                <img src={!profile ? newImg : profile}
                 alt="프로필 이미지" 
                 className="w-24 h-24 mx-auto rounded-full bg-gray-300 object-cover"
                 />
-                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange}/>
+                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} />
                 <label htmlFor='img-upload' className='absolute p-1 bottom-0 right-28 bg-emerald-400 border-2 border-cyan-600 rounded-full hover:bg-cyan-600 transition-colors cursor-pointer'>
                 <FiEdit2 color='white'/>
                 </label>
