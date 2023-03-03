@@ -27,6 +27,15 @@ export const getExchangeMain = async()=>{
   }
 }
 
+export const getExchangeDetails = async () => {
+  try{
+    const response = await api.get("/exchange/detail");
+    return response.data;
+  } catch (error) {
+    console.log(`Error: ${error}`)
+  }
+}
+
 export const getExchangeDetail = selector<ExchangeProps[]>({
   key: "getExchangeDetail",
   get: async ({ get }) => {
@@ -50,10 +59,10 @@ export const getExchangeWish = async () => {
 
 export const exchangeLike = atom<ExchangeProps[]>({
   key: "exchangeLike",
-  default: getExchangeMain(),
+  default: getExchangeMain() || [],
 });
 
 export const exchangeWish = atom<String[]>({
   key: "exchangeWish",
-  default: getExchangeWish(),
+  default: getExchangeWish() || [],
 });

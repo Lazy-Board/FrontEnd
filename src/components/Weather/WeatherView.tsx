@@ -48,7 +48,7 @@ const WeatherView = ():JSX.Element => {
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
             <DeleteModule />
             {isFetching ? <WeatherLoading />:
-            cityName==="string" || !cityName ? 
+            !weatherData ? 
             <div className='w-full h-32 mt-6 p-4' >
                 <p>아직 날씨 지역을 설정하지 않으셨어요!</p>
                 <label htmlFor="location-modal"

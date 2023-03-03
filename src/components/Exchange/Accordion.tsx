@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useQuery, useMutation } from "react-query";
 import { exchangeWish, exchangeLike, getExchangeDetail, ExchangeProps } from "../../atom/exchange";
 import { api } from "../../atom/signin";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
@@ -30,6 +31,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   const [height, setHeight] = useState<string>("0px");
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
   const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
+  const eD = useQuery(['exchangeDetails'])
   const [selectedExchange, setSelectedExchange] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);
@@ -46,16 +48,15 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     if (wishlist.includes(currencyName)) {
       await api.post("/exchange/update", { currencyName: `${currencyName}X` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
-    } else if (wishlist.length < 5) {
+    } else if (wishlist.length < 4) {
       await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
     } else {
       alert("4개까지만 체크할 수 있습니다.");
       return;
     }
-
     setExchangeLikeButton(!exchangeLikeButton);
-    setSelectedExchange([...selectedExchange, ...data]);
+    setSelectedExchange(data);
   };
 
   return (

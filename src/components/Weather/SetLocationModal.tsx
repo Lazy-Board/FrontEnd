@@ -56,24 +56,16 @@ const SetLocationModal = ():JSX.Element => {
 
     const uploadText = async () => {
         try {
-            const response = await uploadMutation.mutateAsync(userLoc);
-            setLocationNames(response.data);
+            if (!userLoc){
+                const response = await uploadMutation.mutateAsync(userLoc);
+                setLocationNames(response.data);
+            } else {
+                const response = await updateMutation.mutateAsync(userLoc);
+                setLocationNames(response.data)
+            }
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
             alert('저장되었습니다.');
-        } catch (error){
-            setLocationNames({cityName:'',locationName:''})
-            alert(`Error: \n${error}`);
-        }
-    }
-
-    const updateText = async () => {
-        try {
-            const response = await updateMutation.mutateAsync(userLoc);
-            setLocationNames(response.data)
-            queryClient.invalidateQueries(['userWeatherData']);
-            queryClient.invalidateQueries(['weatherData']);
-            alert('업데이트되었습니다.');
         } catch (error){
             setLocationNames({cityName:'',locationName:''})
             alert(`Error: \n${error}`);
@@ -103,8 +95,7 @@ const SetLocationModal = ():JSX.Element => {
                     </div>
                     <div className="modal-action pr-1 flex gap-4" >
                         <label htmlFor="location-modal" className="btn btn-primary" 
-                        onClick={
-                            !userLoc ? uploadText : updateText}>
+                        onClick={uploadText}>
                             저장
                         </label>
                         <label htmlFor="location-modal" className="btn btn-secondary" onClick={deleteBtn}>

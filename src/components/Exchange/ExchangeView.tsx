@@ -2,6 +2,8 @@ import { BiChevronRight } from "react-icons/bi";
 import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
+// import { useQuery } from "react-query";
+// import { getExchangeWish } from "../../atom/exchange";
 import { exchangeLike, ExchangeProps } from "../../atom/exchange";
 import styled from "styled-components";
 import DeleteModule from "../Buttons/DeleteModule";
@@ -20,6 +22,10 @@ const DotPosition = styled.div`
 const ExchangeView = (): JSX.Element => {
   const viewLoadable = useRecoilValueLoadable<ExchangeProps[]>(exchangeLike);
   let view = 'hasValue' === viewLoadable.state ? viewLoadable.contents : [];
+  // const { data:view, isLoading } = useQuery(['exchangeView'], getExchangeWish, {
+  //   refetchOnWindowFocus: false,
+  //   staleTime:Infinity,
+  // })
 
   const { slideRef, dotRef, NextSlide, PrevSlide } = useSliders();
 

@@ -21,12 +21,11 @@ const Bottom = styled.div`
 const BottomBar = ():JSX.Element => {
     const navigate = useNavigate();
     const locationNow = useLocation();
-    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success")
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success" || locationNow.pathname === "/find-password")
     return (
         <></>
     );
 
-    // 추후 링크 수정하기
     return (
         <Bottom className="h-16 flex items-center justify-around bg-white border-t border-t-neutral-300">
             <Link to={`/`} className="px-8 hover:text-green-400 transition-colors">
