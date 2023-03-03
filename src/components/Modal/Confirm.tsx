@@ -1,11 +1,17 @@
-import { api } from '../../atom/signin'
+import axios from 'axios';
+import { API_URL } from '../../API/API';
 import { useNavigate } from 'react-router-dom'
 
 const Confirm = ():JSX.Element => {
+    const accessToken = localStorage.getItem("accessToken");
     const navigate = useNavigate()
     const logout= async () =>{
         try {
-            await api.post(`/user/logout`,{})
+            await axios.post(`${API_URL}/user/logout`,{
+                headers:{
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
             alert('로그아웃되었습니다.')
             navigate('/login')
         } catch (error) {

@@ -66,9 +66,8 @@ const SetLocationModal = ():JSX.Element => {
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
             alert('저장되었습니다.');
-        } catch (error){
-            setLocationNames({cityName:'',locationName:''})
-            alert(`Error: \n${error}`);
+        } catch (error:any){
+            alert(`Error: \n${error.response.data.message}`);
         }
     }
 

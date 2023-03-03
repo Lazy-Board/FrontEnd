@@ -31,7 +31,7 @@ const UserProfile = ():JSX.Element => {
                 !userInfo.profile ? '/images/user-icon.png' :
                 userInfo.profile} 
                     alt="프로필 이미지" 
-                    className="w-24 h-24 mx-auto bg-gray-300 rounded-full"
+                    className="w-24 h-24 mx-auto bg-gray-300 rounded-full object-cover"
                 />
                 {isLoading ? <div className='mx-auto'>Loading...</div> : 
                 (

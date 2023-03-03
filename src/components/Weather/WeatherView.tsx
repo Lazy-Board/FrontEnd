@@ -4,6 +4,7 @@ import { TbArrowNarrowDown, TbArrowNarrowUp } from "react-icons/tb";
 import { useQuery } from 'react-query';
 import { FiCrosshair } from 'react-icons/fi';
 import { getWeather } from '../../atom/weather';
+import { getWeatherIcon } from './changeWeatherImg'
 import WeatherBox from './WeatherBox'
 import WeatherLoading from './WeatherLoading'
 
@@ -33,16 +34,7 @@ const WeatherView = ():JSX.Element => {
     highestTemperature, lowestTemperature, weatherInformation, weatherComparison, humidity,ultraviolet, fineParticle,ultrafineParticle, windSpeed, windDirection, updatedAt }
     = weatherData || {};
 
-    const changeImg = 
-    (weatherData && weatherInformation.includes('비') ) ? 'heavy-rain'
-    : (weatherData && weatherInformation.includes('맑음')) ? 'sun'
-    : (weatherData && weatherInformation.includes('눈')) ? 'snow'
-    : (weatherData && weatherInformation.includes('안개')) ? 'foggy'
-    : (weatherData && weatherInformation.includes('황사')) ? 'sand'
-    : (weatherData && weatherInformation.includes('흐림')) ? 'cloudy'
-    : (weatherData && weatherInformation.includes('우박')) ? 'hail'
-    : (weatherData && weatherInformation.includes('번개')) ? 'thunder'
-    : 'moon'
+    const changeImg = getWeatherIcon(weatherData)
 
     return (
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">

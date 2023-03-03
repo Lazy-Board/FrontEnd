@@ -50,24 +50,26 @@ const EditUserInfo = ():JSX.Element => {
         }
     },[userInfo]);
 
-    const editUserMutation = useMutation(() =>
-        api.put(`/user/update`, { 
-            phoneNumber:phoneNumber,
-            profile: newImg,
-            socialType:socialType,
-            userEmail:userEmail,
-            userName:userName
-        })
+    const editUserMutation = useMutation((inputData:any) =>
+        api.put(`/user/update`, inputData)
     );
 
     const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('multipartFile', newImg)
+        const imgFile:any = document.querySelector('#img-upload');
+        formData.append('profile', imgFile.files[0])
         try {
-            const response = await editUserMutation.mutateAsync(userInfo);
-            const { data } = await api.post('/user/image', formData);
-            setNewImg(data.imageUrl);
+            const { data:ImgData } = await imgApi.post('/user/image', formData);
+            const { fileName, url } = ImgData
+            const response = await editUserMutation.mutateAsync({
+                phoneNumber: phoneNumber,
+                profile: url,
+                socialType: socialType,
+                userEmail: userEmail,
+                userName: userName
+            });
+            setNewImg(url);
             setUserData(response.data);
             queryClient.invalidateQueries(['userInfo']);
             alert('저장되었습니다.');

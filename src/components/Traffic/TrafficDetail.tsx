@@ -57,7 +57,6 @@ const TrafficDetail = () => {
             setDepart('')
             setArrive('')
             queryClient.invalidateQueries(['userPosition']);
-            queryClient.invalidateQueries(['destination']);
             alert('삭제되었습니다.')
         } catch (error) {
             console.error(`Error: \n${error}`);
@@ -67,17 +66,19 @@ const TrafficDetail = () => {
     const submitData= async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         const newData:any = { destination: arrive, startingPoint: depart };
-        if (!data){
-            await postMutation.mutateAsync(newData);
-            queryClient.invalidateQueries(['userPosition']);
-            queryClient.invalidateQueries(['destination']);
-        } else {
-            await putMutation.mutateAsync(newData);
-            queryClient.invalidateQueries(['userPosition']);
-            queryClient.invalidateQueries(['destination']);
+        try {
+            if (!data){
+                await postMutation.mutateAsync(newData);
+                queryClient.invalidateQueries(['userPosition']);
+            } else {
+                await putMutation.mutateAsync(newData);
+                queryClient.invalidateQueries(['userPosition']);
+            }
+            setDepart(newData.startingPoint);
+            setArrive(newData.destination);
+        } catch (error:any) {
+            alert(`Error: \n${error.response.data.message}`);
         }
-        setDepart(newData.startingPoint);
-        setArrive(newData.destination);
     }
 
     return (
