@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useRef, useState, useEffect } from "react";
 import { BiCaretDown, BiCaretUp } from "react-icons/bi";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { exchangeWish, exchangeLike, getExchangeDetail, getExchangeDetails, ExchangeProps } from "../../atom/exchange";
+import { useQuery, useMutation } from "react-query";
+import { exchangeWish, exchangeLike, getExchangeDetail, ExchangeProps } from "../../atom/exchange";
 import { api } from "../../atom/signin";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
 import ToggleButton from "./ToggleButton";
@@ -28,14 +28,10 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     handleOpening,
   } = props;
 
-  const queryClient = useQueryClient();
   const [height, setHeight] = useState<string>("0px");
   const [wishlist, setWishlist] = useRecoilState<String[]>(exchangeWish);
-  // const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
-  const {data: exchangeDetails, isLoading} = useQuery(['exchangeDetails'], getExchangeDetails, {
-    refetchOnWindowFocus: false,
-    staleTime:Infinity,
-  })
+  const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
+  const eD = useQuery(['exchangeDetails'])
   const [selectedExchange, setSelectedExchange] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
   const contentElement = useRef<HTMLDivElement>(null);
@@ -48,27 +44,17 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
     wishlist.includes(item.currencyName)
   );
 
-  const updateX = useMutation((currencyName: string) =>
-    api.post(`/exchange/update`, { currencyName: `${currencyName}X` })
-  );
-
-  const updateLike = useMutation((currencyName: string) =>
-    api.post(`/exchange/update`, { currencyName: currencyName })
-  );
-
   const handleWishlist = async () => {
     if (wishlist.includes(currencyName)) {
-      await updateX.mutateAsync(currencyName)
+      await api.post("/exchange/update", { currencyName: `${currencyName}X` });
       setWishlist(wishlist.filter((id: String) => id !== currencyName));
     } else if (wishlist.length < 4) {
-      await updateLike.mutateAsync(currencyName)
+      await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
     } else {
       alert("4개까지만 체크할 수 있습니다.");
       return;
     }
-    queryClient.invalidateQueries(['exchangeDetails']);
-    queryClient.invalidateQueries(['exchangeView']);
     setExchangeLikeButton(!exchangeLikeButton);
     setSelectedExchange(data);
   };
