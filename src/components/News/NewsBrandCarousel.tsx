@@ -6,6 +6,7 @@ import {
   BsFillArrowRightCircleFill,
   BsFillArrowLeftCircleFill,
 } from "react-icons/bs";
+import LoadingBar from "../Stock/Loading";
 
 const NewsBrandCarouselMenu = () => {
   const NewsBrand = useRecoilValueLoadable(NewsBrandList);
@@ -15,16 +16,11 @@ const NewsBrandCarouselMenu = () => {
   //   useRecoilValueLoadable<selectedNewsListType[]>(selectedNewsList);
 
   let LoadableNewsBrand: String[] = [];
-  let loadable = "";
+
   switch (NewsBrand.state) {
     case "hasValue":
       LoadableNewsBrand = NewsBrand.contents;
       break;
-    case "hasError":
-      loadable = NewsBrand.contents.message;
-      break;
-    case "loading":
-      return <progress className="progress w-56">Loading...</progress>;
   }
 
   const handleSelect = async (item: any) => {
@@ -48,15 +44,19 @@ const NewsBrandCarouselMenu = () => {
         className="flex flex-nowrap"
         style={{ transform: `translateX(${translateX}%)` }}
       >
-        {LoadableNewsBrand.map((item, idx) => (
-          <span
-            onClick={() => handleSelect(item)}
-            key={idx}
-            className="min-w-fit w-1/4 overflow-h-hidden mx-2 p-2 cursor-pointer text-gray-600 border-2  border-slate-300 text-sm rounded-lg"
-          >
-            {item}
-          </span>
-        ))}
+        {NewsBrand.state === "loading" ? (
+          <LoadingBar />
+        ) : (
+          LoadableNewsBrand.map((item, idx) => (
+            <span
+              onClick={() => handleSelect(item)}
+              key={idx}
+              className="min-w-fit w-1/4 overflow-h-hidden mx-2 p-2 cursor-pointer text-gray-600 border-2  border-slate-300 text-sm rounded-lg"
+            >
+              {item}
+            </span>
+          ))
+        )}
       </div>
       <div className="flex justify-center text-center">
         <button onClick={handlePrevClick}>

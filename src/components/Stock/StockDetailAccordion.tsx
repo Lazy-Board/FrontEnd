@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { api } from "../../atom/signin";
 import { RiStarFill, RiStarLine } from "react-icons/ri";
 import styled from "styled-components";
+import LoadingBar from "./Loading";
 
 const StockDetailAccordion = ({
   stockName,
@@ -76,12 +77,6 @@ const StockDetailAccordion = ({
         wishlist.includes(item.stockName)
       );
       break;
-    case "hasError":
-      console.log(StockDetail.contents.message);
-      break;
-    case "loading":
-      alert("Loading...");
-      break;
   }
 
   return (
@@ -92,7 +87,9 @@ const StockDetailAccordion = ({
           alt={stockName}
           className="mr-2"
         />
-        <span className="mr-auto text-sm my-2 font-bold">{stockName}</span>
+        <span className="mr-auto text-sm my-2 font-bold">
+          {StockDetail.state === "loading" ? "loading..." : stockName}
+        </span>
         <span className="text-sm mr-2">{price}</span>
         <span
           className={`mr-2 ${
