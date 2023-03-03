@@ -1,6 +1,7 @@
 import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
 import { useRecoilValueLoadable } from "recoil";
+import LoadingBar from "../Stock/Loading";
 
 const Todo = () => {
   const getTodo = useRecoilValueLoadable(todosState);
@@ -10,11 +11,6 @@ const Todo = () => {
     case "hasValue":
       LoadablegetTodo = getTodo.contents;
       break;
-    case "hasError":
-      console.log(getTodo.contents.message);
-      break;
-    case "loading":
-      return <progress className="progress w-56">Loading...</progress>;
   }
 
   // const onComplete = useCallback(
@@ -32,7 +28,9 @@ const Todo = () => {
 
   return (
     <div className="w-full h-full relative mb-2 overflow-x-hidden overflow-y-auto text-black">
-      {LoadablegetTodo.length > 0 ? (
+      {getTodo.state === "loading" ? (
+        <LoadingBar />
+      ) : (
         LoadablegetTodo.map((todo: ITodoTypes) => {
           const { id, content } = todo;
 
@@ -46,10 +44,6 @@ const Todo = () => {
             />
           );
         })
-      ) : (
-        <div className="w-full text-center absolute top-1/2 left-0 font-bold">
-          Todo가 없습니다. 자유롭게 추가해보세요!
-        </div>
       )}
     </div>
   );

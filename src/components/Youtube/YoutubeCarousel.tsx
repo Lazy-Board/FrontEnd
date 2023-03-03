@@ -4,6 +4,7 @@ import useCarouselSize from "./CarouselSize";
 import { selector, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import axios from "axios";
 import { getYoutube, YoutubeProps } from "../../atom/Youtube";
+import LoadingBar from "../Stock/Loading";
 const YoutubeCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
@@ -15,11 +16,6 @@ const YoutubeCarousel = () => {
     case "hasValue":
       LoadablegetYoutube = Youtube.contents;
       break;
-    case "hasError":
-      console.log(Youtube.contents.message);
-      break;
-    case "loading":
-      return <progress className="progress w-56">Loading...</progress>;
   }
   let imageList = LoadablegetYoutube.map((item: YoutubeProps) => item);
   const slideList = [imageList.at(-1), ...imageList, imageList.at(0)];
@@ -79,29 +75,33 @@ const YoutubeCarousel = () => {
             }
           }}
         >
-          {slideList.map((item: any, i) => (
-            <div key={i} className="flex-shrink-0">
-              <div className="flex-col">
-                <img
-                  draggable={false}
-                  src={item.imagePath}
-                  alt="img"
-                  width={width}
-                  className="mx-1 rounded-lg"
-                />
-                <span className="absolute top-28 ml-20 text-sm text-white font-bold rounded-lg bg-black bg-opacity-50 px-1">
-                  {item.length}
-                </span>
-                <a href={item.videoUrl} target="_blank">
-                  <div className="w-56 ml-3 text-left">
-                    <span className=" text-sm font-sans font-semibold overflow-hidden">
-                      {item.contentName}
-                    </span>
-                  </div>
-                </a>
+          {Youtube.state === "loading" ? (
+            <LoadingBar />
+          ) : (
+            slideList.map((item: any, i) => (
+              <div key={i} className="flex-shrink-0">
+                <div className="flex-col">
+                  <img
+                    draggable={false}
+                    src={item.imagePath}
+                    alt="img"
+                    width={width}
+                    className="mx-1 rounded-lg"
+                  />
+                  <span className="absolute top-28 ml-20 text-sm text-white font-bold rounded-lg bg-black bg-opacity-50 px-1">
+                    {item.length}
+                  </span>
+                  <a href={item.videoUrl} target="_blank">
+                    <div className="w-56 ml-3 text-left">
+                      <span className=" text-sm font-sans font-semibold overflow-hidden">
+                        {item.contentName}
+                      </span>
+                    </div>
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </>

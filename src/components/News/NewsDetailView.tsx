@@ -2,10 +2,12 @@ import { useRecoilValueLoadable } from "recoil";
 
 import styled from "styled-components";
 import { getNewsSelector, MainNewsList } from "../../atom/News";
+import LoadingBar from "../Stock/Loading";
 import DetailTopBar from "./DetailTopBar";
 import NewsBrandCarouselMenu from "./NewsBrandCarousel";
 
 const NewsDetailView = () => {
+  const getNews = useRecoilValueLoadable(getNewsSelector);
   const Content = styled.div`
     min-height: 100vh;
     margin: 0 auto;
@@ -14,18 +16,11 @@ const NewsDetailView = () => {
 
   // const selectNewsLoadable = useRecoilValueLoadable(selectNews);
 
-  const getNews = useRecoilValueLoadable(getNewsSelector);
-
   let LoadablegetNewsList: MainNewsList[] = [];
   switch (getNews.state) {
     case "hasValue":
       LoadablegetNewsList = getNews.contents;
       break;
-    case "hasError":
-      console.log(getNews.contents.message);
-      break;
-    case "loading":
-      return <progress className="progress w-56">Loading...</progress>;
   }
 
   // let filteredList: MainNewsList[] = LoadablegetNewsList.filter(
@@ -48,20 +43,24 @@ const NewsDetailView = () => {
         <NewsBrandCarouselMenu />
         <div className="max-h-screen overflow-auto mt-2">
           <div className="mt-2">
-            {LoadablegetNewsList.map((item: any, idx: number) => (
-              <div
-                className="border-t flex text-left py-3  border-stone-300"
-                key={idx}
-              >
-                <img
-                  src={item.imagePath}
-                  className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
-                />
-                <a href={`${item.url}`}>
-                  <span>{item.subject}</span>
-                </a>
-              </div>
-            ))}
+            {getNews.state === "loading" ? (
+              <LoadingBar />
+            ) : (
+              LoadablegetNewsList.map((item: any, idx: number) => (
+                <div
+                  className="border-t flex text-left py-3  border-stone-300"
+                  key={idx}
+                >
+                  <img
+                    src={item.imagePath}
+                    className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
+                  />
+                  <a href={`${item.url}`}>
+                    <span>{item.subject}</span>
+                  </a>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </Content>

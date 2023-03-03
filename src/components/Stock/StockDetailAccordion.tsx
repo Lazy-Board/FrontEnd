@@ -22,7 +22,6 @@ const StockDetailAccordion = ({
   highPrice,
   tradingVolume,
   updateAt,
-  engName,
 }: StockProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [wishlist, setWishlist] = useRecoilState<String[]>(StockWish);
@@ -47,21 +46,7 @@ const StockDetailAccordion = ({
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
-  let data: StockProps[] = [];
 
-  switch (StockDetail.state) {
-    case "hasValue":
-      data = StockDetail.contents.filter((item: StockProps) =>
-        wishlist.includes(item.stockName)
-      );
-      break;
-    case "hasError":
-      console.log(StockDetail.contents.message);
-      break;
-    case "loading":
-      alert("Loading...");
-      break;
-  }
   const handleWishlist = async () => {
     if (wishlist.includes(stockName)) {
       await api.post("stock/update", { stockName: `${stockName}F` });
@@ -83,6 +68,21 @@ const StockDetailAccordion = ({
   // useEffect(() => {
 
   // }, [wishlist]);
+  let data: StockProps[] = [];
+
+  switch (StockDetail.state) {
+    case "hasValue":
+      data = StockDetail.contents.filter((item: StockProps) =>
+        wishlist.includes(item.stockName)
+      );
+      break;
+    case "hasError":
+      console.log(StockDetail.contents.message);
+      break;
+    case "loading":
+      alert("Loading...");
+      break;
+  }
 
   return (
     <div className="border-none divide-y-2 ">

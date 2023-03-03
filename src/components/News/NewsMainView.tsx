@@ -1,8 +1,9 @@
-import { useRecoilValue, useRecoilValueLoadable } from "recoil";
-import styled from "styled-components";
+import { useRecoilValueLoadable } from "recoil";
+
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { getNewsSelector, MainNewsList } from "../../atom/News";
+import LoadingBar from "../Stock/Loading";
 const NewsMainView = () => {
   const getNewsMain = useRecoilValueLoadable(getNewsSelector);
 
@@ -11,11 +12,6 @@ const NewsMainView = () => {
     case "hasValue":
       LoadablegetNewsList = getNewsMain.contents;
       break;
-    case "hasError":
-      console.log(getNewsMain.contents.message);
-      break;
-    case "loading":
-      return <progress className="progress w-56">Loading...</progress>;
   }
 
   return (
@@ -28,17 +24,21 @@ const NewsMainView = () => {
       </div>
 
       <div className="flex-row text-sm">
-        {LoadablegetNewsList.map((item: any) => (
-          <div className="border-b flex text-left py-2 h-fit border-stone-300">
-            <img
-              src={item.imagePath}
-              className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
-            />
-            <a href={`${item.url}`} target="_blank">
-              <span className="">{item.subject}</span>
-            </a>
-          </div>
-        ))}
+        {getNewsMain.state === "loading" ? (
+          <LoadingBar />
+        ) : (
+          LoadablegetNewsList.map((item: any) => (
+            <div className="border-b flex text-left py-2 h-fit border-stone-300">
+              <img
+                src={item.imagePath}
+                className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
+              />
+              <a href={`${item.url}`} target="_blank">
+                <span className="">{item.subject}</span>
+              </a>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
