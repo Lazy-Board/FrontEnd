@@ -20,7 +20,7 @@ const EditUserInfo = ():JSX.Element => {
         staleTime:Infinity,
     })
     const userImg = '/images/user-icon.png';
-    const [newImg, setNewImg] = useState<any>(userImg);
+    const [newImg, setNewImg] = useState<string>(userImg);
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
 
@@ -32,14 +32,17 @@ const EditUserInfo = ():JSX.Element => {
         });
     }
 
-    const onFileChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        if(e.target.files){
-            const uploadFile = e.target.files[0]
-            const formData = new FormData()
-            formData.append('profile',uploadFile)
-            setNewImg(uploadFile)
+    const onFileChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+        const {target:{files}} = event;
+        const ImgFile = (files as FileList)[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent: any) => {
+            const {
+                currentTarget : {result}
+            } = finishedEvent;
+            setNewImg(result);
         }
+        reader.readAsDataURL(ImgFile);
     };
 
     useEffect(()=>{
@@ -51,18 +54,18 @@ const EditUserInfo = ():JSX.Element => {
         }
     },[newImg, userInfo]);
 
-    // const editUserMutation = useMutation(() =>
-    //     api.put(`/user/update`, { 
-    //         phoneNumber:phoneNumber,
-    //         profile: profile,
-    //         socialType:socialType,
-    //         userEmail:userEmail,
-    //         userName:userName
-    //     })
-    // );
+    const editUserMutation = useMutation(() =>
+        api.put(`/user/update`, { 
+            phoneNumber:phoneNumber,
+            profile: newImg,
+            socialType:socialType,
+            userEmail:userEmail,
+            userName:userName
+        })
+    );
 
-    const editUserMutation = useMutation((formData: FormData) =>
-        api.put(`/user/update`, formData, {
+    const imgeMutation = useMutation((formData: FormData) =>
+        api.put(`/user/image`, formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
             },
@@ -72,15 +75,9 @@ const EditUserInfo = ():JSX.Element => {
     const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         try {
-            const formData = new FormData();
-            formData.append('phoneNumber', phoneNumber);
-            // formData.append('profile', newImg);
-            formData.append('socialType', socialType);
-            formData.append('userEmail', userEmail);
-            formData.append('userName', userName);
-        
-            const response = await editUserMutation.mutateAsync(formData);
+            const response = await editUserMutation.mutateAsync(userInfo);
             setUserData(response.data);
+            setNewImg()
             queryClient.invalidateQueries(['userInfo']);
             alert('저장되었습니다.');
         } catch (error) {
