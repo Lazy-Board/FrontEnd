@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-// import { api } from '../../atom/signin';
-import axios from 'axios';
+import { api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
@@ -15,14 +14,13 @@ const Content = styled.div`
     `;
 
 const EditUserInfo = ():JSX.Element => {
-    const accessToken = localStorage.getItem("accessToken");
     const queryClient = useQueryClient();
     const { data:userInfo } = useQuery(['userInfo'], getUserInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
     const userImg = '/images/user-icon.png';
-    const [newImg, setNewImg] = useState(userImg);
+    const [newImg, setNewImg] = useState<any>(userImg);
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
 
@@ -34,17 +32,14 @@ const EditUserInfo = ():JSX.Element => {
         });
     }
 
-    const onFileChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-        const {target:{files}} = event;
-        const ImgFile = (files as FileList)[0];
-        const reader = new FileReader();
-        reader.onloadend = (finishedEvent: any) => {
-            const {
-                currentTarget : {result}
-            } = finishedEvent;
-            setNewImg(result);
+    const onFileChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        if(e.target.files){
+            const uploadFile = e.target.files[0]
+            const formData = new FormData()
+            formData.append('profile',uploadFile)
+            setNewImg(uploadFile)
         }
-        reader.readAsDataURL(ImgFile);
     };
 
     useEffect(()=>{
@@ -54,7 +49,7 @@ const EditUserInfo = ():JSX.Element => {
         if (userInfo) {
             setUserData(userInfo);
         }
-    },[userInfo]);
+    },[newImg, userInfo]);
 
     // const editUserMutation = useMutation(() =>
     //     api.put(`/user/update`, { 
@@ -67,10 +62,9 @@ const EditUserInfo = ():JSX.Element => {
     // );
 
     const editUserMutation = useMutation((formData: FormData) =>
-        axios.put(`/user/update`, formData, {
+        api.put(`/user/update`, formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
             },
         })
     );
@@ -80,11 +74,10 @@ const EditUserInfo = ():JSX.Element => {
         try {
             const formData = new FormData();
             formData.append('phoneNumber', phoneNumber);
-            formData.append('profile', profile);
+            // formData.append('profile', newImg);
             formData.append('socialType', socialType);
             formData.append('userEmail', userEmail);
             formData.append('userName', userName);
-            formData.append('image', newImg);
         
             const response = await editUserMutation.mutateAsync(formData);
             setUserData(response.data);
