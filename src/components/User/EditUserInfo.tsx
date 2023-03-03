@@ -19,10 +19,9 @@ const EditUserInfo = ():JSX.Element => {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
-    const userImg = '/images/user-icon.png';
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
-    const [newImg, setNewImg] = useState<string>(!profile ? userImg : profile);
+    const [newImg, setNewImg] = useState<any>(userData && !profile ? '/images/user-icon.png' : profile);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -33,6 +32,10 @@ const EditUserInfo = ():JSX.Element => {
     }
 
     const onFileChange = (event:React.ChangeEvent<HTMLInputElement>) => {
+        // if (event.target.files !== null){
+        //     const imageFile = event.target.files[0];
+        //     setNewImg(imageFile);
+        // }
         const {target:{files}} = event;
         const ImgFile = (files as FileList)[0];
         const reader = new FileReader();
@@ -46,13 +49,10 @@ const EditUserInfo = ():JSX.Element => {
     };
 
     useEffect(()=>{
-        if (!userImg || !profile){
-            setNewImg(newImg)
-        }
         if (userInfo) {
             setUserData(userInfo);
         }
-    },[newImg, userInfo]);
+    },[userInfo]);
 
     const editUserMutation = useMutation(() =>
         api.put(`/user/update`, { 
@@ -74,10 +74,11 @@ const EditUserInfo = ():JSX.Element => {
 
     const onSubmitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append('fileName',newImg)
         try {
-            // const formData = new FormData();
-            // formData.append("profile", newImg);
             const response = await editUserMutation.mutateAsync(userInfo);
+            const resImg = await imgMutation.mutateAsync(newImg);
             setUserData(response.data);
             queryClient.invalidateQueries(['userInfo']);
             alert('저장되었습니다.');
@@ -85,6 +86,8 @@ const EditUserInfo = ():JSX.Element => {
             console.log(`Error: \n${error}`);
         }
     };
+
+    console.log(newImg)
 
     return (
         <>
@@ -96,7 +99,7 @@ const EditUserInfo = ():JSX.Element => {
                 alt="프로필 이미지" 
                 className="w-24 h-24 mx-auto rounded-full bg-gray-300 object-cover"
                 />
-                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} formEncType="multipart/form-data"/>
+                <input type='file' id='img-upload' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} />
                 <label htmlFor='img-upload' className='absolute p-1 bottom-0 right-28 bg-emerald-400 border-2 border-cyan-600 rounded-full hover:bg-cyan-600 transition-colors cursor-pointer'>
                 <FiEdit2 color='white'/>
                 </label>
