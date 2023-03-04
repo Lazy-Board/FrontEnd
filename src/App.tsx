@@ -20,6 +20,7 @@ import SelectWidget from "./pages/SelectWidget";
 import UpdatePassword from "./components/User/UpdatePassword";
 import UserWithdrawal from "./components/User/UserWithdrawal";
 import FindPassword from "./pages/FindPassword";
+import LoginRedirect from "./components/User/LoginRedirect";
 
 function App() {
   return (
@@ -37,10 +38,11 @@ function App() {
         <Route path="/todo" element={<TodoList />} />
         <Route path="/stock" element={<StockDetail />} />
         <Route path="/news" element={<NewsDetailView />} />
-        <Route path="/auth-success" element={<UserSuccess/>}/>
+        <Route path="/auth-success" element={<UserSuccess />} />
         <Route path="/select-widget" element={<SelectWidget />} />
         <Route path="/user/update-password" element={<UpdatePassword />} />
         <Route path="/user/withdrawal" element={<UserWithdrawal />} />
+        <Route path="/user/login/google" element={<LoginRedirect />} />
       </Routes>
       <BottomBar />
       <Confirm />

@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { NewsBrandList, selectNewsBrand } from "../../atom/News";
 import { api } from "../../atom/signin";
-import {
-  BsFillArrowRightCircleFill,
-  BsFillArrowLeftCircleFill,
-} from "react-icons/bs";
+
 import LoadingBar from "../Stock/Loading";
 
 const NewsBrandCarouselMenu = () => {
@@ -29,43 +25,31 @@ const NewsBrandCarouselMenu = () => {
     location.reload();
   };
 
-  const [translateX, setTranslateX] = useState(0);
-
-  const handlePrevClick = () => {
-    setTranslateX(translateX + 15);
-  };
-
-  const handleNextClick = () => {
-    setTranslateX(translateX - 15);
-  };
   return (
-    <div className="mt-12 overflow-x-hidden">
-      <div
-        className="flex flex-nowrap"
-        style={{ transform: `translateX(${translateX}%)` }}
+    <div className="mt-12 w-full dropdown dropdown-hover">
+      <label tabIndex={0} className="btn w-full">
+        {selectedNewsTitle === null ? "언론사 선택" : selectedNewsTitle}
+      </label>
+      <ul
+        tabIndex={0}
+        className="dropdown-content menu shadow bg-base-100 max-h-80 w-1/3 overflow-y-auto items-end"
       >
-        {NewsBrand.state === "loading" ? (
-          <LoadingBar />
-        ) : (
-          LoadableNewsBrand.map((item, idx) => (
-            <span
-              onClick={() => handleSelect(item)}
-              key={idx}
-              className="min-w-fit w-1/4 overflow-h-hidden mx-2 p-2 cursor-pointer text-gray-600 border-2  border-slate-300 text-sm rounded-lg"
-            >
-              {item}
-            </span>
-          ))
-        )}
-      </div>
-      <div className="flex justify-center text-center">
-        <button onClick={handlePrevClick}>
-          <BsFillArrowLeftCircleFill size={20} />
-        </button>
-        <button onClick={handleNextClick}>
-          <BsFillArrowRightCircleFill size={20} />
-        </button>
-      </div>
+        <div className="flex flex-col overflow-y-auto">
+          {NewsBrand.state === "loading" ? (
+            <LoadingBar />
+          ) : (
+            LoadableNewsBrand.map((item, idx) => (
+              <li
+                onClick={() => handleSelect(item)}
+                key={idx}
+                className="p-2 cursor-pointer text-gray-600 border-2 border-slate-300 text-sm block w-full"
+              >
+                {item}
+              </li>
+            ))
+          )}
+        </div>
+      </ul>
     </div>
   );
 };

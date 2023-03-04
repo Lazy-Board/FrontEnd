@@ -10,6 +10,7 @@ import { API_URL } from "../API/API";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { api } from "../atom/signin";
+import { GoogleAuth } from "../components/User/GoogleAuth";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -148,7 +149,9 @@ const Signin = () => {
             </button>
             <div className="divider text-sm">간편 로그인</div>
             <div className="flex justify-center">
-              <img src={google} />
+              <a href={GoogleAuth} className="btn">
+                구글 계정으로 로그인
+              </a>
             </div>
             <div className="flex justify-center text-gray-400">
               <Link to="/signup">
@@ -161,9 +164,7 @@ const Signin = () => {
             </div>
           </form>
         </div>
-        <button onClick={stockPost} className="btn">
-          stock
-        </button>
+
         {/* <button onClick={refresh} className="btn">
           리프레시
         </button> */}
