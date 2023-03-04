@@ -76,7 +76,7 @@ const TodoModal = ({
             />
             <div className="modal-action">
               <button
-                className="w-fit h-fit outline-none border-none text-xl cursor-pointer font-bold"
+                className="w-fit h-fit outline-none border-none text-xl cursor-pointer font-bold bg-primary"
                 onClick={onModifyTodo}
               >
                 수정하기

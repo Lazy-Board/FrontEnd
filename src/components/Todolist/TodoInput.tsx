@@ -46,14 +46,14 @@ const TodoInput = () => {
     <div className="w-full flex justify-between items-center py-1 border-none">
       <input
         type="text"
-        className="w-full px-1 py-1 font-semibold placeholder:text-black mr-3 border-2 border-slate-300 rounded-lg "
+        className="w-full px-1 py-1 font-semibold placeholder:text-slate-300 text-opacity-20 mr-3 border-2 border-slate-300 rounded-lg "
         value={contents}
         onChange={onChange}
         placeholder="Todo를 입력해보세요!"
         onKeyDown={onKeyDown}
       />
       <FaPen
-        className="bg-none fill-slate-300 cursor-pointer w-8 h-8"
+        className="bg-none fill-primary cursor-pointer w-5 h-5"
         onClick={addTodo}
       />
     </div>

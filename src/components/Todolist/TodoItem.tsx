@@ -49,6 +49,16 @@ const TodoItem = ({ id, contents }: PropTypes) => {
   return (
     <>
       <div className="flex justify-between items-center pb-2 font-bold border-b-slate-300 ">
+        <div className="form-control">
+          <label className="cursor-pointer label">
+            <input
+              type="checkbox"
+              checked
+              className="checkbox checkbox-success"
+              onClick={onDelete}
+            />
+          </label>
+        </div>
         <div
           title={contents}
           className="text-black text-sm p-2"
@@ -60,14 +70,10 @@ const TodoItem = ({ id, contents }: PropTypes) => {
         <div className="flex">
           <a href="#my-modal-2">
             <FaPen
-              className="bg-none cursor-pointer mr-2 fill-slate-300"
+              className="bg-none cursor-pointer mr-2 fill-primary"
               onClick={onModify}
             />
           </a>
-          <MdClose
-            className="bg-none font-semibold cursor-pointer"
-            onClick={onDelete}
-          />
         </div>
       </div>
 

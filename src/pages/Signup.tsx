@@ -34,7 +34,7 @@ const Signup = () => {
         userName: username,
         phoneNumber: phonenumber,
       });
-
+      localStorage.setItem("userId", response.data.userId);
       setUserId(response.data.userId);
     } catch (err: any) {
       if (err) {
