@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { atom, useRecoilState, selector } from "recoil";
+import { atom } from "recoil";
 
 export const authTokenState = atom({
   key: "authToken",
@@ -13,5 +12,10 @@ export const accessTokenState = atom({
 
 export const refreshTokenState = atom({
   key: "refreshToken",
+  default: "",
+});
+
+export const userIdatom = atom<string>({
+  key: "userId",
   default: "",
 });

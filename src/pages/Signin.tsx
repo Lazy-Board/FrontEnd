@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../atom/signin";
 import { GoogleAuth } from "../components/User/GoogleAuth";
 
@@ -19,6 +19,7 @@ const Signin = () => {
   const [token, setToken] = useRecoilState(authTokenState);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const navigate = useNavigate();
   // const [time, setTime] = useRecoilState(timeState);
 
   const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -35,8 +36,7 @@ const Signin = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("RefreshToken", response.data.refreshToken);
-      console.log(accessToken);
-      console.log(refreshToken);
+      navigate("/");
     } catch (err: any) {
       if (err.response.status === 400) {
         alert(err.response.msg);
@@ -87,20 +87,6 @@ const Signin = () => {
     }
   );
 
-  const stockPost = async () => {
-    try {
-      await api.post(
-        "/stock/add",
-        {},
-        {
-          headers: headers,
-        }
-      );
-    } catch (err: any) {
-      console.log(err);
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
@@ -149,8 +135,8 @@ const Signin = () => {
             </button>
             <div className="divider text-sm">간편 로그인</div>
             <div className="flex justify-center">
-              <a href={GoogleAuth} className="btn">
-                구글 계정으로 로그인
+              <a href={GoogleAuth}>
+                <img src={google} />
               </a>
             </div>
             <div className="flex justify-center text-gray-400">

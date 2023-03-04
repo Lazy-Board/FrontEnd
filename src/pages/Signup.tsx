@@ -11,6 +11,7 @@ import {
   phonenumberState,
 } from "../atom/signup";
 import { Link } from "react-router-dom";
+import { userIdatom } from "../atom/auth";
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -20,6 +21,7 @@ const Signup = () => {
   const [username, setUserName] = useRecoilState(usernameState);
   const [phonenumber, setPhonenumber] = useRecoilState(phonenumberState);
   const [error, setError] = useState<String | null>(null);
+  const [userId, setUserId] = useRecoilState(userIdatom);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -32,7 +34,8 @@ const Signup = () => {
         userName: username,
         phoneNumber: phonenumber,
       });
-      localStorage.setItem("token", response.data.token);
+
+      setUserId(response.data.userId);
     } catch (err: any) {
       if (err) {
         const axiosError: any = err as AxiosError;

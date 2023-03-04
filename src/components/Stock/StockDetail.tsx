@@ -2,9 +2,10 @@ import { useRecoilValueLoadable } from "recoil";
 import styled from "styled-components";
 
 import { getStockDetail, StockProps } from "../../atom/Stock";
-import DetailTopBar from "../MenuBars/DetailTopBar";
+
 import LoadingBar from "./Loading";
 import StockDetailAccordion from "./StockDetailAccordion";
+import StockDetailTopBar from "./StockDetailTopBar";
 
 const StockDetail = () => {
   const StockView = useRecoilValueLoadable<StockProps[]>(getStockDetail);
@@ -25,7 +26,7 @@ const StockDetail = () => {
 
   return (
     <>
-      <DetailTopBar title="주식" />
+      <StockDetailTopBar title="주식" />
       <Content className="max-w-md bg-stone-100 p-3">
         <div className="w-full mt-12">
           {StockView.state === "loading" ? (

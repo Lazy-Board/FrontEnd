@@ -23,7 +23,7 @@ export default async function GoogleLogin(
       .then((res) => {
         console.log(res);
         localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
+        localStorage.setItem("RefreshToken", res.data.refreshToken);
         navigate("/");
       });
   } catch (err) {

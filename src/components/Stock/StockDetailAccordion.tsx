@@ -12,7 +12,6 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { api } from "../../atom/signin";
 import { RiStarFill, RiStarLine } from "react-icons/ri";
 import styled from "styled-components";
-import LoadingBar from "./Loading";
 
 const StockDetailAccordion = ({
   stockName,
@@ -40,6 +39,15 @@ const StockDetailAccordion = ({
   );
   const Ref = useRef<HTMLDivElement>(null);
 
+  let data: StockProps[] = [];
+
+  switch (StockDetail.state) {
+    case "hasValue":
+      data = StockDetail.contents.filter((item: StockProps) =>
+        wishlist.includes(item.stockName)
+      );
+      break;
+  }
   useEffect(() => {
     setContentHeight(Ref.current?.scrollHeight);
   }, [isOpen]);
@@ -69,15 +77,6 @@ const StockDetailAccordion = ({
   // useEffect(() => {
 
   // }, [wishlist]);
-  let data: StockProps[] = [];
-
-  switch (StockDetail.state) {
-    case "hasValue":
-      data = StockDetail.contents.filter((item: StockProps) =>
-        wishlist.includes(item.stockName)
-      );
-      break;
-  }
 
   return (
     <div className="border-none divide-y-2 ">
