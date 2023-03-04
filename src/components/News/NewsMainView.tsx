@@ -15,7 +15,7 @@ const NewsMainView = () => {
   }
 
   return (
-    <div className="w-full h-fit max-h-80 mt-5 p-3 pt-2 pb-6 relative border rounded-lg overflow-hidden bg-white">
+    <div className="w-full h-fit max-h-72 mt-4 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
       <div className="text-left flex font-semibold border-b border-slate-300 pb-2">
         헤드라인 뉴스
         <Link to="/news">

@@ -55,7 +55,7 @@ const TodoModal = ({
         </div>
       </div> */}
       <div className="modal" id="my-modal-2">
-        <div className="modal-box">
+        <div className="modal-box w-2/5">
           <div
             className="btn btn-sm btn-circle absolute right-2 top-2"
             onClick={onCloseModal}
@@ -69,14 +69,14 @@ const TodoModal = ({
           <div className="flex grow flex-col justify-center items-center">
             <input
               type="text"
-              className="mb-4 p-2 border border-slate-300 w-1/2 mt-16 text-xl rounded-lg"
+              className="mb-4 p-2 border border-slate-300 w-full mt-16 text-xl rounded-lg"
               value={modifyContents}
               onChange={onChange}
               placeholder="Todo"
             />
             <div className="modal-action">
               <button
-                className="w-fit h-fit outline-none border-none text-xl cursor-pointer font-bold bg-primary"
+                className="w-fit h-fit outline-none border-none text-xl cursor-pointer btn btn-primary"
                 onClick={onModifyTodo}
               >
                 수정하기

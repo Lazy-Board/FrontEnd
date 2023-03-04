@@ -46,7 +46,7 @@ const TodoInput = () => {
     <div className="w-full flex justify-between items-center py-1 border-none">
       <input
         type="text"
-        className="w-full px-1 py-1 font-semibold placeholder:text-slate-300 text-opacity-20 mr-3 border-2 border-slate-300 rounded-lg "
+        className="w-full font-medium placeholder:text-slate-300 text-opacity-20 mr-3 border-2 border-slate-300 rounded-lg text-base p-2"
         value={contents}
         onChange={onChange}
         placeholder="Todo를 입력해보세요!"

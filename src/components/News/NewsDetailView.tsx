@@ -30,7 +30,7 @@ const NewsDetailView = () => {
   return (
     <>
       <DetailTopBar title="뉴스" />
-      <Content className="max-w-md bg-stone-100 p-3 max-h-screen">
+      <Content className="max-w-md bg-stone-100 p-3">
         {/* <div className="dropdown flex justify-center">
             <label tabIndex={0} className="m-1 cursor-pointer flex px-2 ">
               {selectedNewsTitle === null ? "언론사 선택" : selectedNewsTitle}
@@ -41,8 +41,8 @@ const NewsDetailView = () => {
               className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-32 border"
             > */}
         <NewsBrandCarouselMenu />
-        <div className="max-h-screen overflow-auto">
-          <div className="mt-2">
+        <div className="max-h-screen overflow-auto scrollbar-hide">
+          <div>
             {getNews.state === "loading" ? (
               <LoadingBar />
             ) : (

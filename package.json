@@ -10,6 +10,7 @@
     "server": "json-server --watch quote.json --port 5175"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
     "@tanstack/react-query": "^4.24.10",
     "@types/gapi.auth2": "^0.0.57",
     "@types/styled-components": "^5.1.26",
@@ -18,7 +19,6 @@
     "moment": "^2.29.4",
     "react": "^18.0.0-rc.3",
     "react-dom": "^18.0.0-rc.3",
-    "react-google-login": "^5.2.2",
     "react-icons": "^4.7.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-query": "^3.39.3",
