@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TbApps } from "react-icons/tb";
-import { BiHome, BiCalendarAlt } from "react-icons/bi";
+import { BiHome } from "react-icons/bi";
 import styled from 'styled-components';
 
 const Bottom = styled.div`
@@ -21,7 +21,7 @@ const Bottom = styled.div`
 const BottomBar = ():JSX.Element => {
     const navigate = useNavigate();
     const locationNow = useLocation();
-    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success" || locationNow.pathname === "/find-password")
+    if (locationNow.pathname === "/login" || locationNow.pathname === "/signup" || locationNow.pathname === "/auth-success" || locationNow.pathname === "/find-password" || locationNow.pathname === "/select-widget")
     return (
         <></>
     );
@@ -30,9 +30,6 @@ const BottomBar = ():JSX.Element => {
         <Bottom className="h-16 flex items-center justify-around bg-white border-t border-t-neutral-300">
             <Link to={`/`} className="px-8 hover:text-green-400 transition-colors">
                 <BiHome size={24}/>
-            </Link>
-            <Link to={`/`} className="px-8 hover:text-green-400 transition-colors">
-                <BiCalendarAlt size={24}/>
             </Link>
             <button disabled={locationNow.pathname==='/' ? false : true} className="px-8 hover:text-green-400 transition-colors disabled:text-zinc-400"
             onClick={()=>navigate('/select-widget')}
