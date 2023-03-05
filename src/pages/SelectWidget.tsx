@@ -20,6 +20,7 @@ const List = styled.div`
 const SelectWidget = (): JSX.Element => {
     const navigate = useNavigate();
     const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
+    // 이거에서 문제 생기면 도로 useState로 바꾸자..
 
     const handleCheckboxChange = (checked: boolean, id: string) => {
         setCheckboxes((prevState) => ({
