@@ -9,16 +9,16 @@ export interface userType{
     userName:string;
 }
 
-// export const userInfoState = atom({
-//     key:'userInfoState',
-//     default:{
-//         phoneNumber:'',
-//         profile:'',
-//         socialType:'',
-//         userEmail:'',
-//         userName:''
-//     },
-// })
+export const userInfoState = atom({
+    key:'userInfoState',
+    default:{
+        phoneNumber:'',
+        profile:'',
+        socialType:'',
+        userEmail:'',
+        userName:''
+    },
+})
 
 export const moduleState = atom({
     key:'userModules',
