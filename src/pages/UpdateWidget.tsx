@@ -125,10 +125,10 @@ const UpdateWidget = (): JSX.Element => {
             </div>
             <button
                 disabled={isDisabled}
-                className="w-80 mt-10 btn btn-primary"
+                className="w-80 mt-10 btn btn-secondary"
                 type="submit"
             >
-                가입하기
+                업데이트
             </button>
             </form>
         </div>

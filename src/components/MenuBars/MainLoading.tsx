@@ -14,14 +14,14 @@ export default MainLoading;
 
 const LoadingWrapper = styled.div`
     display: flex;
-    height: 70vh;
+    height: 75vh;
     align-items: center;
     justify-content: center;
     .lds-roller {
         display: inline-block;
         position: relative;
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
     }
     .lds-roller div {
         animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -34,7 +34,7 @@ const LoadingWrapper = styled.div`
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #535bf2;
+        background: #66CC8A;
         margin: -4px 0 0 -4px;
     }
     .lds-roller div:nth-child(1) {
