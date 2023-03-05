@@ -8,11 +8,11 @@ const Confirm = (): JSX.Element => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken");
-  const refreshToken = localStorage.getItem("RefreshToken");
+  const refreshToken = localStorage.getItem("refreshToken");
   const Logout = async () => {
     if (accessToken && refreshToken) {
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("RefreshToken");
+      localStorage.removeItem("refreshToken");
       api
         .post("user/logout")
         .then(() => {

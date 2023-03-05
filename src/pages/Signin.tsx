@@ -33,9 +33,9 @@ const Signin = () => {
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       //   // setTime(response.data.expiredTime);
-      localStorage.setItem("token", response.data.token);
+
       localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("RefreshToken", response.data.refreshToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
       navigate("/");
     } catch (err: any) {
       if (err.response.status === 400) {
@@ -71,7 +71,7 @@ const Signin = () => {
           setRefreshToken(res.data.refreshToken);
 
           localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("RefreshToken", refreshToken);
+          localStorage.setItem("refreshToken", refreshToken);
 
           axios.defaults.headers.common[
             "Authorization"
