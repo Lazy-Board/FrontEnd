@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { moduleState } from "../atom/users";
 import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
-// import { useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 
 const Content = styled.div`
@@ -19,8 +18,16 @@ const List = styled.div`
 
 const SelectWidget = (): JSX.Element => {
     const navigate = useNavigate();
-    const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
-    // 이거에서 문제 생기면 도로 useState로 바꾸자..
+    const [checkboxes, setCheckboxes] = useState({
+        exchangeYn: false,
+        newsYn: false,
+        quoteYn: false,
+        stockYn: false,
+        todolistYn: false,
+        weatherYn: false,
+        workYn: false,
+        youtubeYn: false,
+    });
 
     const handleCheckboxChange = (checked: boolean, id: string) => {
         setCheckboxes((prevState) => ({
