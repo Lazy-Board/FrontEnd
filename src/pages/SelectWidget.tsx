@@ -3,7 +3,7 @@ import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+// import { useRecoilState } from "recoil";
 
 const Content = styled.div`
     width: 448px;
