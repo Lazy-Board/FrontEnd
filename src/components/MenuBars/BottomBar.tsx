@@ -32,7 +32,7 @@ const BottomBar = ():JSX.Element => {
                 <BiHome size={24}/>
             </Link>
             <button disabled={locationNow.pathname==='/' ? false : true} className="px-8 hover:text-green-400 transition-colors disabled:text-zinc-400"
-            onClick={()=>navigate('/select-widget')}
+            onClick={()=>navigate('/user/update-widget')}
             >
                 <TbApps size={24}/>
             </button>

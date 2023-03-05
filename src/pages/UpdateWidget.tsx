@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
-import { useState } from "react";
-// import { useRecoilState } from "recoil";
-// import { moduleState } from "../atom/users";
+import { getModule, ModuleData } from "../atom/users";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
+import { moduleState } from "../atom/users";
 
 const Content = styled.div`
     width: 448px;
@@ -17,19 +19,20 @@ const List = styled.div`
     width: calc(50% - 4px);
 `;
 
-const SelectWidget = (): JSX.Element => {
+const UpdateWidget = (): JSX.Element => {
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const [checkboxes, setCheckboxes] = useState({
-        exchangeYn: false,
-        newsYn: false,
-        quoteYn: false,
-        stockYn: false,
-        todolistYn: false,
-        weatherYn: false,
-        workYn: false,
-        youtubeYn: false,
+    const { data, isFetching } = useQuery<ModuleData>(['modules'], getModule, {
+        refetchOnWindowFocus: false,
+        staleTime: Infinity,
     });
-    // const [checkboxes, setCheckboxes] = useRecoilState(moduleState)
+    const [checkboxes, setCheckboxes] = useRecoilState(moduleState)
+
+    useEffect(()=>{
+        if (data){
+            setCheckboxes(data)
+        }
+    },[data])
 
     const handleCheckboxChange = (checked: boolean, id: string) => {
         setCheckboxes((prevState) => ({
@@ -38,20 +41,24 @@ const SelectWidget = (): JSX.Element => {
         }));
     };
 
+    const moduleMutation = useMutation((moduleData:any) =>
+        api.post(`/user/updateModule`, moduleData)
+    );
+
     // 2개 이상 checked되어야 버튼 클릭할 수 있음
     const isDisabled =
         Object.values(checkboxes).filter((checked) => checked).length < 2;
 
-    const submitModule = (e: React.SyntheticEvent) => {
+    const submitModule = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         const checkedIds = Object.entries(checkboxes)
-        .filter(([id, checked]) => checked)
+        .filter(([_, checked]) => checked)
         .map(([id]) => id);
-        const userId = localStorage.getItem("userId");
-        api.post("/user/saveModule", {
-            userId: userId,
+        const response = await moduleMutation.mutateAsync({
             ...Object.fromEntries(checkedIds.map((id) => [id, true])),
         });
+        setCheckboxes(response.data)
+        queryClient.invalidateQueries(['modules']);
     };
 
     return (
@@ -67,7 +74,7 @@ const SelectWidget = (): JSX.Element => {
                 className="h-24 w-24 mx-auto object-contain"
             />
             <p className="mt-8 text-lg">
-                사용하실 위젯을 선택해주세요.
+                사용하실 위젯을 업데이트 해주세요.
                 <br />
                 (최소 2개 이상)
             </p>
@@ -75,6 +82,9 @@ const SelectWidget = (): JSX.Element => {
             <form action="" className="w-80 mx-auto mt-10" onSubmit={submitModule}>
             <div className="flex flex-wrap gap-2">
                 {/* 위젯 리스트 체크*/}
+                {isFetching ? <div>Loading...</div>
+                :
+                <>
                 {Object.entries(checkboxes).map(([id, checked]) => (
                 <List
                     className="h-10 p-2 flex text-left bg-stone-200 rounded-md"
@@ -110,6 +120,8 @@ const SelectWidget = (): JSX.Element => {
                     </label>
                 </List>
                 ))}
+                </>
+                }
             </div>
             <button
                 disabled={isDisabled}
@@ -124,4 +136,4 @@ const SelectWidget = (): JSX.Element => {
     );
 };
 
-export default SelectWidget;
+export default UpdateWidget;
