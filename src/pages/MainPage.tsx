@@ -16,40 +16,48 @@ const Content = styled.div`
   color: black;
 `;
 
-interface Module {
-  id: number | string;
-  name: string;
-  checked: boolean;
+type ModuleData = {
+  [key: string]: boolean;
+  exchangeYn: boolean;
+  newsYn: boolean;
+  quoteYn: boolean;
+  stockYn: boolean;
+  todolistYn: boolean;
+  weatherYn: boolean;
+  workYn: boolean;
+  youtubeYn: boolean;
 }
 
 const MainPage = (): JSX.Element => {
-  const { data, isLoading } = useQuery<Module>('modules', () => api.get(`/user/searchModule`), {
+  const { data, isFetching } = useQuery<ModuleData>(['modules'], () => api.get(`/user/searchModule`), {
     refetchOnWindowFocus: false,
     staleTime: Infinity,
+    notifyOnChangeProps:'tracked',
   });
-
-  // let filtered = Object.values(!data).filter((checked) => checked === false) ? obj = Object.keys(!data).map((i) => i) : "";
   
-  // let filtered: string[] = [];
-  // if (data) {
-  //   filtered = Object.entries(data)
-  //     .filter(([_, { checked }]) => !checked)
-  //     .map(([key, _]) => key);
-  // }
-
-  // const modulesRender = data?.filter((module) => module.checked)?.map((module) => module.id) ?? [];
+  let filtered: string[] = [];
+  if (data) {
+    filtered = Object.entries(data.data)
+      .filter(([_, checked]) => checked === true)
+      .map(([key, _]) => key);
+  }
 
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
       {/* 조건부 렌더링 */}
-      <ExchangeView />
-      <NewsMainView />
-      <QuoteView />
-      <StockView />
-      <TodoMainView />
-      <WeatherView />
-      <TrafficView />
-      <YoutubeCarousel />
+      {/* 로딩 이미지 넣자~~ */}
+      {isFetching ? <div>Loading...</div> :
+      <>
+      {filtered.includes('weatherYn') && <WeatherView />}
+      {filtered.includes('exchangeYn') && <ExchangeView />}
+      {filtered.includes('stockYn') && <StockView />}
+      {filtered.includes('newsYn') && <NewsMainView />}
+      {filtered.includes('youtubeYn') && <YoutubeCarousel />}
+      {filtered.includes('quoteYn') && <QuoteView />}
+      {filtered.includes('todolistYn') && <TodoMainView />}
+      {filtered.includes('workYn') && <TrafficView />}
+      </>
+      }
     </Content>
   );
 };

@@ -20,6 +20,20 @@ export const userInfoState = atom({
     },
 })
 
+export const moduleState = atom({
+    key:'userModules',
+    default:{
+        exchangeYn: false,
+        newsYn: false,
+        quoteYn: false,
+        stockYn: false,
+        todolistYn: false,
+        weatherYn: false,
+        workYn: false,
+        youtubeYn: false,
+    }
+})
+
 export const withdrawUser = async () => {
     try {
         await api.post(`/user/userWithdrawal`)
