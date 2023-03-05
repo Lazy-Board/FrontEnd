@@ -1,8 +1,8 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import { AiFillLeftCircle } from "react-icons/ai";
 import axios, { AxiosError } from "axios";
 import { api } from "../atom/signin";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   emailState,
   passwordState,
@@ -22,11 +22,18 @@ const Signup = () => {
   const [phonenumber, setPhonenumber] = useRecoilState(phonenumberState);
   const [error, setError] = useState<String | null>(null);
   const [userId, setUserId] = useRecoilState(userIdatom);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [emailMessage, setEmailMessage] = useState("");
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [PasswordConfirmMessage, setPasswordConfirmMessage] = useState("");
+
+  const [isEmail, setIsEmail] = useState<boolean>(false);
+  const [isPassword, setIsPassword] = useState<boolean>(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+
     try {
       const response = await api.post(`/user/signup`, {
         userEmail: email,
@@ -45,6 +52,57 @@ const Signup = () => {
       }
     }
   };
+
+  const onChangeEmail = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const emailCurrent = e.target.value;
+      setEmail(emailCurrent);
+
+      if (!emailRegex.test(emailCurrent)) {
+        setEmailMessage("이메일 형식이 틀렸어요! 다시 확인해주세요 😅");
+        setIsEmail(false);
+      } else {
+        setEmailMessage("올바른 이메일 형식이에요 😄");
+        setIsEmail(true);
+      }
+    },
+    []
+  );
+
+  const onChangePassword = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
+      setPassword(passwordCurrent);
+
+      if (!passwordRegex.test(passwordCurrent)) {
+        setPasswordMessage("영문 + 숫자 조합으로 8자리 이상 입력해주세요 😅");
+        setIsPassword(false);
+      } else {
+        setPasswordMessage("안전한 비밀번호에요 😄");
+        setIsPassword(true);
+      }
+    },
+    []
+  );
+
+  const onChangePasswordConfirm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const passwordConfirmCurrent = e.target.value;
+      setConfirmPassword(passwordConfirmCurrent);
+
+      if (password === passwordConfirmCurrent) {
+        setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 😄");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 😅");
+        setIsPasswordConfirm(false);
+      }
+    },
+    [password]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
@@ -71,10 +129,18 @@ const Signup = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="name@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={onChangeEmail}
               required
             />
-
+            {email.length > 0 && (
+              <span
+                className={`mt-2 text-sm ${
+                  isEmail ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {emailMessage}
+              </span>
+            )}
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               이름
             </label>
@@ -98,8 +164,17 @@ const Signup = () => {
               placeholder="••••••••"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={onChangePassword}
             />
+            {password.length > 0 && (
+              <span
+                className={`mt-2 text-sm ${
+                  isPassword ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {passwordMessage}
+              </span>
+            )}
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               비밀번호 확인
             </label>
@@ -110,8 +185,17 @@ const Signup = () => {
               placeholder="••••••••"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={onChangePasswordConfirm}
             />
+            {confirmPassword.length > 0 && (
+              <span
+                className={`mt-2 text-sm ${
+                  isPasswordConfirm ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {PasswordConfirmMessage}
+              </span>
+            )}
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               전화번호
             </label>
@@ -125,8 +209,8 @@ const Signup = () => {
             />
             <button
               type="submit"
-              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold"
-              disabled={isLoading}
+              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
+              disabled={!(isEmail && isPassword && isPasswordConfirm)}
             >
               시작하기
             </button>

@@ -10,8 +10,6 @@ const NewsBrandCarouselMenu = () => {
   const NewsBrand = useRecoilValueLoadable(NewsBrandList);
   const [selectedNewsTitle, setSelectedNewsTitle] =
     useRecoilState(selectNewsBrand);
-  // const NewsBrandList =
-  //   useRecoilValueLoadable<selectedNewsListType[]>(selectedNewsList);
 
   let LoadableNewsBrand: String[] = [];
 
@@ -77,49 +75,6 @@ const NewsBrandCarouselMenu = () => {
       </Listbox>
     </div>
   );
-  // return (
-  //   <div className="mt-12 w-full dropdown dropdown-hover">
-  //     <label tabIndex={0} className="btn btn-primary w-full text-black">
-  //       {selectedNewsTitle === null ? "언론사 선택 ▼" : selectedNewsTitle}
-  //     </label>
-  //     <ul
-  //       tabIndex={0}
-  //       className="flex flex-row dropdown-content menu shadow bg-base-100 max-h-80 w-full overflow-y-auto "
-  //     >
-  //       <div className="flex flex-col overflow-y-auto">
-  //         {NewsBrand.state === "loading" ? (
-  //           <LoadingBar />
-  //         ) : (
-  //           LoadableNewsBrand.map((item, idx) => (
-  //             <li
-  //               onClick={() => handleSelect(item)}
-  //               key={idx}
-  //               className="p-2 cursor-pointer text-gray-600 border-2 border-slate-300 text-sm w-1/4"
-  //             >
-  //               {item}
-  //             </li>
-  //           ))
-  //         )}
-  //       </div>
-  //     </ul>
-  //   </div>
-  // );
-  // return (
-  //   <Listbox value={selectedNewsTitle} onChange={setSelectedNewsTitle}>
-  //     <Listbox.Button>{selectedNewsTitle}</Listbox.Button>
-  //     <Listbox.Options>
-  //       {NewsBrand.state === "loading" ? (
-  //         <LoadingBar />
-  //       ) : (
-  //         LoadableNewsBrand.map((item, idx) => (
-  //           <Listbox.Option key={idx} value={item} onClick={handleSelect}>
-  //             {item}
-  //           </Listbox.Option>
-  //         ))
-  //       )}
-  //     </Listbox.Options>
-  //   </Listbox>
-  // );
 };
 
 export default NewsBrandCarouselMenu;

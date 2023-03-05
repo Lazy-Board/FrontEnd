@@ -29,7 +29,7 @@ const Signin = () => {
         userEmail: userEmail,
         password: password,
       });
-      setToken(response.data.token);
+
       setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
       //   // setTime(response.data.expiredTime);
@@ -37,6 +37,7 @@ const Signin = () => {
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
       navigate("/");
+      location.reload();
     } catch (err: any) {
       if (err.response.status === 400) {
         alert(err.response.msg);

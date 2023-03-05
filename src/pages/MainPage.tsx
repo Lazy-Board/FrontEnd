@@ -26,27 +26,28 @@ type ModuleData = {
   weatherYn: boolean;
   workYn: boolean;
   youtubeYn: boolean;
-}
+};
 
 const MainPage = (): JSX.Element => {
-  const accessToken = localStorage.getItem('accessToken')
-  console.log(accessToken)
-  
-  const getModule = async() => {
-    try {
-      const response = await api.get(`/user/searchModule`)
-      return response.data
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const accessToken = localStorage.getItem("accessToken");
 
-  const { data, isFetching } = useQuery<ModuleData>(['modules'], getModule, {
+  console.log(accessToken);
+
+  const getModule = async () => {
+    try {
+      const response = await api.get(`/user/searchModule`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, isFetching } = useQuery<ModuleData>(["modules"], getModule, {
     refetchOnWindowFocus: false,
     staleTime: Infinity,
-    notifyOnChangeProps:'tracked',
+    notifyOnChangeProps: "tracked",
   });
-  
+
   let filtered: string[] = [];
   if (data) {
     filtered = Object.entries(data)
@@ -58,18 +59,20 @@ const MainPage = (): JSX.Element => {
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
       {/* 조건부 렌더링 */}
       {/* 로딩 이미지 넣자~~ */}
-      {isFetching ? <div>Loading...</div> :
-      <>
-      {filtered.includes('weatherYn') && <WeatherView />}
-      {filtered.includes('exchangeYn') && <ExchangeView />}
-      {filtered.includes('stockYn') && <StockView />}
-      {filtered.includes('newsYn') && <NewsMainView />}
-      {filtered.includes('youtubeYn') && <YoutubeCarousel />}
-      {filtered.includes('quoteYn') && <QuoteView />}
-      {filtered.includes('todolistYn') && <TodoMainView />}
-      {filtered.includes('workYn') && <TrafficView />}
-      </>
-      }
+      {isFetching ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {filtered.includes("weatherYn") && <WeatherView />}
+          {filtered.includes("exchangeYn") && <ExchangeView />}
+          {filtered.includes("stockYn") && <StockView />}
+          {filtered.includes("newsYn") && <NewsMainView />}
+          {filtered.includes("youtubeYn") && <YoutubeCarousel />}
+          {filtered.includes("quoteYn") && <QuoteView />}
+          {filtered.includes("todolistYn") && <TodoMainView />}
+          {filtered.includes("workYn") && <TrafficView />}
+        </>
+      )}
     </Content>
   );
 };

@@ -29,11 +29,7 @@ const StockDetailAccordion = ({
   const [selectedStock, setSelectedStock] =
     useRecoilState<StockProps[]>(StockLike);
   const [StockLikeButton, setStockLikeButton] = useState(false);
-  // setSelectedStock(
-  //   StockDetail.filter((item: DetailStockProps) =>
-  //     wishlist.includes(item.stockName)
-  //   )
-  // );
+
   const [contentHeight, setContentHeight] = useState<number | undefined>(
     undefined
   );
@@ -74,9 +70,6 @@ const StockDetailAccordion = ({
     border-radius: 100px;
     background-color: #999;
   `;
-  // useEffect(() => {
-
-  // }, [wishlist]);
 
   return (
     <div className="border-none divide-y-2 ">

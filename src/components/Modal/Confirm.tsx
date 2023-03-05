@@ -9,10 +9,12 @@ const Confirm = (): JSX.Element => {
 
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
+  const userId = localStorage.getItem("userId");
   const Logout = async () => {
     if (accessToken && refreshToken) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userId");
       api
         .post("user/logout")
         .then(() => {
