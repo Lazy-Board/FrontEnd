@@ -29,15 +29,19 @@ type ModuleData = {
 }
 
 const MainPage = (): JSX.Element => {
-  // const getModule = async() => {
-  //   try {
-  //     const response = await api.get(`/user/searchModule`)
-  //     return response.data
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  const { data, isFetching } = useQuery<ModuleData>(['modules'], () => api.get(`/user/searchModule`), {
+  const accessToken = localStorage.getItem('accessToken')
+  console.log(accessToken)
+  
+  const getModule = async() => {
+    try {
+      const response = await api.get(`/user/searchModule`)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const { data, isFetching } = useQuery<ModuleData>(['modules'], getModule, {
     refetchOnWindowFocus: false,
     staleTime: Infinity,
     notifyOnChangeProps:'tracked',
@@ -45,13 +49,10 @@ const MainPage = (): JSX.Element => {
   
   let filtered: string[] = [];
   if (data) {
-    filtered = Object.entries(data.data)
+    filtered = Object.entries(data)
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
-
-  const accessToken = localStorage.getItem('accessToken')
-  console.log(accessToken)
 
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
