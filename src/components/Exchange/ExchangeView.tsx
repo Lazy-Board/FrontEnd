@@ -38,7 +38,7 @@ const ExchangeView = (): JSX.Element => {
 
   return (
     <div className="w-full h-fit mt-5 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-hidden bg-white">
-        <DeleteModule />
+        {/* <DeleteModule /> */}
         <div className="self-start flex items-center">
             환율 
             <Link to={`/exchange`} ><BiChevronRight size={26}/></Link>

@@ -15,15 +15,15 @@ const NewsMainView = () => {
   }
 
   return (
-    <div className="w-full h-fit max-h-72 mt-4 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
-      <div className="text-left flex font-semibold border-b border-slate-300 pb-2 absolute">
+    <div className="w-full h-fit max-h-72 mt-4 pb-6 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
+      <div className="text-left flex font-semibold border-b border-slate-300 py-2 px-2 sticky top-0 w-full bg-white">
         헤드라인 뉴스
         <Link to="/news">
           <BiChevronRight size={26} />
         </Link>
       </div>
 
-      <div className="flex-row text-sm">
+      <div className="flex-row text-sm px-3 bg-white">
         {getNewsMain.state === "loading" ? (
           <LoadingBar />
         ) : (

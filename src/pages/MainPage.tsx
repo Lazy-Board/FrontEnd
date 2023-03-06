@@ -7,8 +7,10 @@ import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
 import TodoMainView from "../components/Todolist/TodoMainView";
-import { api } from "../atom/signin";
+import { getModule, ModuleData } from "../atom/users";
+import MainLoading from "../components/MenuBars/MainLoading";
 import { useQuery } from "react-query";
+import { api } from "../atom/signin";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -16,23 +18,7 @@ const Content = styled.div`
   color: black;
 `;
 
-type ModuleData = {
-  [key: string]: boolean;
-  exchangeYn: boolean;
-  newsYn: boolean;
-  quoteYn: boolean;
-  stockYn: boolean;
-  todolistYn: boolean;
-  weatherYn: boolean;
-  workYn: boolean;
-  youtubeYn: boolean;
-};
-
 const MainPage = (): JSX.Element => {
-  const accessToken = localStorage.getItem("accessToken");
-
-  console.log(accessToken);
-
   const getModule = async () => {
     try {
       const response = await api.get(`/user/searchModule`);
@@ -58,9 +44,8 @@ const MainPage = (): JSX.Element => {
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
       {/* 조건부 렌더링 */}
-      {/* 로딩 이미지 넣자~~ */}
       {isFetching ? (
-        <div>Loading...</div>
+        <MainLoading />
       ) : (
         <>
           {filtered.includes("weatherYn") && <WeatherView />}

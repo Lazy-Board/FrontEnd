@@ -52,7 +52,7 @@ const WeatherView = ():JSX.Element => {
 
     return (
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
-            <DeleteModule />
+            {/* <DeleteModule /> */}
             {isFetching ? <WeatherLoading />:
             !weatherData ? 
             <div className='w-full h-32 mt-6 p-4' >

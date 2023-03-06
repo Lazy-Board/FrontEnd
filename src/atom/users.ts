@@ -9,6 +9,18 @@ export interface userType{
     userName:string;
 }
 
+export type ModuleData = {
+    [key: string]: boolean;
+    exchangeYn: boolean;
+    newsYn: boolean;
+    quoteYn: boolean;
+    stockYn: boolean;
+    todolistYn: boolean;
+    weatherYn: boolean;
+    workYn: boolean;
+    youtubeYn: boolean;
+}
+
 export const userInfoState = atom({
     key:'userInfoState',
     default:{
@@ -50,3 +62,12 @@ export const getUserInfo = async () => {
         console.log(`Error: \n${error}`);
     }
 };
+
+export const getModule = async() => {
+    try {
+        const response = await api.get(`/user/searchModule`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

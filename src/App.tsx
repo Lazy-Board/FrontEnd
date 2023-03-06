@@ -17,6 +17,7 @@ import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
 import UserSuccess from "./pages/UserSuccess";
 import SelectWidget from "./pages/SelectWidget";
+import UpdateWidget from "./pages/UpdateWidget";
 import UpdatePassword from "./components/User/UpdatePassword";
 import UserWithdrawal from "./components/User/UserWithdrawal";
 import FindPassword from "./pages/FindPassword";
@@ -40,6 +41,7 @@ function App() {
         <Route path="/news" element={<NewsDetailView />} />
         <Route path="/auth-success" element={<UserSuccess />} />
         <Route path="/select-widget" element={<SelectWidget />} />
+        <Route path="/user/update-widget" element={<UpdateWidget />} />
         <Route path="/user/update-password" element={<UpdatePassword />} />
         <Route path="/user/withdrawal" element={<UserWithdrawal />} />
         <Route path="/user/login/google" element={<LoginRedirect />} />

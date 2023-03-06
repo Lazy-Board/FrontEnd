@@ -21,7 +21,7 @@ const TrafficView = ():JSX.Element => {
     
     return (
         <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 rounded-lg bg-white">
-            <DeleteModule />
+            {/* <DeleteModule /> */}
             <div className="flex items-center">
                 출근 정보
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>

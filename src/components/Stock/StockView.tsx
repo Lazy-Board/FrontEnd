@@ -21,50 +21,51 @@ const StockView = () => {
     background-color: #999;
   `;
   return (
-    <div className="w-full h-fit max-h-72 mt-4 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
-      <div className="text-left font-semibold flex">
+    <div className="w-full h-fit max-h-72 mt-4 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
+      <div className="text-left font-semibold flex p-3 pb-2 w-full sticky top-0 bg-white">
         주식
         <Link to={`/stock`}>
           <BiChevronRight size={26} />
         </Link>
       </div>
-
-      {MainViewList.state === "loading" ? (
-        <LoadingBar />
-      ) : (
-        LoadablegetStock.map((item: StockProps) => (
-          <>
-            <div
-              className="flex w-full p-2 mt-4 justify-start border-t"
-              key={item.stockName}
-            >
-              <span className="">{item.stockName}</span>
-              <span className="font-semibold ml-auto">{item.price} 원</span>
-            </div>
-            <div className="flex">
-              <StockImg
-                src={`/stockImage/${item.stockName}.svg`}
-                alt={item.stockName}
-                className="ml-5 mr-auto"
-              />
-              <span
-                className={`${
-                  item.dayRange[0] === "+" ? "text-red-500" : "text-blue-500"
-                } mr-2`}
+      <div className="flex-row px-3 bg-white">
+        {MainViewList.state === "loading" ? (
+          <LoadingBar />
+        ) : (
+          LoadablegetStock.map((item: StockProps) => (
+            <>
+              <div
+                className="flex w-full p-2 mt-2 border-t border-slate-300 justify-start"
+                key={item.stockName}
               >
-                {item.diffAmount}
-              </span>
-              <span
-                className={`${
-                  item.dayRange[0] === "+" ? "text-red-500" : "text-blue-500"
-                } mx-2`}
-              >
-                {item.dayRange}
-              </span>
-            </div>
-          </>
-        ))
-      )}
+                <span className="">{item.stockName}</span>
+                <span className="font-semibold ml-auto">{item.price} 원</span>
+              </div>
+              <div className="flex pt-1 mb-2">
+                <StockImg
+                  src={`/stockImage/${item.stockName}.svg`}
+                  alt={item.stockName}
+                  className="ml-5 mr-auto"
+                />
+                <span
+                  className={`${
+                    item.dayRange[0] === "+" ? "text-red-500" : "text-blue-500"
+                  } mr-2`}
+                >
+                  {item.diffAmount}
+                </span>
+                <span
+                  className={`${
+                    item.dayRange[0] === "+" ? "text-red-500" : "text-blue-500"
+                  } mx-2`}
+                >
+                  {item.dayRange}
+                </span>
+              </div>
+            </>
+          ))
+        )}
+      </div>
     </div>
   );
 };
