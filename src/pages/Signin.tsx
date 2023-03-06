@@ -7,20 +7,19 @@ import {
 import { useRecoilState } from "recoil";
 import { FormEvent, useState } from "react";
 import { API_URL } from "../API/API";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../atom/signin";
 import { GoogleAuth } from "../components/User/GoogleAuth";
+import { Modal } from "../components/Modal/ErrorModal";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [token, setToken] = useRecoilState(authTokenState);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  // const [time, setTime] = useRecoilState(timeState);
 
   const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,14 +38,8 @@ const Signin = () => {
       navigate("/");
       location.reload();
     } catch (err: any) {
-      if (err.response.status === 400) {
-        alert(err.response.msg);
-      }
+      console.log(err.response.data.msg);
     }
-  };
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${accessToken}`,
   };
 
   interface AuthResponse {
@@ -151,10 +144,9 @@ const Signin = () => {
             </div>
           </form>
         </div>
-
-        {/* <button onClick={refresh} className="btn">
-          리프레시
-        </button> */}
+        {error && (
+          <Modal title="Error" message={error} onClose={() => setError(null)} />
+        )}
       </div>
     </div>
   );

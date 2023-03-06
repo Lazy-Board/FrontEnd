@@ -32,7 +32,7 @@ const YoutubeCarousel = () => {
     <>
       <div
         ref={carouselRef}
-        className="w-full mt-5 p-3 pt-2 relative border bg-white border-slate-300 rounded-lg overflow-hidden"
+        className="w-full mt-5 px-3 py-4 pt-2 relative border bg-white border-slate-300 rounded-lg overflow-hidden"
         style={{
           height,
           overflow: "hidden",
@@ -93,9 +93,12 @@ const YoutubeCarousel = () => {
                   </span>
                   <a href={item.videoUrl} target="_blank">
                     <div className="w-56 ml-3 text-left">
-                      <span className=" text-sm font-sans font-semibold overflow-hidden">
+                      <p className=" text-sm font-sans py-1 truncate">
                         {item.contentName}
-                      </span>
+                      </p>
+                      <p className="font-sans text-xs font-semibold mb-1">
+                        {item.channelName}
+                      </p>
                     </div>
                   </a>
                 </div>

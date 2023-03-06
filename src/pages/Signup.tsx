@@ -10,8 +10,9 @@ import {
   usernameState,
   phonenumberState,
 } from "../atom/signup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
+import { Modal } from "../components/Modal/ErrorModal";
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -30,6 +31,7 @@ const Signup = () => {
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,13 +45,10 @@ const Signup = () => {
       });
       localStorage.setItem("userId", response.data.userId);
       setUserId(response.data.userId);
+      navigate("/select-widget");
     } catch (err: any) {
-      if (err) {
-        const axiosError: any = err as AxiosError;
-        setError(axiosError.response.data.message);
-      } else {
-        setError(err.message);
-      }
+      console.log(err);
+      setError(err.response.data.msg);
     }
   };
 
@@ -216,6 +215,9 @@ const Signup = () => {
             </button>
           </form>
         </div>
+        {error && (
+          <Modal title="Error" message={error} onClose={() => setError(null)} />
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,8 @@ import { getModule, ModuleData } from "../atom/users";
 import MainLoading from "../components/MenuBars/MainLoading";
 import { useQuery } from "react-query";
 import { api } from "../atom/signin";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -19,6 +21,8 @@ const Content = styled.div`
 `;
 
 const MainPage = (): JSX.Element => {
+  const accessToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
   const getModule = async () => {
     try {
       const response = await api.get(`/user/searchModule`);
@@ -40,7 +44,9 @@ const MainPage = (): JSX.Element => {
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
-
+  useEffect(() => {
+    accessToken === null ? navigate("/login") : "";
+  }, []);
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
       {/* 조건부 렌더링 */}
