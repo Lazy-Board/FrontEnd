@@ -151,10 +151,6 @@ const Signin = () => {
             </div>
           </form>
         </div>
-
-        {/* <button onClick={refresh} className="btn">
-          리프레시
-        </button> */}
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getDur } from "../../atom/traffic";
 import TrafficLoading from "./TrafficLoading";
-import DeleteModule from "../Buttons/DeleteModule";
 
 const TrafficView = ():JSX.Element => {
     const { data:durationInfo, isLoading } = useQuery(['userPosition'], getDur, {
@@ -21,7 +20,6 @@ const TrafficView = ():JSX.Element => {
     
     return (
         <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 rounded-lg bg-white">
-            {/* <DeleteModule /> */}
             <div className="flex items-center">
                 출근 정보
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>

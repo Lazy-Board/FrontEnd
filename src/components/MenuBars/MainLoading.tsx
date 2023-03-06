@@ -1,4 +1,5 @@
 import styled from "styled-components";
+// 메인 데이터 로딩 중일 때
 
 const MainLoading = ():JSX.Element => {
     return (

@@ -8,7 +8,7 @@ const { kakao }:any = window;
 const MapContainer = () => {
     const { data } = useQuery(['userPosition'], getDur, {
         refetchOnWindowFocus:false,
-        staleTime:Infinity,
+        notifyOnChangeProps:'tracked',
     });
 
     useEffect(() => {

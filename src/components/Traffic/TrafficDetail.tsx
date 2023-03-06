@@ -58,8 +58,8 @@ const TrafficDetail = () => {
             setArrive('')
             queryClient.invalidateQueries(['userPosition']);
             alert('삭제되었습니다.')
-        } catch (error) {
-            console.error(`Error: \n${error}`);
+        } catch (error:any) {
+            console.error(`Error: \n${error.response.data.message}`);
         }
     }
 
