@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { Modal } from "../components/Modal/ErrorModal";
 import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useRecoilState } from "recoil";
+import { useState } from "react";
 import { moduleState } from "../atom/users";
 import Complete from "../components/Modal/Complete";
 
@@ -19,6 +21,7 @@ const List = styled.div`
 
 const SelectWidget = (): JSX.Element => {
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
     const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
 
     const handleCheckboxChange = (checked: boolean, id: string) => {
@@ -44,7 +47,7 @@ const SelectWidget = (): JSX.Element => {
                 ...Object.fromEntries(checkedIds.map((id) => [id, true])),
             });
         } catch (error:any){
-            alert(`Error: \n${error.response.data.message}`)
+            setError(error.response.data.message);
         }
     };
 
@@ -111,7 +114,7 @@ const SelectWidget = (): JSX.Element => {
                     className="w-80 mt-10 btn btn-primary"
                     type="submit"
                 >
-                    <label htmlFor="complete-modal">
+                    <label className="w-full p-3 cursor-pointer" htmlFor="complete-modal">
                     가입하기
                     </label>
                 </button>
@@ -119,6 +122,9 @@ const SelectWidget = (): JSX.Element => {
             </div>
             </Content>
             <Complete />
+            {error && (
+                <Modal title="Error" message={error} onClose={() => setError(null)} />
+            )}
         </>
     );
 };

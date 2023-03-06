@@ -7,10 +7,9 @@ import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
 import TodoMainView from "../components/Todolist/TodoMainView";
-import { getModule, ModuleData } from "../atom/users";
 import MainLoading from "../components/MenuBars/MainLoading";
+import { getModule, ModuleData } from "../atom/users";
 import { useQuery } from "react-query";
-import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -23,14 +22,6 @@ const Content = styled.div`
 const MainPage = (): JSX.Element => {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
-  const getModule = async () => {
-    try {
-      const response = await api.get(`/user/searchModule`);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const { data, isFetching } = useQuery<ModuleData>(["modules"], getModule, {
     refetchOnWindowFocus: false,
@@ -47,6 +38,7 @@ const MainPage = (): JSX.Element => {
   useEffect(() => {
     accessToken === null ? navigate("/login") : "";
   }, []);
+
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
       {/* 조건부 렌더링 */}

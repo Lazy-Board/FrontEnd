@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { BiSortAlt2 } from "react-icons/bi";
 import { api } from "../../atom/signin";
@@ -7,6 +7,7 @@ import { useMutation, useQueryClient, useQuery } from "react-query";
 import { getDur, startingState, destinationState } from "../../atom/traffic";
 import MapContainer from "./Map";
 import DetailTopBar from "../MenuBars/DetailTopBar";
+import { Modal } from "../Modal/ErrorModal";
 
 const Content = styled.div`
     min-height: 100vh;
@@ -32,6 +33,7 @@ const TrafficDetail = () => {
 
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
         if (data){
@@ -59,7 +61,7 @@ const TrafficDetail = () => {
             queryClient.invalidateQueries(['userPosition']);
             alert('삭제되었습니다.')
         } catch (error:any) {
-            console.error(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -77,7 +79,7 @@ const TrafficDetail = () => {
             setDepart(newData.startingPoint);
             setArrive(newData.destination);
         } catch (error:any) {
-            alert(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -119,6 +121,9 @@ const TrafficDetail = () => {
                 </div>
             </div>
         </Content>
+        {error && (
+            <Modal title="Error" message={error} onClose={() => setError(null)} />
+        )}
         </>
     )
 }
