@@ -57,8 +57,11 @@ const UpdateWidget = (): JSX.Element => {
         const response = await moduleMutation.mutateAsync({
             ...Object.fromEntries(checkedIds.map((id) => [id, true])),
         });
-        setCheckboxes(response.data)
+        setCheckboxes(response.data);
         queryClient.invalidateQueries(['modules']);
+        alert('업데이트되었습니다!');
+        navigate('/');
+        location.reload();
     };
 
     return (

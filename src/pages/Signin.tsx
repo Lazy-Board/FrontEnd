@@ -144,9 +144,12 @@ const Signin = () => {
             </div>
           </form>
         </div>
+<<<<<<< HEAD
         {error && (
           <Modal title="Error" message={error} onClose={() => setError(null)} />
         )}
+=======
+>>>>>>> c60c220aafddeba680545ee413f9a6ca50c0d9ce
       </div>
     </div>
   );

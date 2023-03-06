@@ -32,6 +32,11 @@ export const userInfoState = atom({
     },
 })
 
+export const userImgState = atom({
+    key:'userImgState',
+    default:'/images/user-icon.png',
+})
+
 export const moduleState = atom({
     key:'userModules',
     default:{

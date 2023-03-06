@@ -34,9 +34,9 @@ const FindPassword = ():JSX.Element => {
                 phoneNumber: phoneNumber,
                 userEmail: userEmail
             })
-            alert('임시 비밀번호가 메일로 전송되었습니다.')
-        } catch (error){
-            alert(`Error: \n${error}`)
+            alert('임시 비밀번호가 메일로 전송되었습니다!')
+        } catch (error:any){
+            alert(`Error: \n${error.response.data.message}`)
         }
         // 성공 시 메일이 전송됐다는 alert창 띄우고 실패 시 실패했다는 alert 띄우기
     }

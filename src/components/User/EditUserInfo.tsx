@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { imgApi, api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { getUserInfo, userType, userInfoState } from '../../atom/users';
+import { getUserInfo, userType, userInfoState, userImgState } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
 
 const Content = styled.div`
@@ -21,8 +21,7 @@ const EditUserInfo = ():JSX.Element => {
     })
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
-    const [newImg, setNewImg] = useState<any>(!profile ? '/images/user-icon.png' : profile);
-    // 나중에 recoilState로 수정?
+    const [newImg, setNewImg] = useRecoilState<string>(userImgState);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -48,6 +47,7 @@ const EditUserInfo = ():JSX.Element => {
     useEffect(()=>{
         if (userInfo) {
             setUserData(userInfo);
+            setNewImg(profile);
         }
     },[userInfo]);
 
@@ -89,7 +89,7 @@ const EditUserInfo = ():JSX.Element => {
                 alt="프로필 이미지" 
                 className="w-24 h-24 mx-auto rounded-full bg-gray-300 object-cover"
                 />
-                <input type='file' id='img-upload' name='multipartFile' accept=".gif, .jpg, .png" className='hidden' onChange={onFileChange} />
+                <input type='file' id='img-upload' name='multipartFile' accept="image/*" className='hidden' onChange={onFileChange} />
                 <label htmlFor='img-upload' className='absolute p-1 bottom-0 right-28 bg-emerald-400 border-2 border-cyan-600 rounded-full hover:bg-cyan-600 transition-colors cursor-pointer'>
                 <FiEdit2 color='white'/>
                 </label>

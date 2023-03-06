@@ -1,7 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../../API/API";
 import { useNavigate } from "react-router-dom";
-import { Logout } from "../User/Logout";
 import { api } from "../../atom/signin";
 
 const Confirm = (): JSX.Element => {
