@@ -28,8 +28,8 @@ function App() {
     <BrowserRouter>
       <TopBar />
       <Routes>
-        <Route path="/main" element={<MainPage />} />
-        <Route path="/" element={<Signin />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/find-password" element={<FindPassword />} />
         <Route path="/user" element={<UserProfile />} />
