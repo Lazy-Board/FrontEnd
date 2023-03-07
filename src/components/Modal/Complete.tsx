@@ -13,7 +13,7 @@ const Complete = (): JSX.Element => {
         <input type="checkbox" id="complete-modal" className="modal-toggle" />
         <div className="modal">
             <div className="modal-box w-72">
-            <p className="py-4 font-semibold">
+            <p className="py-4">
                 회원가입을 축하드립니다! <br/>
                 등록하신 이메일로 인증을 완료하세요.
             </p>

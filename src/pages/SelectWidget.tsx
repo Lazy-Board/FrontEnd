@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Modal } from "../components/Modal/ErrorModal";
+import { ErrorModal } from "../components/Modal/ErrorModal";
 import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
@@ -123,7 +123,7 @@ const SelectWidget = (): JSX.Element => {
             </Content>
             <Complete />
             {error && (
-                <Modal title="Error" message={error} onClose={() => setError(null)} />
+                <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
             )}
         </>
     );

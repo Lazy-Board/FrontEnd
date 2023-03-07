@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getUserInfo, userType, userInfoState } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
-import { Modal } from '../Modal/ErrorModal';
+import { ErrorModal } from '../Modal/ErrorModal';
+import SuccessModal from '../Modal/SuccessModal';
 
 const Content = styled.div`
     min-height: 100vh;
@@ -24,6 +25,7 @@ const EditUserInfo = ():JSX.Element => {
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
     const [newImg, setNewImg] = useState<any>(!profile ? '/images/user-icon.png' : profile);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -74,8 +76,8 @@ const EditUserInfo = ():JSX.Element => {
             });
             setNewImg(url);
             setUserData(response.data);
+            setSuccess(true);
             queryClient.invalidateQueries(['userInfo']);
-            alert('저장되었습니다.');
         } catch (error:any) {
             setError(error.response.data.message);
         }
@@ -123,7 +125,10 @@ const EditUserInfo = ():JSX.Element => {
             </div>
         </form>
         {error && (
-        <Modal title="Error" message={error} onClose={() => setError(null)} />
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'프로필이 업데이트 되었습니다!'} onClose={() => setSuccess(null)} />
         )}
         </Content>
         </>

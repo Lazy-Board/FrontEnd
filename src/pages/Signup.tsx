@@ -12,7 +12,7 @@ import {
 } from "../atom/signup";
 import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
-import { Modal } from "../components/Modal/ErrorModal";
+import { ErrorModal } from "../components/Modal/ErrorModal";
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -211,12 +211,12 @@ const Signup = () => {
               className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
               disabled={!(isEmail && isPassword && isPasswordConfirm)}
             >
-              시작하기
+              다음
             </button>
           </form>
         </div>
         {error && (
-          <Modal title="Error" message={error} onClose={() => setError(null)} />
+          <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
         )}
       </div>
     </div>

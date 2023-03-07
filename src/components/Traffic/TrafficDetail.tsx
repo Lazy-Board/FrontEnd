@@ -7,7 +7,8 @@ import { useMutation, useQueryClient, useQuery } from "react-query";
 import { getDur, startingState, destinationState } from "../../atom/traffic";
 import MapContainer from "./Map";
 import DetailTopBar from "../MenuBars/DetailTopBar";
-import { Modal } from "../Modal/ErrorModal";
+import { ErrorModal } from "../Modal/ErrorModal";
+import SuccessModal from "../Modal/SuccessModal";
 
 const Content = styled.div`
     min-height: 100vh;
@@ -34,6 +35,7 @@ const TrafficDetail = () => {
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     useEffect(()=>{
         if (data){
@@ -59,7 +61,7 @@ const TrafficDetail = () => {
             setDepart('')
             setArrive('')
             queryClient.invalidateQueries(['userPosition']);
-            alert('삭제되었습니다.')
+            setSuccess(true)
         } catch (error:any) {
             setError(error.response.data.message);
         }
@@ -122,7 +124,10 @@ const TrafficDetail = () => {
             </div>
         </Content>
         {error && (
-            <Modal title="Error" message={error} onClose={() => setError(null)} />
+            <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'삭제되었습니다.'} onClose={() => setSuccess(null)} />
         )}
         </>
     )

@@ -5,10 +5,11 @@
 }
 
 body {
-  background-color: #a9cac0;
-  /* background-image: url(); */
-  /* background-position: center; */
-  /* background-repeat: no-repeat; */
+  background-image: url('/images/Illustration.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
 }
 
 img {

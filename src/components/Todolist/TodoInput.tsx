@@ -10,7 +10,7 @@ import { FaPen } from "react-icons/fa";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { api } from "../../atom/signin";
 import { inputState, todosState, ITodoTypes } from "../../atom/Todo";
-import { Modal } from "../Modal/ErrorModal";
+import { ErrorModal } from "../Modal/ErrorModal";
 
 const TodoInput = () => {
   const [contents, setContents] = useRecoilState<string>(inputState);
@@ -68,7 +68,7 @@ const TodoInput = () => {
         onClick={addTodo}
       />
       {error && (
-        <Modal title="Error" message={error} onClose={() => setError(null)} />
+        <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
       )}
     </div>
   );

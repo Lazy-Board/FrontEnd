@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { api } from '../atom/signin';
-import { API_URL } from '../API/API';
-import axios from 'axios';
 import DetailTopBar from '../components/MenuBars/DetailTopBar';
-import { Modal } from '../components/Modal/ErrorModal';
+import { ErrorModal } from '../components/Modal/ErrorModal';
+import SuccessModal from '../components/Modal/SuccessModal';
 
 // 로그인 화면 -> 비밀번호 찾기
 
@@ -20,6 +19,7 @@ const FindPassword = ():JSX.Element => {
         userEmail:''
     });
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     const {phoneNumber, userEmail} = userInfo;
 
@@ -38,7 +38,7 @@ const FindPassword = ():JSX.Element => {
                 phoneNumber: phoneNumber,
                 userEmail: userEmail
             })
-            alert('임시 비밀번호가 메일로 전송되었습니다!')
+            setSuccess(true)
         } catch (error:any){
             setError(error.response.data.msg);
         }
@@ -71,7 +71,10 @@ const FindPassword = ():JSX.Element => {
             </form>
         </Content>
         {error && (
-        <Modal title="Error" message={error} onClose={() => setError(null)} />
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'임시 비밀번호가 메일로 전송되었습니다!'} onClose={() => setSuccess(null)} />
         )}
         </>
     )

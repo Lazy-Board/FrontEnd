@@ -1,8 +1,10 @@
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { weatherLocationState, getInfo, MyWeatherLocation } from "../../atom/weather";
 import { api } from "../../atom/signin";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { ErrorModal } from "../Modal/ErrorModal";
+import SuccessModal from "../Modal/SuccessModal";
 
 const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
@@ -12,6 +14,8 @@ const SetLocationModal = ():JSX.Element => {
     const [locationNames, setLocationNames] = useRecoilState<MyWeatherLocation>(weatherLocationState);
 
     const {cityName, locationName} = locationNames;
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
     
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -49,8 +53,8 @@ const SetLocationModal = ():JSX.Element => {
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
             alert('삭제되었습니다.')
-        } catch (error) {
-            console.error(`Error: \n${error}`);
+        } catch (error:any) {
+            setError(error.response.data.message);
         }
     };
 
@@ -65,9 +69,9 @@ const SetLocationModal = ():JSX.Element => {
             }
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('저장되었습니다.');
+            setSuccess(true);
         } catch (error:any){
-            alert(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -107,6 +111,12 @@ const SetLocationModal = ():JSX.Element => {
                 </form>
             </div>
         </div>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'성공적으로 저장되었습니다!'} onClose={() => setSuccess(null)} />
+        )}
     </>
     )
 }
