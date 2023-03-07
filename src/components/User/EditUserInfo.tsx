@@ -105,23 +105,27 @@ const EditUserInfo = ():JSX.Element => {
                 <label className='block text-sm text-gray-900 dark:text-white text-left'>이름</label>
                 <input type="text" name='userName'
                 value={userName}
-                onChange={changeName}
+                onChange={changeName} required
+                placeholder='이름을 작성해주세요!'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
 
                 <label className='block mb-2 text-sm text-gray-900 dark:text-white text-left'>휴대폰 번호</label>
                 <input type="text" name='phoneNumber'
                 value={phoneNumber}
-                onChange={changeName}
+                onChange={changeName} required
+                placeholder='010-0000-0000'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
 
                 <label className='block mb-2 text-sm text-gray-900 dark:text-white text-left'>이메일 주소</label>
                 <input type="email" name='userEmail'
                 value={userEmail}
-                onChange={changeName}
+                onChange={changeName} required
                 disabled={socialType==='google' ? true : false}
+                placeholder='example@email.com'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
-                    <button className='w-full mt-8 btn btn-primary' type='submit'>
+                    <button className='w-full mt-8 btn btn-primary' type='submit'
+                    disabled={!userName || !phoneNumber || !userName ? true : false}>
                         저장
                     </button>
                 </div>
