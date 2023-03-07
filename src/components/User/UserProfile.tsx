@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getUserInfo } from "../../atom/users";
+import { useNavigate } from "react-router-dom";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 
 const Content = styled.div`
@@ -11,16 +12,11 @@ const Content = styled.div`
 `;
 
 const UserProfile = (): JSX.Element => {
+  const navigate = useNavigate();
   const { data: userInfo, isLoading } = useQuery(["userInfo"], getUserInfo, {
     refetchOnWindowFocus: false,
     staleTime: Infinity,
   });
-
-  const menus = [
-    { id: 1, name: "프로필 수정", link: "user/userInfo" },
-    { id: 2, name: "비밀번호 변경", link: "user/update-password" },
-    { id: 3, name: "회원 탈퇴", link: "user/withdrawal" },
-  ];
 
   return (
     <>
@@ -41,23 +37,29 @@ const UserProfile = (): JSX.Element => {
               <p className="mt-2">{userInfo.userEmail}</p>
             </>
           )}
-          <div className="mt-6">
-            {menus.map((menu) => (
-              <Link
-                to={`/${menu.link}`}
-                className="w-9/12 btn btn-outline mt-5"
-                key={menu.id}
-              >
-                {menu.name}
-              </Link>
-            ))}
-            <label
-              htmlFor="confirm-modal"
-              className="w-9/12 btn btn-outline mt-5"
-            >
-              로그아웃
-            </label>
-          </div>
+          {isLoading ? <div>Loading...</div>:
+                (
+                    <div className='w-72 mt-6 flex flex-col'>
+                    <Link to={'/user/userInfo'}
+                    className='w-full btn btn-outline mt-5'
+                    >
+                        프로필 수정
+                    </Link>
+                    <button 
+                    className='w-full btn btn-outline mt-5'
+                    onClick={()=>navigate(`/user/update-password`)}
+                    disabled={userInfo.socialType==='google' ? true : false}
+                    >
+                        비밀번호 변경
+                    </button>
+                    <label htmlFor='confirm-modal' className='w-full btn btn-outline mt-5'>로그아웃</label>
+                    <Link to={'/user/withdrawal'}
+                    className='w-full btn btn-outline mt-5'
+                    >
+                        회원탈퇴
+                    </Link>
+                </div>
+                )}
         </div>
       </Content>
     </>
