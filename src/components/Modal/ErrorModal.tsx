@@ -4,10 +4,13 @@ import styled from "styled-components";
 const Max=styled.p`
     max-width:215px;
 `
+const Position=styled.div`
+    z-index:999;
+`
 
 export const ErrorModal = (props: any) => {
     return (
-        <div className="fixed z-50 inset-0 overflow-y-auto">
+        <Position className="fixed inset-0 overflow-y-auto">
         <div className="flex items-center justify-center min-h-screen">
             <div className="w-80 bg-red-50 p-5 rounded-lg shadow-lg border border-red-200 min-w-1/2">
                 <div className="flex items-center">
@@ -26,7 +29,7 @@ export const ErrorModal = (props: any) => {
                 </div>
             </div>
         </div>
-        </div>
+        </Position>
     );
 };
 
