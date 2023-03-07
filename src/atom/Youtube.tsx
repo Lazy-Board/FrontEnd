@@ -3,10 +3,10 @@ import { selector } from "recoil";
 import { API_URL } from "../API/API";
 import { api } from "./signin";
 
-export const getYoutube = selector({
+export const getYoutube = selector<YoutubeProps[]>({
   key: "getYoutube",
   get: async ({ get }) => {
-    const response = await api.get(`${API_URL}/youtube`);
+    const response = await api.get(`/youtube`);
     return response.data;
   },
 });

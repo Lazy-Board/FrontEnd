@@ -4,7 +4,7 @@ export const Modal = (props: any) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-slate-300 w-1/2 min-w-1/2">
+        <div className="bg-white p-6 rounded-lg shadow-lg border border-slate-300 w-72">
           <div className="flex items-center">
             <BiMessageError fill="red" size={20} />
             <h2 className="text-lg font-medium text-gray-900 ml-2 pb-2">
