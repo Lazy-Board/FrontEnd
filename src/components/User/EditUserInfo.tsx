@@ -2,10 +2,12 @@ import styled from 'styled-components';
 import { imgApi, api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { getUserInfo, userType, userInfoState, userImgState } from '../../atom/users';
+import { getUserInfo, userType, userInfoState } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
+import { ErrorModal } from '../Modal/ErrorModal';
+import SuccessModal from '../Modal/SuccessModal';
 
 const Content = styled.div`
     min-height: 100vh;
@@ -21,7 +23,9 @@ const EditUserInfo = ():JSX.Element => {
     })
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
-    const [newImg, setNewImg] = useRecoilState<string>(userImgState);
+    const [newImg, setNewImg] = useState<string>(profile === null || profile === '' || !profile ? '/images/user-icon.png' : profile);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -49,7 +53,7 @@ const EditUserInfo = ():JSX.Element => {
             setUserData(userInfo);
             setNewImg(profile);
         }
-    },[userInfo]);
+    },[userInfo,profile]);
 
     const editUserMutation = useMutation((inputData:any) =>
         api.put(`/user/update`, inputData)
@@ -72,10 +76,10 @@ const EditUserInfo = ():JSX.Element => {
             });
             setNewImg(url);
             setUserData(response.data);
+            setSuccess('프로필이 업데이트 되었습니다!');
             queryClient.invalidateQueries(['userInfo']);
-            alert('저장되었습니다.');
         } catch (error:any) {
-            console.log(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     };
 
@@ -120,6 +124,12 @@ const EditUserInfo = ():JSX.Element => {
                 </div>
             </div>
         </form>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
+        )}
         </Content>
         </>
     )

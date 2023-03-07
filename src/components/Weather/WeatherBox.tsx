@@ -6,7 +6,7 @@ interface WeatherType{
     speed?:string;
 }
 
-//상태에 따른 Box 배경색/선 색상 정의
+//날씨 상태에 따른 Box 배경색/선 색상 정의
 const badBgc = '#ffe0de';
 const badColor = "#ad1c15"
 const normalBgc = '#ebfae8';
@@ -17,7 +17,7 @@ const goodColor = '#2552ba';
 const Boxes:any = styled.div`
     width: calc(25% - 6px);
     ${(props:WeatherType) => 
-        (props.status === '나쁨') ? css`
+        (props.status.includes('나쁨')) ? css`
             background-color:${badBgc};
             border-color:${badColor};
             color:${badColor};

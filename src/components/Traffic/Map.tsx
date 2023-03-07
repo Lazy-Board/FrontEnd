@@ -21,7 +21,7 @@ const MapContainer = () => {
         const map = new kakao.maps.Map(container, options);
 
         // 목적지 가리키도록 해야 함
-        geocoder.addressSearch(!data || !data.destination ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
+        geocoder.addressSearch(!data ? '강남구 테헤란로 131' : data.destination, function(result:any, status:any) {
             // 정상적으로 검색이 완료됐으면 
                 if (status === kakao.maps.services.Status.OK) {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -41,7 +41,7 @@ const MapContainer = () => {
                 map.setCenter(coords);
             } 
         })
-    }, []);
+    }, [data]);
 
     return (
         <div id='myMap' style={{

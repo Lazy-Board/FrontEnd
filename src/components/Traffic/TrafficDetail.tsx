@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { BiSortAlt2 } from "react-icons/bi";
 import { api } from "../../atom/signin";
@@ -7,6 +7,8 @@ import { useMutation, useQueryClient, useQuery } from "react-query";
 import { getDur, startingState, destinationState } from "../../atom/traffic";
 import MapContainer from "./Map";
 import DetailTopBar from "../MenuBars/DetailTopBar";
+import { ErrorModal } from "../Modal/ErrorModal";
+import SuccessModal from "../Modal/SuccessModal";
 
 const Content = styled.div`
     min-height: 100vh;
@@ -32,6 +34,8 @@ const TrafficDetail = () => {
 
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     useEffect(()=>{
         if (data){
@@ -57,9 +61,9 @@ const TrafficDetail = () => {
             setDepart('')
             setArrive('')
             queryClient.invalidateQueries(['userPosition']);
-            alert('삭제되었습니다.')
+            setSuccess(true)
         } catch (error:any) {
-            console.error(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -77,7 +81,7 @@ const TrafficDetail = () => {
             setDepart(newData.startingPoint);
             setArrive(newData.destination);
         } catch (error:any) {
-            alert(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -119,6 +123,12 @@ const TrafficDetail = () => {
                 </div>
             </div>
         </Content>
+        {error && (
+            <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'삭제되었습니다.'} onClose={() => setSuccess(null)} />
+        )}
         </>
     )
 }

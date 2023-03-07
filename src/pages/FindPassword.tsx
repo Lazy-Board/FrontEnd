@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { api } from '../atom/signin';
 import DetailTopBar from '../components/MenuBars/DetailTopBar';
+import { ErrorModal } from '../components/Modal/ErrorModal';
+import SuccessModal from '../components/Modal/SuccessModal';
 
 // 로그인 화면 -> 비밀번호 찾기
 
@@ -15,7 +17,9 @@ const FindPassword = ():JSX.Element => {
     const [userInfo, setInfo] = useState({
         phoneNumber:'',
         userEmail:''
-    })
+    });
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null >(null);
 
     const {phoneNumber, userEmail} = userInfo;
 
@@ -30,13 +34,13 @@ const FindPassword = ():JSX.Element => {
     const onSubmitData = async(e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await api.post(`/user/find/password`,{
+            await api.post(`/user/find-password`,{
                 phoneNumber: phoneNumber,
                 userEmail: userEmail
             })
-            alert('임시 비밀번호가 메일로 전송되었습니다!')
+            setSuccess('임시 비밀번호가 메일로 전송되었습니다!')
         } catch (error:any){
-            alert(`Error: \n${error.response.data.message}`)
+            setError(error.response.data.msg);
         }
         // 성공 시 메일이 전송됐다는 alert창 띄우고 실패 시 실패했다는 alert 띄우기
     }
@@ -66,6 +70,12 @@ const FindPassword = ():JSX.Element => {
                 </div>
             </form>
         </Content>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
+        )}
         </>
     )
 }

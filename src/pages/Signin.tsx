@@ -11,7 +11,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../atom/signin";
 import { GoogleAuth } from "../components/User/GoogleAuth";
-import { Modal } from "../components/Modal/ErrorModal";
+import { ErrorModal } from "../components/Modal/ErrorModal";
 
 const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -144,12 +144,9 @@ const Signin = () => {
             </div>
           </form>
         </div>
-<<<<<<< HEAD
         {error && (
-          <Modal title="Error" message={error} onClose={() => setError(null)} />
+          <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
         )}
-=======
->>>>>>> c60c220aafddeba680545ee413f9a6ca50c0d9ce
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { weatherLocationState, getInfo, MyWeatherLocation } from "../../atom/weather";
 import { api } from "../../atom/signin";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { ErrorModal } from "../Modal/ErrorModal";
+import SuccessModal from "../Modal/SuccessModal";
 
 const SetLocationModal = ():JSX.Element => {
     const queryClient = useQueryClient();
@@ -12,6 +14,8 @@ const SetLocationModal = ():JSX.Element => {
     const [locationNames, setLocationNames] = useRecoilState<MyWeatherLocation>(weatherLocationState);
 
     const {cityName, locationName} = locationNames;
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null>(null);
     
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -48,26 +52,30 @@ const SetLocationModal = ():JSX.Element => {
             }));
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('삭제되었습니다.')
-        } catch (error) {
-            console.error(`Error: \n${error}`);
+            setSuccess('삭제되었습니다.')
+        } catch (error:any) {
+            setError(error.response.data.message);
         }
     };
 
-    const uploadText = async () => {
+    const uploadText = async (e:any) => {
+        e.preventDefault();
         try {
             if (!userLoc){
                 const response = await uploadMutation.mutateAsync(userLoc);
                 setLocationNames(response.data);
+                queryClient.invalidateQueries(['userWeatherData']);
+                queryClient.invalidateQueries(['weatherData']);
+                setSuccess('성공적으로 저장되었습니다!');
             } else {
                 const response = await updateMutation.mutateAsync(userLoc);
                 setLocationNames(response.data)
+                queryClient.invalidateQueries(['userWeatherData']);
+                queryClient.invalidateQueries(['weatherData']);
+                setSuccess('성공적으로 업데이트 되었습니다!');
             }
-            queryClient.invalidateQueries(['userWeatherData']);
-            queryClient.invalidateQueries(['weatherData']);
-            alert('저장되었습니다.');
         } catch (error:any){
-            alert(`Error: \n${error.response.data.message}`);
+            setError(error.response.data.message);
         }
     }
 
@@ -107,6 +115,12 @@ const SetLocationModal = ():JSX.Element => {
                 </form>
             </div>
         </div>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
+        )}
     </>
     )
 }

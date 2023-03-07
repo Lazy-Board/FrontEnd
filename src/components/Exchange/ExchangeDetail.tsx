@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilValueLoadable } from "recoil";
 import { getExchangeDetail, ExchangeProps } from "../../atom/exchange";
-import DetailTopBar from "../MenuBars/DetailTopBar";
+import ExchangeTopBar from "./ExchageTopBar";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -18,7 +18,7 @@ const ExchangeDetail = (): JSX.Element => {
 
   return (
     <>
-      <DetailTopBar title="환율" />
+      <ExchangeTopBar title="환율" />
       <Content className="max-w-md bg-stone-100 p-3">
         <div className="mt-16 text-left text-sm">
         <p>고시일시</p>
