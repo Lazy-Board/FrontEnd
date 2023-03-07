@@ -24,7 +24,7 @@ const EditUserInfo = ():JSX.Element => {
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
 
-    const [newImg, setNewImg] = useState('/images/user-icon.png');
+    const [newImg, setNewImg] = useState<any>('/images/user-icon.png');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState<string | null>(null);
 
@@ -68,11 +68,15 @@ const EditUserInfo = ():JSX.Element => {
         const imgFile:any = document.querySelector('#img-upload');
         formData.append('multipartFile', imgFile.files[0])
         try {
-            const { data:ImgData } = await imgApi.post(`/user/image`, formData);
+            const { data:ImgData } = await imgApi.post(`/user/image`, 
+            !formData ? null : formData);
             const { fileName, url } = ImgData;
             const response = await editUserMutation.mutateAsync({
                 phoneNumber: phoneNumber,
-                profile: !url ? null : url,
+                profile: 
+                url === undefined && profile === undefined ? null
+                : url === undefined && profile !== undefined ? profile
+                : url,
                 socialType: socialType,
                 userEmail: userEmail,
                 userName: userName
@@ -82,7 +86,7 @@ const EditUserInfo = ():JSX.Element => {
             setSuccess('프로필이 업데이트 되었습니다!');
             queryClient.invalidateQueries(['userInfo']);
         } catch (error:any) {
-            setError(error.response.data.message);
+            setError(error.response.data.msg);
         }
     };
 
@@ -120,7 +124,7 @@ const EditUserInfo = ():JSX.Element => {
                 <input type="email" name='userEmail'
                 value={userEmail}
                 onChange={changeName} required
-                disabled={socialType==='google' ? true : false}
+                disabled={true}
                 placeholder='example@email.com'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
