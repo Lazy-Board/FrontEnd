@@ -43,6 +43,7 @@ const SelectWidget = (): JSX.Element => {
         // userId: userId,
         ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
+      navigate('/')
     } catch (error){
       console.log(`Error:\n${error}`)
     }
@@ -110,7 +111,7 @@ const SelectWidget = (): JSX.Element => {
             className="w-80 mt-10 btn btn-primary"
             type="submit"
           >
-            가입하기
+            시작하기
           </button>
         </form>
       </div>
