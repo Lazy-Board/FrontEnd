@@ -29,6 +29,7 @@ export default async function GoogleLogin(
           navigate("/");
         } else {
           navigate("/select-widget");
+          location.reload();
         }
       });
   } catch (err) {
