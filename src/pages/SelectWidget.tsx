@@ -26,7 +26,6 @@ const SelectWidget = (): JSX.Element => {
       [id]: checked,
     }));
   };
-  // 데이터 있을 때는 이 페이지에 접근 못하게 해야 하는데 이거 관련해서 뭐 했다고 하지 않았나????
 
   // 2개 이상 checked되어야 버튼 클릭할 수 있음
   const isDisabled =
@@ -38,15 +37,12 @@ const SelectWidget = (): JSX.Element => {
     .filter(([_, checked]) => checked)
     .map(([id]) => id);
       // const userId = localStorage.getItem("userId");
-    try {
       await api.post("/user/saveModule", {
         // userId: userId,
         ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
-      navigate('/')
-    } catch (error){
-      console.log(`Error:\n${error}`)
-    }
+      navigate('/');
+      location.reload();
   };
 
   return (
