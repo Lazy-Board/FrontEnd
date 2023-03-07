@@ -24,7 +24,12 @@ export default async function GoogleLogin(
         console.log(res);
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("RefreshToken", res.data.refreshToken);
-        navigate("/");
+
+        if (res.data.moduleCode === true) {
+          navigate("/");
+        } else {
+          navigate("/select-widget");
+        }
       });
   } catch (err) {
     const { response } = err as unknown as AxiosError;

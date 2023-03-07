@@ -24,7 +24,7 @@ const Signin = () => {
   const onLoginHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}/user/login`, {
+      const response = await axios.post(`http://3.34.73.141:8080/user/login`, {
         userEmail: userEmail,
         password: password,
       });
@@ -35,10 +35,17 @@ const Signin = () => {
 
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
-      navigate("/");
+      // navigate("/");
+
+      if (response.data.moduleCode === true) {
+        navigate("/");
+      } else {
+        navigate("/select-widget");
+      }
       location.reload();
+      //response.data.modulCode ? ture면 메인창 , false면 모듈 선택창 navigate//
     } catch (err: any) {
-      console.log(err.response.data.msg);
+      setError(err.response.data.msg);
     }
   };
 
@@ -72,9 +79,7 @@ const Signin = () => {
           ] = `Bearer ${accessToken}`;
 
           return api(originalRequest);
-        } catch (e) {
-          console.error(e);
-        }
+        } catch (e) {}
       }
 
       return Promise.reject(error);
@@ -145,7 +150,11 @@ const Signin = () => {
           </form>
         </div>
         {error && (
-          <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
+          <ErrorModal
+            title="Error"
+            message={error}
+            onClose={() => setError(null)}
+          />
         )}
       </div>
     </div>
