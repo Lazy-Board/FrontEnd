@@ -25,7 +25,7 @@ const EditUserInfo = ():JSX.Element => {
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
     const [newImg, setNewImg] = useState<any>(!profile ? '/images/user-icon.png' : profile);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState<string | null | boolean>(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
     const changeName = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -76,7 +76,7 @@ const EditUserInfo = ():JSX.Element => {
             });
             setNewImg(url);
             setUserData(response.data);
-            setSuccess(true);
+            setSuccess('프로필이 업데이트 되었습니다!');
             queryClient.invalidateQueries(['userInfo']);
         } catch (error:any) {
             setError(error.response.data.message);
@@ -128,7 +128,7 @@ const EditUserInfo = ():JSX.Element => {
         <ErrorModal message={error} onClose={() => setError(null)} />
         )}
         {success && (
-        <SuccessModal message={'프로필이 업데이트 되었습니다!'} onClose={() => setSuccess(null)} />
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
         )}
         </Content>
         </>

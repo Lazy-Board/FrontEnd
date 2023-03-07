@@ -19,7 +19,7 @@ const FindPassword = ():JSX.Element => {
         userEmail:''
     });
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState<string | null | boolean>(null);
+    const [success, setSuccess] = useState<string | null >(null);
 
     const {phoneNumber, userEmail} = userInfo;
 
@@ -38,7 +38,7 @@ const FindPassword = ():JSX.Element => {
                 phoneNumber: phoneNumber,
                 userEmail: userEmail
             })
-            setSuccess(true)
+            setSuccess('임시 비밀번호가 메일로 전송되었습니다!')
         } catch (error:any){
             setError(error.response.data.msg);
         }
@@ -74,7 +74,7 @@ const FindPassword = ():JSX.Element => {
         <ErrorModal message={error} onClose={() => setError(null)} />
         )}
         {success && (
-        <SuccessModal message={'임시 비밀번호가 메일로 전송되었습니다!'} onClose={() => setSuccess(null)} />
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
         )}
         </>
     )

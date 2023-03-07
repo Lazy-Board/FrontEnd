@@ -5,8 +5,10 @@ import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { getModule, ModuleData } from "../atom/users";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { moduleState } from "../atom/users";
+import { ErrorModal } from "../components/Modal/ErrorModal";
+import SuccessModal from "../components/Modal/SuccessModal";
 
 const Content = styled.div`
     width: 448px;
@@ -26,7 +28,9 @@ const UpdateWidget = (): JSX.Element => {
         refetchOnWindowFocus: false,
         staleTime: Infinity,
     });
-    const [checkboxes, setCheckboxes] = useRecoilState(moduleState)
+    const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     useEffect(()=>{
         if (data){
@@ -54,17 +58,22 @@ const UpdateWidget = (): JSX.Element => {
         const checkedIds = Object.entries(checkboxes)
         .filter(([_, checked]) => checked)
         .map(([id]) => id);
-        const response = await moduleMutation.mutateAsync({
-            ...Object.fromEntries(checkedIds.map((id) => [id, true])),
-        });
-        setCheckboxes(response.data);
-        queryClient.invalidateQueries(['modules']);
-        alert('업데이트되었습니다!');
-        navigate('/');
-        location.reload();
+        try {
+            const response = await moduleMutation.mutateAsync({
+                ...Object.fromEntries(checkedIds.map((id) => [id, true])),
+            });
+            setCheckboxes(response.data);
+            queryClient.invalidateQueries(['modules']);
+            setSuccess(true);
+            navigate('/');
+            location.reload();
+        } catch (error:any){
+            setError(error.response.data.message);
+        }
     };
 
     return (
+        <>
         <Content className="relative bg-stone-50">
         <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
             <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
@@ -136,6 +145,13 @@ const UpdateWidget = (): JSX.Element => {
             </form>
         </div>
         </Content>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={'성공적으로 저장되었습니다!'} onClose={() => setSuccess(null)} />
+        )}
+        </>
     );
 };
 

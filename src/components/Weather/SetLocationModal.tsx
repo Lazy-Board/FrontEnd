@@ -15,7 +15,7 @@ const SetLocationModal = ():JSX.Element => {
 
     const {cityName, locationName} = locationNames;
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState<string | null | boolean>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     
     const changeLoc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
@@ -52,7 +52,7 @@ const SetLocationModal = ():JSX.Element => {
             }));
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            alert('삭제되었습니다.')
+            setSuccess('삭제되었습니다.')
         } catch (error:any) {
             setError(error.response.data.message);
         }
@@ -69,7 +69,7 @@ const SetLocationModal = ():JSX.Element => {
             }
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            setSuccess(true);
+            setSuccess('성공적으로 저장되었습니다!');
         } catch (error:any){
             setError(error.response.data.message);
         }
@@ -115,7 +115,7 @@ const SetLocationModal = ():JSX.Element => {
         <ErrorModal message={error} onClose={() => setError(null)} />
         )}
         {success && (
-        <SuccessModal message={'성공적으로 저장되었습니다!'} onClose={() => setSuccess(null)} />
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
         )}
     </>
     )
