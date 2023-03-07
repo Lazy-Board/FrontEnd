@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import { api } from "../atom/signin";
-import { userIdatom } from "../atom/auth";
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
 
 const Content = styled.div`
   width: 448px;
@@ -19,7 +17,6 @@ const List = styled.div`
 
 const SelectWidget = (): JSX.Element => {
   const navigate = useNavigate();
-  const savedUserId = useRecoilValue(userIdatom);
   const [checkboxes, setCheckboxes] = useState({
     exchangeYn: false,
     newsYn: false,
@@ -42,15 +39,14 @@ const SelectWidget = (): JSX.Element => {
   const isDisabled =
     Object.values(checkboxes).filter((checked) => checked).length < 2;
 
-  const submitModule = (e: React.SyntheticEvent) => {
+  const submitModule = async(e: React.SyntheticEvent) => {
     e.preventDefault();
     const checkedIds = Object.entries(checkboxes)
-      .filter(([id, checked]) => checked)
+      .filter(([_, checked]) => checked)
       .map(([id]) => id);
-    // const userId = localStorage.getItem("userId");
-    const res = api.post("/user/saveModule", {
+      // const userId = localStorage.getItem("userId");
+      await api.post("/user/saveModule", {
       // userId: userId,
-      // userId를 어떻게 처리해야하지
       ...Object.fromEntries(checkedIds.map((id) => [id, true])),
     });
   };

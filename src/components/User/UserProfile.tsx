@@ -41,20 +41,29 @@ const UserProfile = ():JSX.Element => {
                     <p className='mt-2'>{userInfo.userEmail}</p>
                     </>
                 )}
-                <div className='mt-6'>
-                    <Link to={'/user/userInfo'}>
+                {isLoading ? <div>Loading...</div>:
+                (
+                    <div className='w-64 mt-6 flex flex-col'>
+                    <Link to={'/user/userInfo'}
+                    className='w-full btn btn-outline mt-5'
+                    >
                         프로필 수정
                     </Link>
-                    <button onClick={()=>navigate(`/user/update-password`)}
+                    <button 
+                    className='w-full btn btn-outline mt-5'
+                    onClick={()=>navigate(`/user/update-password`)}
                     disabled={userInfo.socialType==='google' ? true : false}
                     >
                         비밀번호 변경
                     </button>
-                    <label htmlFor='confirm-modal' className='w-9/12 btn btn-outline mt-5'>로그아웃</label>
-                    <Link to={'/user/withdrawal'}>
+                    <label htmlFor='confirm-modal' className='w-full btn btn-outline mt-5'>로그아웃</label>
+                    <Link to={'/user/withdrawal'}
+                    className='w-full btn btn-outline mt-5'
+                    >
                         회원탈퇴
                     </Link>
                 </div>
+                )}
             </div>
         </Content>
         </>
