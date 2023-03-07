@@ -13,6 +13,7 @@ import {
 import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
+import EmailModal from "../components/Modal/EmailModal";
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -32,6 +33,7 @@ const Signup = () => {
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [success, setSuccess] = useState<String | null>(null);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +47,9 @@ const Signup = () => {
       });
       localStorage.setItem("userId", response.data.userId);
       setUserId(response.data.userId);
-      navigate("/select-widget");
+      navigate("/login");
+      //이메일 인증 해달라고 알람 띄우기//
+      alert("이메일 인증 해주세요");
     } catch (err: any) {
       console.log(err);
       setError(err.response.data.msg);
@@ -109,7 +113,7 @@ const Signup = () => {
         <Link to="/">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-24">
+        <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
           <span className="items-center text-2xl font-semibold text-gray-900 dark:text-white">
             회원가입
           </span>
@@ -215,8 +219,13 @@ const Signup = () => {
             </button>
           </form>
         </div>
+
         {error && (
-          <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
+          <ErrorModal
+            title="Error"
+            message={error}
+            onClose={() => setError(null)}
+          />
         )}
       </div>
     </div>
