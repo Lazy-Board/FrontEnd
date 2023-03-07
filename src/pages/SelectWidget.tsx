@@ -17,7 +17,6 @@ const List = styled.div`
 `;
 
 const SelectWidget = (): JSX.Element => {
-
   const navigate = useNavigate();
   const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
   const handleCheckboxChange = (checked: boolean, id: string) => {
@@ -32,20 +31,20 @@ const SelectWidget = (): JSX.Element => {
   const isDisabled =
     Object.values(checkboxes).filter((checked) => checked).length < 2;
 
-  const submitModule = async(e: React.SyntheticEvent) => {
+  const submitModule = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const checkedIds = Object.entries(checkboxes)
-    .filter(([_, checked]) => checked)
-    .map(([id]) => id);
-      // const userId = localStorage.getItem("userId");
+      .filter(([_, checked]) => checked)
+      .map(([id]) => id);
+    // const userId = localStorage.getItem("userId");
     try {
       await api.post("/user/saveModule", {
         // userId: userId,
         ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
-      navigate('/')
-    } catch (error){
-      console.log(`Error:\n${error}`)
+      navigate("/");
+    } catch (error) {
+      console.log(`Error:\n${error}`);
     }
   };
 
