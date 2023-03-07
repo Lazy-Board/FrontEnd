@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { getUserInfo } from '../../atom/users';
 import DetailTopBar from '../MenuBars/DetailTopBar';
@@ -11,6 +11,7 @@ const Content = styled.div`
     `;
 
 const UserProfile = ():JSX.Element => {
+    const navigate = useNavigate()
     const { data:userInfo, isLoading } = useQuery(['userInfo'], getUserInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
@@ -42,7 +43,11 @@ const UserProfile = ():JSX.Element => {
                 )}
                 <div className='mt-6'>
                 {menus.map((menu)=>(
-                    <Link to={`/${menu.link}`} className='w-9/12 btn btn-outline mt-5' key={menu.id}>{menu.name}</Link>
+                    <button onClick={()=>navigate(`/${menu.link}`)}  className='w-9/12 btn btn-outline mt-5 disabled:bg-gray-300 disabled:outline-none' key={menu.id}
+                    disabled={userInfo.socialType==='google' ? true : false}
+                    >
+                        {menu.name}
+                    </button>
                 ))}
                 <label htmlFor='confirm-modal' className='w-9/12 btn btn-outline mt-5'>로그아웃</label>
                 </div>
