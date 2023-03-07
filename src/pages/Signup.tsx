@@ -1,6 +1,5 @@
 import { FormEvent, useCallback, useState } from "react";
 import { AiFillLeftCircle } from "react-icons/ai";
-import axios, { AxiosError } from "axios";
 import { api } from "../atom/signin";
 import { useRecoilState } from "recoil";
 import {
@@ -10,7 +9,7 @@ import {
   usernameState,
   phonenumberState,
 } from "../atom/signup";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import EmailModal from "../components/Modal/EmailModal";
@@ -32,7 +31,6 @@ const Signup = () => {
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [success, setSuccess] = useState<String | null>(null);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -47,9 +45,8 @@ const Signup = () => {
       });
       localStorage.setItem("userId", response.data.userId);
       setUserId(response.data.userId);
-      navigate("/login");
       //이메일 인증 해달라고 알람 띄우기//
-      alert("이메일 인증 해주세요");
+      setSuccess("이메일 인증을 진행해주세요!");
     } catch (err: any) {
       console.log(err);
       setError(err.response.data.msg);
@@ -110,7 +107,7 @@ const Signup = () => {
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
-        <Link to="/">
+        <Link to="/login">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
@@ -225,6 +222,12 @@ const Signup = () => {
             title="Error"
             message={error}
             onClose={() => setError(null)}
+          />
+        )}
+        {success && (
+          <EmailModal
+            message={success}
+            onClose={() => setSuccess(null)}
           />
         )}
       </div>
