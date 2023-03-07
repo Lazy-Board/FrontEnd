@@ -63,13 +63,14 @@ const SetLocationModal = ():JSX.Element => {
             if (!userLoc){
                 const response = await uploadMutation.mutateAsync(userLoc);
                 setLocationNames(response.data);
+                setSuccess('성공적으로 저장되었습니다!');
             } else {
                 const response = await updateMutation.mutateAsync(userLoc);
                 setLocationNames(response.data)
+                setSuccess('성공적으로 업데이트 되었습니다!');
             }
             queryClient.invalidateQueries(['userWeatherData']);
             queryClient.invalidateQueries(['weatherData']);
-            setSuccess('성공적으로 저장되었습니다!');
         } catch (error:any){
             setError(error.response.data.message);
         }

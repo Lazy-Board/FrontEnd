@@ -8,7 +8,6 @@ import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { moduleState } from "../atom/users";
 import { ErrorModal } from "../components/Modal/ErrorModal";
-import SuccessModal from "../components/Modal/SuccessModal";
 
 const Content = styled.div`
     width: 448px;
@@ -30,7 +29,6 @@ const UpdateWidget = (): JSX.Element => {
     });
     const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState<string | null | boolean>(null);
 
     useEffect(()=>{
         if (data){
@@ -64,7 +62,7 @@ const UpdateWidget = (): JSX.Element => {
             });
             setCheckboxes(response.data);
             queryClient.invalidateQueries(['modules']);
-            setSuccess(true);
+            alert('성공적으로 저장되었습니다!')
             navigate('/');
             location.reload();
         } catch (error:any){
@@ -147,9 +145,6 @@ const UpdateWidget = (): JSX.Element => {
         </Content>
         {error && (
         <ErrorModal message={error} onClose={() => setError(null)} />
-        )}
-        {success && (
-        <SuccessModal message={'성공적으로 저장되었습니다!'} onClose={() => setSuccess(null)} />
         )}
         </>
     );
