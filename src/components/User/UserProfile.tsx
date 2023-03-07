@@ -17,11 +17,11 @@ const UserProfile = ():JSX.Element => {
         staleTime:Infinity,
     })
 
-    const menus = [
-        {id:1,name:'프로필 수정', link:'user/userInfo'},
-        {id:2,name:'비밀번호 변경', link:'user/update-password'},
-        {id:3,name:'회원 탈퇴', link:'user/withdrawal'},
-    ]
+    // const menus = [
+    //     {id:1,name:'프로필 수정', link:'user/userInfo'},
+    //     {id:2,name:'비밀번호 변경', link:'user/update-password'},
+    //     {id:3,name:'회원 탈퇴', link:'user/withdrawal'},
+    // ]
     
     return(
         <>
@@ -42,14 +42,18 @@ const UserProfile = ():JSX.Element => {
                     </>
                 )}
                 <div className='mt-6'>
-                {menus.map((menu)=>(
-                    <button onClick={()=>navigate(`/${menu.link}`)}  className='w-9/12 btn btn-outline mt-5 disabled:bg-gray-300 disabled:outline-none' key={menu.id}
+                    <Link to={'/user/userInfo'}>
+                        프로필 수정
+                    </Link>
+                    <button onClick={()=>navigate(`/user/update-password`)}
                     disabled={userInfo.socialType==='google' ? true : false}
                     >
-                        {menu.name}
+                        비밀번호 변경
                     </button>
-                ))}
-                <label htmlFor='confirm-modal' className='w-9/12 btn btn-outline mt-5'>로그아웃</label>
+                    <label htmlFor='confirm-modal' className='w-9/12 btn btn-outline mt-5'>로그아웃</label>
+                    <Link to={'/user/withdrawal'}>
+                        회원탈퇴
+                    </Link>
                 </div>
             </div>
         </Content>
