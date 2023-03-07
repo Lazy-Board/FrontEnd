@@ -23,7 +23,8 @@ const EditUserInfo = ():JSX.Element => {
     })
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
-    const [newImg, setNewImg] = useState<string>(profile === null || profile === '' || !profile ? '/images/user-icon.png' : profile);
+
+    const [newImg, setNewImg] = useState('/images/user-icon.png');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState<string | null>(null);
 
@@ -51,6 +52,8 @@ const EditUserInfo = ():JSX.Element => {
     useEffect(()=>{
         if (userInfo) {
             setUserData(userInfo);
+        }
+        if (profile){
             setNewImg(profile);
         }
     },[userInfo,profile]);

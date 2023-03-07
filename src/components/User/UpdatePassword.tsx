@@ -3,6 +3,7 @@ import { useState } from 'react';;
 import DetailTopBar from '../MenuBars/DetailTopBar';
 import { api } from '../../atom/signin';
 // 비밀번호 변경 부분 분리함
+// 구글 유저일 경우 비밀번호 변경 불가능해야 함!!
 
 const Content = styled.div`
     min-height: 100vh;

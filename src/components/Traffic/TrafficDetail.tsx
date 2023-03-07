@@ -35,7 +35,7 @@ const TrafficDetail = () => {
     const [depart, setDepart] = useRecoilState(startingState);
     const [arrive, setArrive] = useRecoilState(destinationState);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState<string | null | boolean>(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
     useEffect(()=>{
         if (data){
@@ -61,7 +61,7 @@ const TrafficDetail = () => {
             setDepart('')
             setArrive('')
             queryClient.invalidateQueries(['userPosition']);
-            setSuccess(true)
+            setSuccess('삭제되었습니다.')
         } catch (error:any) {
             setError(error.response.data.message);
         }
@@ -74,9 +74,11 @@ const TrafficDetail = () => {
             if (!data){
                 await postMutation.mutateAsync(newData);
                 queryClient.invalidateQueries(['userPosition']);
+                setSuccess('저장되었습니다.')
             } else {
                 await putMutation.mutateAsync(newData);
                 queryClient.invalidateQueries(['userPosition']);
+                setSuccess('업데이트 되었습니다.')
             }
             setDepart(newData.startingPoint);
             setArrive(newData.destination);
@@ -127,7 +129,7 @@ const TrafficDetail = () => {
             <ErrorModal message={error} onClose={() => setError(null)} />
         )}
         {success && (
-        <SuccessModal message={'삭제되었습니다.'} onClose={() => setSuccess(null)} />
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
         )}
         </>
     )

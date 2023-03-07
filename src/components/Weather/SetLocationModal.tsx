@@ -58,8 +58,7 @@ const SetLocationModal = ():JSX.Element => {
         }
     };
 
-    const uploadText = async (e:any) => {
-        e.preventDefault();
+    const uploadText = async () => {
         try {
             if (!userLoc){
                 const response = await uploadMutation.mutateAsync(userLoc);
