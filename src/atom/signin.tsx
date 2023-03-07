@@ -8,7 +8,7 @@ export const api = axios.create({
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
   },
-  timeout: 12000,
+  timeout: 20000,
 });
 
 export const imgApi = axios.create({

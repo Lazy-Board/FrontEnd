@@ -21,9 +21,8 @@ const Signup = () => {
     useRecoilState(confirmpasswordState);
   const [username, setUserName] = useRecoilState(usernameState);
   const [phonenumber, setPhonenumber] = useRecoilState(phonenumberState);
-  const [error, setError] = useState<String | null>(null);
+  const [error, setError] = useState(null);
   const [userId, setUserId] = useRecoilState(userIdatom);
-
   const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [PasswordConfirmMessage, setPasswordConfirmMessage] = useState("");
