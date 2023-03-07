@@ -22,9 +22,9 @@ const Signup = () => {
     useRecoilState(confirmpasswordState);
   const [username, setUserName] = useRecoilState(usernameState);
   const [phonenumber, setPhonenumber] = useRecoilState(phonenumberState);
-  const [error, setError] = useState<String | null>(null);
+  const [error, setError] = useState(null);
   const [userId, setUserId] = useRecoilState(userIdatom);
-
+  const [success, setSuccess] = useState(null);
   const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [PasswordConfirmMessage, setPasswordConfirmMessage] = useState("");
@@ -32,8 +32,8 @@ const Signup = () => {
   const [isEmail, setIsEmail] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
+
   const navigate = useNavigate();
-  const [success, setSuccess] = useState<String | null>(null);
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,11 +45,10 @@ const Signup = () => {
         userName: username,
         phoneNumber: phonenumber,
       });
-      localStorage.setItem("userId", response.data.userId);
-      setUserId(response.data.userId);
+
       navigate("/login");
+
       //이메일 인증 해달라고 알람 띄우기//
-      alert("이메일 인증 해주세요");
     } catch (err: any) {
       console.log(err);
       setError(err.response.data.msg);
@@ -110,7 +109,7 @@ const Signup = () => {
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
-        <Link to="/">
+        <Link to="/login">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
         </Link>
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
