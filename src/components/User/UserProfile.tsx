@@ -38,28 +38,28 @@ const UserProfile = (): JSX.Element => {
             </>
           )}
           {isLoading ? <div>Loading...</div>:
-                (
-                    <div className='w-72 mt-6 flex flex-col'>
-                    <Link to={'/user/userInfo'}
-                    className='w-full btn btn-outline mt-5'
-                    >
-                        프로필 수정
-                    </Link>
-                    <button 
-                    className='w-full btn btn-outline mt-5'
-                    onClick={()=>navigate(`/user/update-password`)}
-                    disabled={userInfo.socialType==='google' ? true : false}
-                    >
-                        비밀번호 변경
-                    </button>
-                    <label htmlFor='confirm-modal' className='w-full btn btn-outline mt-5'>로그아웃</label>
-                    <Link to={'/user/withdrawal'}
-                    className='w-full btn btn-outline mt-5'
-                    >
-                        회원탈퇴
-                    </Link>
-                </div>
-                )}
+            (
+                <div className='w-72 mt-6 flex flex-col'>
+                <Link to={'/user/userInfo'}
+                className='w-full btn btn-outline mt-5'
+                >
+                    프로필 수정
+                </Link>
+                <button 
+                className='w-full btn btn-outline mt-5'
+                onClick={()=>navigate(`/user/update-password`)}
+                disabled={userInfo.socialType==='google' ? true : false}
+                >
+                    비밀번호 변경
+                </button>
+                <label htmlFor='confirm-modal' className='w-full btn btn-outline mt-5'>로그아웃</label>
+                <Link to={'/user/withdrawal'}
+                className='w-full btn btn-outline mt-5'
+                >
+                    회원탈퇴
+                </Link>
+            </div>
+          )}
         </div>
       </Content>
     </>

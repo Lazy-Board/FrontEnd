@@ -72,7 +72,7 @@ const EditUserInfo = ():JSX.Element => {
             const { fileName, url } = ImgData;
             const response = await editUserMutation.mutateAsync({
                 phoneNumber: phoneNumber,
-                profile: url,
+                profile: !url ? null : url,
                 socialType: socialType,
                 userEmail: userEmail,
                 userName: userName
