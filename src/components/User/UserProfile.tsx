@@ -43,7 +43,7 @@ const UserProfile = ():JSX.Element => {
                 )}
                 {isLoading ? <div>Loading...</div>:
                 (
-                    <div className='w-64 mt-6 flex flex-col'>
+                    <div className='w-72 mt-6 flex flex-col'>
                     <Link to={'/user/userInfo'}
                     className='w-full btn btn-outline mt-5'
                     >

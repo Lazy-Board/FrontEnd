@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { api } from "../atom/signin";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { moduleState } from "../atom/users";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
-import { useState } from "react";
 
 const Content = styled.div`
   width: 448px;
@@ -16,24 +17,16 @@ const List = styled.div`
 `;
 
 const SelectWidget = (): JSX.Element => {
-  const navigate = useNavigate();
-  const [checkboxes, setCheckboxes] = useState({
-    exchangeYn: false,
-    newsYn: false,
-    quoteYn: false,
-    stockYn: false,
-    todolistYn: false,
-    weatherYn: false,
-    workYn: false,
-    youtubeYn: false,
-  });
 
+  const navigate = useNavigate();
+  const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
   const handleCheckboxChange = (checked: boolean, id: string) => {
     setCheckboxes((prevState) => ({
       ...prevState,
       [id]: checked,
     }));
   };
+  // 데이터 있을 때는 이 페이지에 접근 못하게 해야 하는데 이거 관련해서 뭐 했다고 하지 않았나????
 
   // 2개 이상 checked되어야 버튼 클릭할 수 있음
   const isDisabled =
@@ -42,13 +35,17 @@ const SelectWidget = (): JSX.Element => {
   const submitModule = async(e: React.SyntheticEvent) => {
     e.preventDefault();
     const checkedIds = Object.entries(checkboxes)
-      .filter(([_, checked]) => checked)
-      .map(([id]) => id);
+    .filter(([_, checked]) => checked)
+    .map(([id]) => id);
       // const userId = localStorage.getItem("userId");
+    try {
       await api.post("/user/saveModule", {
-      // userId: userId,
-      ...Object.fromEntries(checkedIds.map((id) => [id, true])),
-    });
+        // userId: userId,
+        ...Object.fromEntries(checkedIds.map((id) => [id, true])),
+      });
+    } catch (error){
+      console.log(`Error:\n${error}`)
+    }
   };
 
   return (
