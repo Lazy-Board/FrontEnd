@@ -73,7 +73,7 @@ const ExchangeView = (): JSX.Element => {
         </LongWidth>)
         }
         
-        <DotPosition className={`absolute flex bottom-0 z-50 ${3 > view.length ? 'hidden':''}`}>
+        <DotPosition className={`absolute flex bottom-0 z-30 ${3 > view.length ? 'hidden':''}`}>
             {dots.map((dot)=>(<button type="button" className={dot.class} key={dot.id} onClick={dot.move} ref={elem => (dotRef.current[dot.id-1] = elem)}></button>))}
         </DotPosition>
     </div>

@@ -38,7 +38,7 @@ const QuoteView = (): JSX.Element => {
   return (
     <div className="w-full h-40 mt-5 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
       {/* <DeleteModule /> */}
-      <div className="absolute flex top-3 left-2 z-50">
+      <div className="absolute flex top-3 left-2 z-30">
         {dots.map((dot) => (
           <button
             type="button"
