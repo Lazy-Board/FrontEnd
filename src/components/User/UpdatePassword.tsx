@@ -62,7 +62,7 @@ const UpdatePassword = ():JSX.Element => {
                 <div className='flex justify-between'>
                     <button className='w-full mt-8 btn btn-primary' type='submit' 
                     disabled={!password || !newPassword ? true : false}>
-                        이메일 전송
+                        비밀번호 변경
                     </button>
                 </div>
             </form>

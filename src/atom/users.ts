@@ -53,7 +53,7 @@ export const moduleState = atom({
 
 export const withdrawUser = async () => {
     try {
-        await api.post(`/user/userWithdrawal`)
+        await api.post(`/user/withdrawal`)
     } catch (error){
         alert(`Error: \n${error}`);
     }

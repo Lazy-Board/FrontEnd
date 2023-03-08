@@ -7,6 +7,7 @@ import { api } from "../../atom/signin";
 import { RiStarLine, RiStarFill } from "react-icons/ri";
 import ToggleButton from "./ToggleButton";
 import AccordionContent from "./AccordionContent";
+import { ErrorModal } from "../Modal/ErrorModal";
 
 const Flag = styled.img`
   width: 20px;
@@ -32,6 +33,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   const exchangeDetails = useRecoilValue<ExchangeProps[]>(getExchangeDetail);
   const [selectedExchange, setSelectedExchange] = useRecoilState<ExchangeProps[]>(exchangeLike);
   const [exchangeLikeButton, setExchangeLikeButton] = useState(false);
+  const [error, setError] = useState<string|null>(null);
   const contentElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
       await api.post("/exchange/update", { currencyName: currencyName });
       setWishlist([...wishlist, currencyName]);
     } else {
-      alert("4개까지만 체크할 수 있습니다.");
+      setError("4개까지만 체크할 수 있습니다.");
       return;
     }
     setExchangeLikeButton(!exchangeLikeButton);
@@ -58,6 +60,7 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
   };
 
   return (
+    <>
     <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
         <div className="flex justify-between cursor-pointer" >
             <div className="flex items-center pl-1 gap-2">
@@ -89,6 +92,8 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
             {...props}
         />
     </div>
+    {error && <ErrorModal message={error} onClose={() => setError(null)} />}
+    </>
   )
 };
 
