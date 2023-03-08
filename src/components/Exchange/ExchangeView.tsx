@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
 import { exchangeLike, ExchangeProps } from "../../atom/exchange";
 import styled from "styled-components";
-import DeleteModule from "../Buttons/DeleteModule";
 
 const LongWidth = styled.div`
   position: relative;
@@ -38,7 +37,6 @@ const ExchangeView = (): JSX.Element => {
 
   return (
     <div className="w-full h-fit mt-5 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-hidden bg-white">
-        {/* <DeleteModule /> */}
         <div className="self-start flex items-center">
             환율 
             <Link to={`/exchange`} ><BiChevronRight size={26}/></Link>

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState } from 'react';;
 import DetailTopBar from '../MenuBars/DetailTopBar';
 import { api } from '../../atom/signin';
+import SuccessModal from '../Modal/SuccessModal';
+import { ErrorModal } from '../Modal/ErrorModal';
 // 비밀번호 변경 부분 분리함
 // 구글 유저일 경우 비밀번호 변경 불가능해야 함!!
 
@@ -19,6 +21,9 @@ const UpdatePassword = ():JSX.Element => {
 
     const {password, newPassword} = userPassword;
 
+    const [error, setError] = useState<string|null>(null);
+    const [success, setSuccess] = useState<string|null>(null);
+
     const changePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value}= e.target;
         setUserPassword({
@@ -34,9 +39,9 @@ const UpdatePassword = ():JSX.Element => {
                 newPassword:newPassword,
                 password:password
             })
-            alert('비밀번호가 변경되었습니다.')
-        } catch (error) {
-            alert(`Error: \n${error}`)
+            setSuccess('비밀번호가 변경되었습니다.');
+        } catch (error:any) {
+            setError(error.response.data.msg);
         }
         // 성공 시 저장됐다는 alert창 띄우고 실패 시 실패했다는 alert 띄우기
     }
@@ -67,8 +72,15 @@ const UpdatePassword = ():JSX.Element => {
                 </div>
             </form>
         </Content>
+        {error && (
+        <ErrorModal message={error} onClose={() => setError(null)} />
+        )}
+        {success && (
+        <SuccessModal message={success} onClose={() => setSuccess(null)} />
+        )}
         </>
     )
 }
+
 
 export default UpdatePassword;
