@@ -68,8 +68,7 @@ const EditUserInfo = ():JSX.Element => {
         const imgFile:any = document.querySelector('#img-upload');
         formData.append('multipartFile', imgFile.files[0])
         try {
-            const { data:ImgData } = await imgApi.post(`/user/image`, 
-            !formData ? null : formData);
+            const { data:ImgData } = await imgApi.post(`/user/image`, formData);
             const { fileName, url } = ImgData;
             const response = await editUserMutation.mutateAsync({
                 phoneNumber: phoneNumber,
