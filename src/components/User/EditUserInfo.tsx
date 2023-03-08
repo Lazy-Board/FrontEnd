@@ -80,7 +80,7 @@ const EditUserInfo = ():JSX.Element => {
                 userEmail: userEmail,
                 userName: userName
             });
-            setNewImg(url);
+            setNewImg(!url ? '/images/user-icon.png' : url);
             setUserData(response.data);
             setSuccess('프로필이 업데이트 되었습니다!');
             queryClient.invalidateQueries(['userInfo']);
