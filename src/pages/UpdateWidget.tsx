@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { api } from "../atom/signin";
+import { VscLoading } from 'react-icons/vsc';
 import { useNavigate } from "react-router-dom";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 import { getModule, ModuleData } from "../atom/users";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useRecoilState } from "recoil";
@@ -20,6 +22,24 @@ const List = styled.div`
     width: calc(50% - 4px);
 `;
 
+const Save = styled.label`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    .load {
+        margin-right:8px;
+        animation: spin 1s linear infinite;
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+`
+
 const UpdateWidget = (): JSX.Element => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -29,6 +49,7 @@ const UpdateWidget = (): JSX.Element => {
     });
     const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
     const [error, setError] = useState(null);
+    const [load, setLoad] = useState('업데이트');
 
     useEffect(()=>{
         if (data){
@@ -57,11 +78,13 @@ const UpdateWidget = (): JSX.Element => {
         .filter(([_, checked]) => checked)
         .map(([id]) => id);
         try {
+            setLoad('업데이트 중...')
             const response = await moduleMutation.mutateAsync({
                 ...Object.fromEntries(checkedIds.map((id) => [id, true])),
             });
             setCheckboxes(response.data);
             queryClient.invalidateQueries(['modules']);
+            setLoad('업데이트 완료!')
             alert('성공적으로 저장되었습니다!')
             navigate('/');
             location.reload();
@@ -134,11 +157,15 @@ const UpdateWidget = (): JSX.Element => {
                 }
             </div>
             <button
-                disabled={isDisabled}
-                className="w-80 mt-10 btn btn-secondary"
+                disabled={isDisabled || load === '업데이트 중...'}
+                className={`w-80 mt-10 btn ${load ==='업데이트 완료!' ? 'btn-secondary' : 'btn-primary'}`}
                 type="submit"
             >
-                업데이트
+                <Save className="w-full p-3 cursor-pointer" >
+                    {load === '업데이트 중...' && <VscLoading className="load"/>}
+                    {load === '업데이트 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
+                    {load}
+                </Save>
             </button>
             </form>
         </div>

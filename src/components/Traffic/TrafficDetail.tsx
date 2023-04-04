@@ -9,6 +9,7 @@ import MapContainer from "./Map";
 import DetailTopBar from "../MenuBars/DetailTopBar";
 import { ErrorModal } from "../Modal/ErrorModal";
 import SuccessModal from "../Modal/SuccessModal";
+import PostCode from "./PostCode";
 
 const Content = styled.div`
     min-height: 100vh;
@@ -36,6 +37,9 @@ const TrafficDetail = () => {
     const [arrive, setArrive] = useRecoilState(destinationState);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState<string | null>(null);
+    const [popup, setPopup] = useState(false);
+    const [otherPopup, setOtherPopup] = useState(false);
+    const [text, setText] = useState('길 찾기')
 
     useEffect(()=>{
         if (data){
@@ -50,6 +54,19 @@ const TrafficDetail = () => {
         setArrive(depart)
     }
 
+    const handleInput = (setState: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setState((prevState: any) => ({ ...prevState, [name]: value }));
+    };
+
+    const handleComplete = (setPopup: React.Dispatch<React.SetStateAction<boolean>>) => () => setPopup(prevState => !prevState);
+
+    const handleOtherInput = handleInput(setDepart);
+    const handleAddressInput = handleInput(setArrive);
+
+    const handleOtherComplete = handleComplete(setOtherPopup);
+    const handleAddressComplete = handleComplete(setPopup);
+
     // 도착지 정보 put(업데이트),post(처음에 저장)/delete(삭제)
     const postMutation = useMutation((newData) => api.post(`/traffic`, newData));
     const putMutation = useMutation((newData) => api.put(`/traffic`, newData));
@@ -58,8 +75,8 @@ const TrafficDetail = () => {
     const deleteText = async () => {
         try {
             await deleteMutation.mutateAsync();
-            setDepart('')
-            setArrive('')
+            setDepart({address:''})
+            setArrive({address:''})
             queryClient.invalidateQueries(['userPosition']);
             setSuccess('삭제되었습니다.')
         } catch (error:any) {
@@ -69,7 +86,8 @@ const TrafficDetail = () => {
 
     const submitData= async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        const newData:any = { destination: arrive, startingPoint: depart };
+        const newData:any = { destination: arrive.address, startingPoint: depart.address };
+        setText('탐색 중...');
         try {
             if (!data){
                 await postMutation.mutateAsync(newData);
@@ -80,8 +98,9 @@ const TrafficDetail = () => {
                 queryClient.invalidateQueries(['userPosition']);
                 setSuccess('업데이트 되었습니다.')
             }
-            setDepart(newData.startingPoint);
-            setArrive(newData.destination);
+            setDepart((prevState:any) => ({ ...prevState, address: newData.startingPoint }));
+            setArrive((prevState:any) => ({ ...prevState, address: newData.destination }));
+            setText('길 찾기');
         } catch (error:any) {
             setError(error.response.data.message);
         }
@@ -107,17 +126,28 @@ const TrafficDetail = () => {
                             <BiSortAlt2 size={20} onClick={switchValue}/>
                         </button>
                         <div className="p-2 px-3 flex items-center gap-3 border-b border-slate-300">
-                            <label htmlFor="">출발</label>
-                            <Location type="search" value={depart} onChange={(e)=>setDepart(e.target.value)} className="w-3/4 p-1 text-left" placeholder="출발지를 정해주세요."/>
+                            <label className="text-zinc-700">출발</label>
+                            <Location type="search"
+                            value={depart.address}
+                            onChange={handleAddressInput} 
+                            onClick={handleAddressComplete}
+                            className="w-3/4 p-1 text-left" placeholder="출발지를 정해주세요."/>
                         </div>
                         <div className="p-2 px-3 flex items-center gap-3">
-                            <label htmlFor="">도착</label>
-                            <Location type="search" value={arrive} onChange={(e)=>setArrive(e.target.value)} className="w-3/4 p-1 text-left" placeholder="도착지를 정해주세요."/>
+                            <label className="text-zinc-700">도착</label>
+                            <Location type="search" 
+                            value={arrive.address} 
+                            onChange={handleOtherInput}
+                            onClick={handleOtherComplete}
+                            className="w-3/4 p-1 text-left" placeholder="도착지를 정해주세요."/>
                         </div>
                     </div>
                     <div className="flex mt-6 justify-between">
                         <input type="reset" className="w-2/5 btn btn-outline" value={'내용 삭제'} onClick={deleteText}/>
-                        <input type="submit" className="w-2/5 btn btn-primary" value={'길 찾기'} disabled={!depart || !arrive ? true:false}/>
+                        <input type="submit" 
+                        className="w-2/5 btn btn-primary transition-all" 
+                        value={text} 
+                        disabled={!depart || !arrive || text === '탐색 중...' ? true:false}/>
                     </div>
                 </form>
                 <div className="w-full h-96 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">
@@ -131,6 +161,10 @@ const TrafficDetail = () => {
         {success && (
         <SuccessModal message={success} onClose={() => setSuccess(null)} />
         )}
+        {popup && 
+        <PostCode search={depart} setsearch={setDepart} closed={handleAddressComplete}/>}
+        {otherPopup && 
+        <PostCode search={arrive} setsearch={setArrive} closed={handleOtherComplete}/>}
         </>
     )
 }

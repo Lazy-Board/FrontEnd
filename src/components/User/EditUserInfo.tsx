@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { imgApi, api } from '../../atom/signin';
 import { FiEdit2 } from 'react-icons/fi';
+import { VscLoading } from 'react-icons/vsc';
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -15,12 +16,31 @@ const Content = styled.div`
     color: black;
     `;
 
+const Save = styled.button`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    .load {
+        margin-right:8px;
+        animation: spin 1s linear infinite;
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+`
+
 const EditUserInfo = ():JSX.Element => {
     const queryClient = useQueryClient();
     const { data:userInfo } = useQuery(['userInfo'], getUserInfo, {
         refetchOnWindowFocus:false,
         staleTime:Infinity,
     })
+    const [load, setLoad] = useState('정보 수정');
     const [userData, setUserData] = useRecoilState<userType>(userInfoState)
     const { phoneNumber, profile, socialType, userEmail, userName } = userData;
 
@@ -68,6 +88,7 @@ const EditUserInfo = ():JSX.Element => {
         const imgFile:any = document.querySelector('#img-upload');
         formData.append('multipartFile', imgFile.files[0])
         try {
+            setLoad('업데이트 중...')
             const { data:ImgData } = await imgApi.post(`/user/image`, formData);
             const { fileName, url } = ImgData;
             const response = await editUserMutation.mutateAsync({
@@ -80,6 +101,7 @@ const EditUserInfo = ():JSX.Element => {
                 userEmail: userEmail,
                 userName: userName
             });
+            setLoad('정보 수정')
             setNewImg(!url ? '/images/user-icon.png' : url);
             setUserData(response.data);
             setSuccess('프로필이 업데이트 되었습니다!');
@@ -127,10 +149,11 @@ const EditUserInfo = ():JSX.Element => {
                 placeholder='example@email.com'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
-                    <button className='w-full mt-8 btn btn-primary' type='submit'
-                    disabled={!userName || !phoneNumber || !userName ? true : false}>
-                        저장
-                    </button>
+                    <Save className='w-full mt-8 btn btn-primary' type='submit'
+                    disabled={!userName || !phoneNumber || !userName || load === '업데이트 중...' ? true : false}>
+                        {load === '업데이트 중...' && <VscLoading className="load"/>}
+                        {load}
+                    </Save>
                 </div>
             </div>
         </form>

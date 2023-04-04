@@ -27,7 +27,7 @@ const TrafficView = ():JSX.Element => {
             {isLoading ? <TrafficLoading />:
             !durationInfo ? 
             <div className="w-full h-36 mt-4 border border-slate-300 rounded-lg">
-                <p className="mt-8">아직 출근정보를 설정하지 않으셨어요!</p>
+                <p className="mt-8 text-center">아직 출근정보를 설정하지 않으셨어요!</p>
                 <Link to={`/traffic`} className="btn btn-primary mt-4">
                     설정하기
                 </Link>
@@ -44,13 +44,13 @@ const TrafficView = ():JSX.Element => {
                     {destination}
                 </p>
             </div>
-            <p className="mt-4 text-base">
+            <p className="mt-4 text-base text-center">
                 지금 출발하시면 도착지까지 <br/> 
                 <span className="text-xl font-semibold">
                     {Number(duration)%3600 > 0 ? '':`${Math.floor(Number(duration)/3600)}시간`}
                     {`${Math.floor((Number(duration)% 3600)/60)}분`}</span> 걸립니다. 
             </p>
-            <p className="mt-2 mb-1 text-base">
+            <p className="mt-2 mb-1 text-base text-center">
                 도착 예정 시간은&nbsp;
                 <span className="text-xl font-semibold">
                     {`${Math.floor((Number(nowSec)+Number(duration))/3600)}시`}

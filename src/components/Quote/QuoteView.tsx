@@ -52,8 +52,8 @@ const QuoteView = (): JSX.Element => {
           <Loading />
         ) : (
           <div className="w-96 h-28 relative flex flex-col items-center justify-center pl-6 select-none">
-            <p className="max-w-xs mx-auto line-clamp-3">{lists.content}</p>
-            <p className="mt-2 text-gray-500">-{lists.writer}</p>
+            <p className="max-w-xs mx-auto line-clamp-3 text-center">{lists.content}</p>
+            <p className="mt-2 text-gray-500 text-center">-{lists.writer}</p>
           </div>
         )}
         <DisplayMyQuote />

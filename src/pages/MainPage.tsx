@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MainLoading from "../components/MenuBars/MainLoading";
 import WeatherView from "../components/Weather/WeatherView";
 import QuoteView from "../components/Quote/QuoteView";
 import ExchangeView from "../components/Exchange/ExchangeView";
@@ -7,11 +8,10 @@ import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
 import TodoMainView from "../components/Todolist/TodoMainView";
-import MainLoading from "../components/MenuBars/MainLoading";
 import { getModule, ModuleData } from "../atom/users";
 import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useEffect } from "react";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -20,8 +20,8 @@ const Content = styled.div`
 `;
 
 const MainPage = (): JSX.Element => {
-  const accessToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
+  // const accessToken = localStorage.getItem("accessToken");
+  // const navigate = useNavigate();
 
   const { data, isFetching } = useQuery<ModuleData>(["modules"], getModule, {
     refetchOnWindowFocus: false,
@@ -35,9 +35,9 @@ const MainPage = (): JSX.Element => {
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
-  useEffect(() => {
-    accessToken === null ? navigate("/login") : "";
-  }, []);
+  // useEffect(() => {
+  //   accessToken === null ? navigate("/login") : "";
+  // }, []);
 
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">

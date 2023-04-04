@@ -39,7 +39,7 @@ const Boxes:any = styled.div`
 const WeatherBox = ({status,dataName,speed}:WeatherType) => {
     return (
         <Boxes status={status} 
-        className="p-2 border border-slate-300 rounded-lg" 
+        className="p-2 border border-slate-300 rounded-lg text-center" 
         >
             <p className="text-xs">{dataName}</p>
             <p className="mt-1 text-sm font-semibold">{status ? status : speed}</p>

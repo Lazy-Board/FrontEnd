@@ -17,7 +17,7 @@ const DisplayMyQuote = (): JSX.Element => {
       ) : (
         <div className="w-96 h-28 relative flex items-center justify-center ml-5 select-none">
           <p
-            className={`max-w-xs mx-auto line-clamp-3 ${
+            className={`max-w-xs mx-auto text-center line-clamp-3 ${
               !myQuote?.content && "text-gray-400"
             }`}
           >

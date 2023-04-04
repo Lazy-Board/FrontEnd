@@ -15,14 +15,14 @@ export interface GetGeocode {
     destinationGeoCode: string;
 }
 
-export const startingState = atom<string>({
+export const startingState = atom({
     key:'startingState',
-    default:'',
+    default:{address:''},
 })
 
-export const destinationState = atom<string>({
+export const destinationState = atom({
     key:'destinationState',
-    default:'',
+    default:{address:''},
 })
 
 export const getLoc = async () => {

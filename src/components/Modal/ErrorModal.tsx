@@ -32,33 +32,3 @@ export const ErrorModal = (props: any) => {
     </Position>
   );
 };
-
-// import { BiMessageAltError } from "react-icons/bi";
-
-// export const ErrorModal = (props: any) => {
-//   return (
-//     <div className="fixed z-10 inset-0 overflow-y-auto">
-//       <div className="flex items-center justify-center min-h-screen">
-//         <div className="bg-white p-6 rounded-lg shadow-lg border border-slate-300 w-1/2 min-w-1/2">
-//           <div className="flex items-center">
-//             <BiMessageAltError fill="red" size={20} />
-//             <h2 className="text-base font-medium text-gray-900 ml-2 pb-2">
-//               {props.title}
-//             </h2>
-//           </div>
-//           <div className="mt-2">
-//             <p className="text-base text-gray-500">{props.message}</p>
-//           </div>
-//           <div className="mt-4">
-//             <button
-//               className="px-4 py-2 bg-primary text-white rounded hover:bg-green-700"
-//               onClick={props.onClose}
-//             >
-//               닫기
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };

@@ -3,8 +3,9 @@ import { TbArrowNarrowDown, TbArrowNarrowUp } from "react-icons/tb";
 import { useQuery } from 'react-query';
 import { FiCrosshair } from 'react-icons/fi';
 import { getWeather } from '../../atom/weather';
-import WeatherBox from './WeatherBox'
-import WeatherLoading from './WeatherLoading'
+import { getWeatherImage } from '../../hooks/getWeatherImg';
+import WeatherBox from './WeatherBox';
+import WeatherLoading from './WeatherLoading';
 
 const TodayTemp = styled.div`
     @media screen and (max-width: 410px) {
@@ -32,22 +33,7 @@ const WeatherView = ():JSX.Element => {
     highestTemperature, lowestTemperature, weatherInformation, weatherComparison, humidity,ultraviolet, fineParticle,ultrafineParticle, windSpeed, windDirection, updatedAt }
     = weatherData || {};
 
-    const changeImg = 
-    (weatherData && weatherInformation.includes('비') ) ? 'heavy-rain'
-    : (weatherData && weatherInformation === '소나기') ? 'heavy-rain'
-    : (weatherData && weatherInformation === '맑음') ? 'sun'
-    : (weatherData && weatherInformation.includes('눈')) ? 'snow'
-    : (weatherData && weatherInformation.includes('안개')) ? 'haze'
-    : (weatherData && weatherInformation.includes('황사')) ? 'sand'
-    : (weatherData && weatherInformation.includes('흐림')) ? 'cloudy'
-    : (weatherData && weatherInformation.includes('구름')) ? 'cloudy'
-    : (weatherData && weatherInformation.includes('우박')) ? 'hail'
-    : (weatherData && weatherInformation.includes('번개')) ? 'thunder'
-    : (weatherData && weatherInformation === "진눈깨비") ? 'sleet'
-    : (weatherData && weatherInformation === "비 또는 눈") ? 'sleet'
-    : (weatherData && weatherInformation === "비,눈") ? 'sleet'
-    : (weatherData && weatherInformation.includes('뇌우')) ? 'thunder'
-    : 'moon'
+    const changeImg = getWeatherImage(weatherData);
 
     return (
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">

@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { api } from "../atom/signin";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { moduleState } from "../atom/users";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { VscLoading } from 'react-icons/vsc';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 const Content = styled.div`
   width: 448px;
@@ -16,8 +19,30 @@ const List = styled.div`
   width: calc(50% - 4px);
 `;
 
+const Save = styled.label`
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  .load {
+      margin-right:8px;
+      animation: spin 1s linear infinite;
+      @keyframes spin {
+          from {
+              transform: rotate(0deg);
+          }
+          to {
+              transform: rotate(360deg);
+          }
+      }
+  }
+  .ok {
+    margin-right:8px;
+  }
+`
+
 const SelectWidget = (): JSX.Element => {
   const navigate = useNavigate();
+  const [load, setLoad] = useState('시작하기');
   const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
   const handleCheckboxChange = (checked: boolean, id: string) => {
     setCheckboxes((prevState) => ({
@@ -35,11 +60,11 @@ const SelectWidget = (): JSX.Element => {
     const checkedIds = Object.entries(checkboxes)
       .filter(([_, checked]) => checked)
       .map(([id]) => id);
-    // const userId = localStorage.getItem("userId");
+      setLoad('위젯 저장 중...')
       await api.post("/user/saveModule", {
-        // userId: userId,
         ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
+      setLoad('위젯 설정 완료!')
       navigate('/');
       location.reload();
   };
@@ -102,11 +127,15 @@ const SelectWidget = (): JSX.Element => {
             ))}
           </div>
           <button
-            disabled={isDisabled}
-            className="w-80 mt-10 btn btn-primary"
+            disabled={isDisabled || load === '위젯 저장 중...'}
+            className={`w-80 mt-10 btn ${load ==='위젯 설정 완료!' ? 'btn-secondary' : 'btn-primary'}`}
             type="submit"
           >
-            시작하기
+            <Save className="w-full p-3 cursor-pointer" >
+                {load === '위젯 저장 중...' && <VscLoading className="load"/>}
+                {load === '위젯 설정 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
+                {load}
+            </Save>
           </button>
         </form>
       </div>
