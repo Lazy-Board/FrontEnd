@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useState } from "react";
-import { AiFillLeftCircle } from "react-icons/ai";
+import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { api } from "../atom/signin";
 import { useRecoilState } from "recoil";
 import {
@@ -9,7 +9,7 @@ import {
   usernameState,
   phonenumberState,
 } from "../atom/signup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import EmailModal from "../components/Modal/EmailModal";
@@ -32,9 +32,10 @@ const Signup = () => {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
   const [success, setSuccess] = useState<String | null>(null);
 
+  const navigate = useNavigate();
+
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const response = await api.post(`/user/signup`, {
         userEmail: email,
@@ -66,9 +67,7 @@ const Signup = () => {
         setEmailMessage("올바른 이메일 형식이에요 😄");
         setIsEmail(true);
       }
-    },
-    []
-  );
+    },[]);
 
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,10 +104,13 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
-      <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
-        <Link to="/login">
+      <div className="w-full relative bg-white shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral h-screen">
+        {/* <Link to="/login">
           <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
-        </Link>
+        </Link> */}
+        <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
+            <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
+        </button>
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
           <span className="items-center text-2xl font-semibold text-gray-900 dark:text-white">
             회원가입

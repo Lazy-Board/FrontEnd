@@ -61,8 +61,8 @@ const Accordions = (props: ExchangeProps): JSX.Element => {
 
   return (
     <>
-    <div className={`w-full px-1 py-2 ${classes} border-slate-300`}>
-        <div className="flex justify-between cursor-pointer" >
+    <div className={`w-full px-1 py-2 ${classes} border-slate-300 dark:border-slate-600`}>
+        <div className="flex justify-between" >
             <div className="flex items-center pl-1 gap-2">
                 <Flag src={`/currencyImage/${currencyName}.png`} alt={countryName} />
                 <p className="text-sm object-contain">

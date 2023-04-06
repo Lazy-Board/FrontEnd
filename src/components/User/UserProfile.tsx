@@ -21,7 +21,7 @@ const UserProfile = (): JSX.Element => {
   return (
     <>
       <DetailTopBar title={"계정 관리"} />
-      <Content className="max-w-md bg-stone-100 flex items-center content-center">
+      <Content className="max-w-md bg-stone-100 dark:bg-neutral dark:text-slate-200 flex items-center content-center">
         <div className="my-24 mx-auto">
         <img src={isLoading ? '/images/user-icon.png' : 
           !userInfo.profile ? '/images/user-icon.png' :
@@ -33,8 +33,8 @@ const UserProfile = (): JSX.Element => {
             <div className="mx-auto">Loading...</div>
           ) : (
             <>
-              <p className="mt-4 font-semibold">{userInfo.userName}</p>
-              <p className="mt-2">{userInfo.userEmail}</p>
+              <p className="mt-4 font-semibold text-center">{userInfo.userName}</p>
+              <p className="mt-2 text-center">{userInfo.userEmail}</p>
             </>
           )}
           {isLoading ? <div>Loading...</div>:

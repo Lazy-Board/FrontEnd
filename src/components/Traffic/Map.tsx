@@ -33,7 +33,7 @@ const MapContainer = () => {
         
                 // 인포윈도우로 장소에 대한 설명을 표시
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="width:150px;text-align:center;padding:6px 0;">도착지</div>'
+                    content: '<div class="destination" style="width:150px;text-align:center;padding:6px 0;">도착지</div>'
                 });
                 infowindow.open(map, marker);
         

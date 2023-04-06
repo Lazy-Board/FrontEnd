@@ -22,7 +22,7 @@ export default function useCarouselSize(
 
     setCarouselSize({
       width: 248,
-      height: 235,
+      height: 250,
     });
   }, [carouselRef]);
 

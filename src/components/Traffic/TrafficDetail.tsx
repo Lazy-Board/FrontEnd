@@ -26,6 +26,13 @@ const Location = styled.input`
     }
 `;
 
+const SwitchButton = styled.button`
+    &:hover {
+        background-color: #66cc8a;
+        color:#fff;
+    }
+`
+
 const TrafficDetail = () => {
     const queryClient = useQueryClient();
     const { data } = useQuery(['userPosition'], getDur, {
@@ -109,8 +116,8 @@ const TrafficDetail = () => {
     return (
         <>
         <DetailTopBar title="출근 정보"/>
-        <Content className="max-w-md pb-24 bg-stone-100 p-3">
-            <div className="w-full h-fit mt-16 p-3 border border-slate-300 rounded-lg bg-white">
+        <Content className="max-w-md pb-24 bg-stone-100 dark:bg-neutral p-3">
+            <div className="w-full h-fit mt-16 p-3 border border-slate-300 rounded-lg bg-white dark:bg-neutral dark:border-slate-600">
                 <p className="mb-2 text-left text-sm">예상 이동 시간</p>
                 <p className="text-3xl font-semibold text-left">
                     {!data ? '00시간 00분':
@@ -119,35 +126,35 @@ const TrafficDetail = () => {
                     ${`${Math.floor((Number(data.duration)% 3600)/60)}분`}`
                     }
                 </p>
-                <p className="mt-4 text-left text-sm text-gray-400">* 정확한 주소를 입력해주세요!</p>
+                <p className="mt-4 text-left text-sm text-gray-500">* 정확한 주소를 입력해주세요!</p>
                 <form action="#" className="w-full mt-4" onSubmit={submitData}>
-                    <div className="w-full relative border border-slate-300 rounded-lg">
-                        <button className="absolute p-1 top-8 right-3 rounded-full border border-slate-300 bg-white hover:bg-green-400 text-slate-600 hover:text-white transition-colors">
+                    <div className="w-full relative border border-slate-300 dark:border-slate-600 rounded-lg">
+                        <SwitchButton className="absolute p-1 top-8 right-3 rounded-full border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors">
                             <BiSortAlt2 size={20} onClick={switchValue}/>
-                        </button>
-                        <div className="p-2 px-3 flex items-center gap-3 border-b border-slate-300">
-                            <label className="text-zinc-700">출발</label>
+                        </SwitchButton>
+                        <div className="p-2 px-3 flex items-center gap-3 border-b border-slate-300 dark:border-slate-600">
+                            <label className="text-zinc-700 dark:text-slate-300">출발</label>
                             <Location type="search"
                             value={depart.address}
                             onChange={handleAddressInput} 
                             onClick={handleAddressComplete}
-                            className="w-3/4 p-1 text-left" placeholder="출발지를 정해주세요."/>
+                            className="w-3/4 p-1 text-left dark:text-slate-100 dark:bg-neutral" placeholder="출발지를 정해주세요."/>
                         </div>
                         <div className="p-2 px-3 flex items-center gap-3">
-                            <label className="text-zinc-700">도착</label>
+                            <label className="text-zinc-700 dark:text-slate-300">도착</label>
                             <Location type="search" 
                             value={arrive.address} 
                             onChange={handleOtherInput}
                             onClick={handleOtherComplete}
-                            className="w-3/4 p-1 text-left" placeholder="도착지를 정해주세요."/>
+                            className="w-3/4 p-1 text-left dark:text-slate-100 dark:bg-neutral" placeholder="도착지를 정해주세요."/>
                         </div>
                     </div>
                     <div className="flex mt-6 justify-between">
                         <input type="reset" className="w-2/5 btn btn-outline" value={'내용 삭제'} onClick={deleteText}/>
                         <input type="submit" 
-                        className="w-2/5 btn btn-primary transition-all" 
+                        className="w-2/5 btn btn-primary transition-all disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400" 
                         value={text} 
-                        disabled={!depart || !arrive || text === '탐색 중...' ? true:false}/>
+                        disabled={!depart.address || !arrive.address || text === '탐색 중...' ? true:false}/>
                     </div>
                 </form>
                 <div className="w-full h-96 mt-8 mb-2 border border-slate-300 rounded-lg bg-stone-200 overflow-hidden">

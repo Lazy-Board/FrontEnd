@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 
 const Top = styled.div`
@@ -19,11 +19,20 @@ const Top = styled.div`
 
 const DetailTopBar = ({ title }: any) => {
   const navigate = useNavigate();
+  const locationNow = useLocation();
+
+  const goHome = () => {
+    if (locationNow.pathname.includes('exchange') || locationNow.pathname.includes('stock')) {
+      navigate("/");
+      location.reload();
+    }
+    navigate("/");
+  };
 
   return (
-    <Top className="h-14 flex items-center justify-center bg-white shadow-sm">
+    <Top className="h-14 flex items-center justify-center bg-white dark:bg-neutral shadow-md dark:shadow-slate-700 dark:text-slate-100">
       <button
-        onClick={() => navigate(-1)}
+        onClick={goHome}
         className="absolute left-3 hover:text-green-400 transition-colors"
       >
         <FiArrowLeft size={20} />

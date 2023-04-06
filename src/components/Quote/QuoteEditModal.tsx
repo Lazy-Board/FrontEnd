@@ -88,7 +88,7 @@ const EditModal = (): JSX.Element => {
               htmlFor="edit-modal"
               className={`btn btn-primary ${
                 userQuote.content === ""
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300"
+                  ? "bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-slate-200 cursor-not-allowed border-gray-300 dark:border-slate-600 hover:bg-gray-300"
                   : ""
               }`}
               onClick={saveText}

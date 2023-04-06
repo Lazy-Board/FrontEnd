@@ -36,10 +36,10 @@ const WeatherView = ():JSX.Element => {
     const changeImg = getWeatherImage(weatherData);
 
     return (
-        <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg bg-white">
+        <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
             {isFetching ? <WeatherLoading />:
             !weatherData ? 
-            <div className='w-full h-32 mt-6 p-4' >
+            <div className='w-full h-32 mt-6 p-4 text-center' >
                 <p>아직 날씨 위치를 설정하지 않으셨어요!</p>
                 <label htmlFor="location-modal"
                 className='btn btn-primary mt-4 cursor-pointer'

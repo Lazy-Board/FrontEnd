@@ -114,7 +114,7 @@ const EditUserInfo = ():JSX.Element => {
     return (
         <>
         <DetailTopBar title="프로필 수정"/>
-        <Content className="max-w-md flex flex-col items-center justify-center bg-stone-100">
+        <Content className="max-w-md flex flex-col items-center justify-center bg-stone-100 dark:bg-neutral dark:text-slate-200">
         <form className='h-fit my-24' action='#' onSubmit={onSubmitData}>
             <div className='relative mx-auto'>
                 <img src={newImg}
@@ -132,14 +132,14 @@ const EditUserInfo = ():JSX.Element => {
                 value={userName}
                 onChange={changeName} required
                 placeholder='이름을 작성해주세요!'
-                className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
+                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
 
                 <label className='block mb-2 text-sm text-gray-900 dark:text-white text-left'>휴대폰 번호</label>
                 <input type="text" name='phoneNumber'
                 value={phoneNumber}
                 onChange={changeName} required
                 placeholder='010-0000-0000'
-                className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
+                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md focus:bg-white/75 transition-colors"/>
 
                 <label className='block mb-2 text-sm text-gray-900 dark:text-white text-left'>이메일 주소</label>
                 <input type="email" name='userEmail'
@@ -147,9 +147,11 @@ const EditUserInfo = ():JSX.Element => {
                 onChange={changeName} required
                 disabled={true}
                 placeholder='example@email.com'
-                className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
+                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
-                    <Save className='w-full mt-8 btn btn-primary' type='submit'
+                    <Save 
+                    className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' 
+                    type='submit'
                     disabled={!userName || !phoneNumber || !userName || load === '업데이트 중...' ? true : false}>
                         {load === '업데이트 중...' && <VscLoading className="load"/>}
                         {load}

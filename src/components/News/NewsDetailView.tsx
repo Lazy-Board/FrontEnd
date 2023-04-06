@@ -1,9 +1,8 @@
 import { useRecoilValueLoadable } from "recoil";
-
 import styled from "styled-components";
 import { getNewsSelector, MainNewsList } from "../../atom/News";
 import LoadingBar from "../Stock/Loading";
-import DetailTopBar from "./DetailTopBar";
+import DetailTopBar from "../MenuBars/DetailTopBar";
 import NewsBrandCarouselMenu from "./NewsBrandCarousel";
 
 const NewsDetailView = () => {

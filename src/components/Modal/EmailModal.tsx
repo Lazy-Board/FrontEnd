@@ -23,7 +23,7 @@ export const EmailModal = (props: any) => {
               {props.message}
             </Max>
           </div>
-          <div className="mt-6">
+          <div className="mt-6 text-center">
             <button
               className="w-32 px-4 py-2 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
               onClick={warp}

@@ -73,7 +73,7 @@ const StockDetailAccordion = ({
 
   return (
     <div className="border-none divide-y-2 ">
-      <div className="flex items-center w-full py-2 px-4 focus:outline-none bg-white">
+      <div className="flex items-center w-full py-2 px-4 focus:outline-none bg-white dark:bg-neutral">
         <StockImg
           src={`/stockImage/${stockName}.svg`}
           alt={stockName}

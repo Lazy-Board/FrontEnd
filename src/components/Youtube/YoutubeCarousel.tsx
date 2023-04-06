@@ -1,8 +1,7 @@
 import RegistDragEvent from "./Carousel";
 import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
-import { selector, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import axios from "axios";
+import { useRecoilValueLoadable } from "recoil";
 import { getYoutube, YoutubeProps } from "../../atom/Youtube";
 import LoadingBar from "../Stock/Loading";
 const YoutubeCarousel = () => {
@@ -32,13 +31,13 @@ const YoutubeCarousel = () => {
     <>
       <div
         ref={carouselRef}
-        className="w-full mt-5 px-3 py-4 pt-2 relative border bg-white border-slate-300 rounded-lg overflow-hidden"
+        className="w-full px-3 py-4 pt-2 relative border bg-white dark:bg-neutral border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden"
         style={{
           height,
           overflow: "hidden",
         }}
       >
-        <div className="w-full flex border border-white border-b-slate-300 ">
+        <div className="w-full flex">
           <span className="grid justify-items-start mb-1">YouTube 추천</span>
         </div>
         <div
@@ -80,7 +79,7 @@ const YoutubeCarousel = () => {
           ) : (
             slideList.map((item: any, i) => (
               <div key={i} className="flex-shrink-0">
-                <div className="flex-col">
+                <div className="flex-col relative">
                   <img
                     draggable={false}
                     src={item.imagePath}
@@ -88,15 +87,15 @@ const YoutubeCarousel = () => {
                     width={width}
                     className="mx-1 rounded-lg"
                   />
-                  <span className="absolute top-28 ml-20 text-sm text-white font-bold rounded-lg bg-black bg-opacity-50 px-1">
+                  <span className="absolute top-28 right-3 text-sm text-white font-bold rounded-lg bg-black bg-opacity-50 px-1">
                     {item.length}
                   </span>
                   <a href={item.videoUrl} target="_blank">
                     <div className="w-56 ml-3 text-left">
-                      <p className=" text-sm font-sans py-1 truncate">
+                      <p className="text-base pt-1 truncate">
                         {item.contentName}
                       </p>
-                      <p className="font-sans text-xs font-semibold mb-1">
+                      <p className="text-sm font-light mb-1 text-slate-700 dark:text-slate-400">
                         {item.channelName}
                       </p>
                     </div>

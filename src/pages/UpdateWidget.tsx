@@ -95,7 +95,7 @@ const UpdateWidget = (): JSX.Element => {
 
     return (
         <>
-        <Content className="relative bg-stone-50">
+        <Content className="relative bg-stone-50 dark:bg-neutral">
         <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
             <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
         </button>
@@ -106,7 +106,7 @@ const UpdateWidget = (): JSX.Element => {
                 alt="위젯"
                 className="h-24 w-24 mx-auto object-contain"
             />
-            <p className="mt-8 text-lg">
+            <p className="mt-8 text-lg text-center">
                 사용하실 위젯을 업데이트 해주세요.
                 <br />
                 (최소 2개 이상)
@@ -120,7 +120,7 @@ const UpdateWidget = (): JSX.Element => {
                 <>
                 {Object.entries(checkboxes).map(([id, checked]) => (
                 <List
-                    className="h-10 p-2 flex text-left bg-stone-200 rounded-md"
+                    className={`h-10 flex rounded-md ${checked ? 'bg-sky-500 dark:bg-blue-600 text-white font-semibold p-2':'bg-stone-50 border-2 border-slate-400 dark:bg-neutral dark:border-slate-600 text-slate-500 dark:text-slate-300 pt-1.5'} transition-colors`}
                     key={id}
                 >
                     <input
@@ -133,7 +133,7 @@ const UpdateWidget = (): JSX.Element => {
                     />
                     <label
                     htmlFor={id}
-                    className="inline-block w-full ml-2 cursor-pointer"
+                    className="inline-block w-full text-center cursor-pointer"
                     >
                     {id.includes("exchange")
                         ? "환율"
@@ -158,7 +158,7 @@ const UpdateWidget = (): JSX.Element => {
             </div>
             <button
                 disabled={isDisabled || load === '업데이트 중...'}
-                className={`w-80 mt-10 btn ${load ==='업데이트 완료!' ? 'btn-secondary' : 'btn-primary'}`}
+                className={`w-80 mt-10 btn ${load ==='업데이트 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400`}
                 type="submit"
             >
                 <Save className="w-full p-3 cursor-pointer" >

@@ -21,21 +21,21 @@ const StockView = () => {
     background-color: #999;
   `;
   return (
-    <div className="w-full h-fit max-h-72 mt-4 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
-      <div className="text-left font-semibold flex p-3 pb-2 w-full sticky top-0 bg-white">
+    <div className="w-full h-fit max-h-72 mt-4 relative border border-slate-300 dark:border-slate-600 rounded-lg overflow-auto scrollbar-hide bg-white dark:bg-neutral">
+      <div className="text-left font-semibold flex p-3 pb-2 w-full sticky top-0 bg-white dark:bg-neutral">
         주식
         <Link to={`/stock`}>
           <BiChevronRight size={26} />
         </Link>
       </div>
-      <div className="flex-row px-3 bg-white">
+      <div className="flex-row px-3 bg-white dark:bg-neutral">
         {MainViewList.state === "loading" ? (
           <LoadingBar />
         ) : (
           LoadablegetStock.map((item: StockProps) => (
             <>
               <div
-                className="flex w-full p-2 mt-2 border-t border-slate-300 justify-start"
+                className="flex w-full p-2 mt-2 border-t border-slate-300 dark:border-slate-600 justify-start"
                 key={item.stockName}
               >
                 <span className="">{item.stockName}</span>
