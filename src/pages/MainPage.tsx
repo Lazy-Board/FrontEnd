@@ -40,7 +40,7 @@ const MainPage = (): JSX.Element => {
   // }, []);
 
   return (
-    <Content className="max-w-md pt-16 pb-24 bg-stone-100 dark:bg-neutral dark:text-slate-100 p-3">
+    <Content className={`max-w-md pt-16 pb-24 bg-stone-100 dark:bg-neutral dark:text-slate-100 p-3 ${isFetching && 'pt-28'}`}>
       {/* 조건부 렌더링 */}
       {isFetching ? (
         <MainLoading />

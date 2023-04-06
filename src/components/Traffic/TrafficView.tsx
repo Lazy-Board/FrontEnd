@@ -19,22 +19,22 @@ const TrafficView = ():JSX.Element => {
     const nowSec=hour+minutes+seconds;
     
     return (
-        <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 rounded-lg bg-white">
+        <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
             <div className="flex items-center">
                 출근 정보
                 <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>
             </div>
             {isLoading ? <TrafficLoading />:
             !durationInfo ? 
-            <div className="w-full h-36 mt-4 border border-slate-300 rounded-lg">
+            <div className="w-full h-36 mt-4 border border-slate-300 dark:border-slate-600 rounded-lg">
                 <p className="mt-8 text-center">아직 출근정보를 설정하지 않으셨어요!</p>
                 <Link to={`/traffic`} className="btn btn-primary mt-4">
                     설정하기
                 </Link>
             </div>
             :
-            <div className="w-full h-fit mt-2 p-3 border border-slate-300 rounded-lg bg-white">
-            <div className="flex items-center justify-center gap-2 text-gray-500">
+            <div className="w-full h-fit mt-2 p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white">
+            <div className="flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400">
                 <FiMapPin size={15}/>
                 <p className="w-42 text-sm truncate">
                     {startingPoint}

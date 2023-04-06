@@ -25,7 +25,7 @@ const NewsDetailView = () => {
   return (
     <>
       <DetailTopBar title="뉴스" />
-      <Content className="max-w-md bg-stone-100 p-3 pb-8">
+      <Content className="max-w-md bg-stone-100 dark:bg-neutral dark:text-slate-100 p-3 pb-8">
         <NewsBrandCarouselMenu />
         <div className="max-h-screen overflow-auto scrollbar-hide">
           <div>
@@ -34,7 +34,7 @@ const NewsDetailView = () => {
             ) : (
               LoadablegetNewsList.map((item: any, idx: number) => (
                 <div
-                  className="border-t flex text-left py-3  border-stone-300"
+                  className="border-t flex text-left py-3  border-slate-300 dark:border-slate-600"
                   key={idx}
                 >
                   <img

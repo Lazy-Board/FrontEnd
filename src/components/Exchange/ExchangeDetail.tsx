@@ -20,7 +20,7 @@ const ExchangeDetail = (): JSX.Element => {
   return (
     <>
       <DetailTopBar title="환율" />
-      <Content className="max-w-md bg-stone-100 dark:bg-neutral dark:text-slate-200 p-3">
+      <Content className={`max-w-md bg-stone-100 dark:bg-neutral dark:text-slate-200 p-3 ${dataLoadable.state === 'loading' && 'pt-28'}`}>
         {dataLoadable.state === 'loading' ? <MainLoading/> : (
           <>
           <div className="mt-16 text-left text-sm">
