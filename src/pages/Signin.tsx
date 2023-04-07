@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../atom/signin";
 import { GoogleAuth } from "../components/User/GoogleAuth";
-import { VscLoading } from 'react-icons/vsc';;
+import { VscLoading } from 'react-icons/vsc';
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import styled from "styled-components";
 
@@ -62,6 +62,7 @@ const Signin = () => {
       location.reload();
       //response.data.modulCode ? ture면 메인창 , false면 모듈 선택창 navigate//
     } catch (err: any) {
+      setLoading('로그인')
       setError(err.response.data.msg);
     }
   };

@@ -48,29 +48,28 @@ const TodoItem = ({ id, contents }: PropTypes) => {
 
   return (
     <>
-      <div className="flex pb-2 font-bold border-b-slate-300 ">
+      <div className="flex py-1 items-center border-b border-slate-300 dark:border-slate-600">
         <div className="form-control">
           <label className="cursor-pointer label justify-start">
             <input
               type="checkbox"
               checked
-              className="checkbox checkbox-success mr-2"
+              className="checkbox checkbox-success"
               onClick={onDelete}
             />
           </label>
         </div>
-        <div
+        <p
           title={contents}
-          className="text-black text-sm p-2 mr-auto"
-          // onClick={() => onComplete(id)}
+          className="text-stone-800 dark:text-slate-100 text-sm p-2 mr-auto"
         >
           {contents}
-        </div>
+        </p>
 
         <div className="flex">
           <a href="#my-modal-2">
             <FaPen
-              className="bg-none cursor-pointer mr-2 fill-primary mt-3"
+              className="bg-none cursor-pointer mr-2 text-slate-400"
               onClick={onModify}
             />
           </a>

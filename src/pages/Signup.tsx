@@ -1,7 +1,9 @@
 import { FormEvent, useCallback, useState } from "react";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { VscLoading } from 'react-icons/vsc';
 import { api } from "../atom/signin";
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 import {
   emailState,
   passwordState,
@@ -13,6 +15,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import EmailModal from "../components/Modal/EmailModal";
+
+const Save = styled.label`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    .load {
+        margin-right:8px;
+        animation: spin 1s linear infinite;
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+`
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -31,11 +51,13 @@ const Signup = () => {
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
   const [success, setSuccess] = useState<String | null>(null);
+  const [loading, setLoading] = useState('다음');
 
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading('진행 중...')
     try {
       const response = await api.post(`/user/signup`, {
         userEmail: email,
@@ -44,11 +66,13 @@ const Signup = () => {
         phoneNumber: phonenumber,
       });
       localStorage.setItem("userId", response.data.userId);
+      setLoading('전송 완료!')
       setUserId(response.data.userId);
       //이메일 인증 해달라고 알람 띄우기//
       setSuccess("이메일 인증을 진행해주세요!");
     } catch (err: any) {
       console.log(err);
+      setLoading('다음');
       setError(err.response.data.msg);
     }
   };
@@ -218,9 +242,12 @@ const Signup = () => {
             <button
               type="submit"
               className="w-full mt-16 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
-              disabled={!(isEmail && isPassword && isPasswordConfirm)}
+              disabled={!(isEmail && isPassword && isPasswordConfirm)||loading==='진행 중...'}
             >
-              다음
+              <Save className="w-full cursor-pointer">
+                {loading === '진행 중...' && <VscLoading className="load"/>}
+                {loading}
+              </Save>
             </button>
           </form>
         </div>

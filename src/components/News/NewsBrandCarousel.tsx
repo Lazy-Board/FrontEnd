@@ -1,10 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
+import { RiArrowDownSFill } from "react-icons/ri";
 import { Fragment } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { NewsBrandList, selectNewsBrand } from "../../atom/News";
 import { api } from "../../atom/signin";
-
-import LoadingBar from "../Stock/Loading";
+import BrandLoading from "./BrandLoading";
 
 const NewsBrandCarouselMenu = () => {
   const NewsBrand = useRecoilValueLoadable(NewsBrandList);
@@ -24,18 +24,19 @@ const NewsBrandCarouselMenu = () => {
     setSelectedNewsTitle(item);
     location.reload();
   };
+
   return NewsBrand.state === "loading" ? (
-    <LoadingBar />
+    <BrandLoading />
   ) : (
     <div className="mt-12 w-full">
       <Listbox value={selectedNewsTitle} onChange={setSelectedNewsTitle}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-center shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white dark:bg-slate-700 py-2 pl-3 pr-10 text-center shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm dark:text-slate-100">
+            <span className="block truncate ml-7">
               {selectedNewsTitle === null ? "언론사 선택" : selectedNewsTitle}
             </span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <button className="w-5 h-5">▼</button>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-stone-500 dark:text-slate-200">
+              <RiArrowDownSFill size={24} />
             </span>
           </Listbox.Button>
           <Transition
@@ -44,13 +45,13 @@ const NewsBrandCarouselMenu = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-700 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {LoadableNewsBrand.map((item, idx) => (
                 <Listbox.Option
                   key={idx}
                   onClick={() => handleSelect(item)}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    `relative cursor-default select-none py-2 px-4 dark:text-slate-200 dark:hover:text-amber-900 ${
                       active ? "bg-amber-100 text-amber-900" : "text-gray-900"
                     }`
                   }
@@ -59,7 +60,7 @@ const NewsBrandCarouselMenu = () => {
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block truncate ${
+                        className={`block truncate text-center ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
