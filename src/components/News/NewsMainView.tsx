@@ -1,9 +1,14 @@
 import { useRecoilValueLoadable } from "recoil";
-
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { getNewsSelector, MainNewsList } from "../../atom/News";
-import LoadingBar from "../Stock/Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
+import styled from "styled-components";
+
+const Thumbnail = styled.img`
+  min-width:112px;
+`
+
 const NewsMainView = () => {
   const getNewsMain = useRecoilValueLoadable(getNewsSelector);
 
@@ -15,25 +20,27 @@ const NewsMainView = () => {
   }
 
   return (
-    <div className="w-full h-fit max-h-72 mt-4 pb-6 relative border border-slate-300 rounded-lg overflow-auto scrollbar-hide bg-white">
-      <div className="text-left flex font-semibold border-b border-slate-300 py-2 px-2 sticky top-0 w-full bg-white">
+    <div className="w-full h-fit max-h-72 pb-6 relative border border-slate-300 dark:border-slate-600 rounded-lg overflow-auto scrollbar-hide bg-white dark:bg-neutral">
+      <div className="text-left flex item-center border-b border-slate-300 dark:border-slate-600 py-2 px-2 sticky top-0 w-full bg-white dark:bg-neutral">
         헤드라인 뉴스
         <Link to="/news">
-          <BiChevronRight size={26} />
+          <BiChevronRight size={24} />
         </Link>
       </div>
 
-      <div className="flex-row text-sm px-3 bg-white">
+      <div className="flex-row text-sm px-3 bg-white dark:bg-neutral">
         {getNewsMain.state === "loading" ? (
-          <LoadingBar />
+          <WidgetLoading />
         ) : (
-          LoadablegetNewsList.map((item: any) => (
-            <div className="border-b flex text-left py-2 h-fit border-stone-300">
-              <img
+          LoadablegetNewsList.map((item: any, index:any) => (
+            <div className={`flex text-left py-2 h-fit border-stone-300 dark:border-slate-600 ${index === LoadablegetNewsList.length - 1 ? 'pb-0' : 'border-b'}`} key={index}>
+              {!item.imagePath ? <></> : 
+                <Thumbnail
                 src={item.imagePath}
-                className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
+                className="w-28 h-16 mr-2 object-cover"
               />
-              <a href={`${item.url}`} target="_blank">
+              }
+              <a href={`${item.url}`} target="_blank" rel="noopener noreferrer" >
                 <span className="">{item.subject}</span>
               </a>
             </div>

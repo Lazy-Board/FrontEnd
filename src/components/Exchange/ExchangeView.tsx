@@ -36,10 +36,10 @@ const ExchangeView = (): JSX.Element => {
   ];
 
   return (
-    <div className="w-full h-fit mt-5 p-3 pt-2 pb-6 relative border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden bg-white dark:bg-neutral">
+    <div className="w-full h-fit p-3 pt-2 pb-6 relative border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden bg-white dark:bg-neutral">
         <div className="self-start flex items-center">
             환율 
-            <Link to={`/exchange`} ><BiChevronRight size={26}/></Link>
+            <Link to={`/exchange`} ><BiChevronRight size={24}/></Link>
         </div>
         {
         viewLoadable.state === 'loading' ? 

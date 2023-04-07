@@ -38,9 +38,11 @@ const MainPage = (): JSX.Element => {
   // useEffect(() => {
   //   accessToken === null ? navigate("/login") : "";
   // }, []);
+  
+  // map으로 처리할 수도 있을거..같은데...좀 찾아보고 
 
   return (
-    <Content className={`max-w-md pt-16 pb-24 bg-stone-100 dark:bg-neutral dark:text-slate-100 p-3 ${isFetching && 'pt-28'}`}>
+    <Content className={`max-w-md bg-stone-100 dark:bg-neutral px-3 py-20 flex flex-col gap-5 dark:text-slate-100 transition-colors ${isFetching && 'pt-28'}`}>
       {/* 조건부 렌더링 */}
       {isFetching ? (
         <MainLoading />

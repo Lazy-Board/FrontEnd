@@ -19,10 +19,10 @@ const TrafficView = ():JSX.Element => {
     const nowSec=hour+minutes+seconds;
     
     return (
-        <div className="w-full h-fit relative mt-5 p-3 pt-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
+        <div className="w-full h-fit relative p-3 pt-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
             <div className="flex items-center">
                 출근 정보
-                <Link to={`/traffic`} ><BiChevronRight size={26}/> </Link>
+                <Link to={`/traffic`} ><BiChevronRight size={24}/> </Link>
             </div>
             {isLoading ? <TrafficLoading />:
             !durationInfo ? 

@@ -36,7 +36,7 @@ const WeatherView = ():JSX.Element => {
     const changeImg = getWeatherImage(weatherData);
 
     return (
-        <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
+        <div className="w-full h-fit p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
             {isFetching ? <WidgetLoading />:
             !weatherData ? 
             <div className='w-full h-32 mt-6 p-4 text-center' >
