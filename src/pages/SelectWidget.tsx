@@ -70,7 +70,7 @@ const SelectWidget = (): JSX.Element => {
   };
 
   return (
-    <Content className="relative bg-stone-50 dark:bg-neutral">
+    <Content className="bg-stone-50 dark:bg-neutral">
       <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
         <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
       </button>

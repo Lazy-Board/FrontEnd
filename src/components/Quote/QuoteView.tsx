@@ -2,7 +2,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { useSliders } from "../../hooks/useSliders";
 import { quotesList, QuoteType } from "../../atom/quote";
 import DisplayMyQuote from "./DisplayMyQuote";
-import Loading from "./Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
 import styled from "styled-components";
 
 const LongWidth = styled.div`
@@ -49,7 +49,9 @@ const QuoteView = (): JSX.Element => {
       </div>
       <LongWidth ref={slideRef}>
         {quoteLoadable.state === "loading" ? (
-          <Loading />
+          <div className="w-96 pl-3">
+            <WidgetLoading />
+          </div>
         ) : (
           <div className="w-96 h-28 relative flex flex-col items-center justify-center pl-6 select-none">
             <p className="max-w-xs mx-auto line-clamp-3 text-center">{lists.content}</p>

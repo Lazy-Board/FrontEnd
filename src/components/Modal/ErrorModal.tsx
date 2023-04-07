@@ -19,7 +19,7 @@ export const ErrorModal = (props: any) => {
               {props.message}
             </Max>
           </div>
-          <div className="mt-6">
+          <div className="mt-6 text-center">
             <button
               className="w-28 px-4 py-2 text-sm bg-red-400 text-white rounded hover:bg-red-600 transition-colors"
               onClick={props.onClose}

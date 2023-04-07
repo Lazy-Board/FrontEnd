@@ -105,44 +105,45 @@ const Signup = () => {
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
       <div className="w-full relative bg-white shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral h-screen">
-        {/* <Link to="/login">
-          <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
-        </Link> */}
         <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
             <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
         </button>
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
+        <div className="p-6 mt-24 text-center">
           <span className="items-center text-2xl font-semibold text-gray-900 dark:text-white">
             회원가입
           </span>
           <form
-            className="space-y-4 md:space-y-6"
+            className="mt-16 px-2"
             action="#"
             onSubmit={onSubmitHandler}
           >
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              이메일
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="name@email.com"
-              value={email}
-              onChange={onChangeEmail}
-              required
-            />
-            {email.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isEmail ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {emailMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+            <div className="relative">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                이메일
+                </label>
+                <input
+                type="email"
+                name="email"
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@email.com"
+                value={email}
+                onChange={onChangeEmail}
+                required
+                />
+                {email.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isEmail ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {emailMessage}
+                </span>
+                )}
+            </div>
+            
+            
+            <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               이름
             </label>
             <input
@@ -155,49 +156,55 @@ const Signup = () => {
               onChange={(e) => setUserName(e.target.value)}
             />
 
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              비밀번호
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={password}
-              onChange={onChangePassword}
-            />
-            {password.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isPassword ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {passwordMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              비밀번호 확인
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="confirmpassword"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={confirmPassword}
-              onChange={onChangePasswordConfirm}
-            />
-            {confirmPassword.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isPasswordConfirm ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {PasswordConfirmMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+            <div className="relative">
+                <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                비밀번호
+                </label>
+                <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={password}
+                onChange={onChangePassword}
+                />
+                {password.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isPassword ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {passwordMessage}
+                </span>
+                )}
+            </div>
+            
+            <div className="relative">
+                <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                비밀번호 확인
+                </label>
+                <input
+                type="password"
+                name="password"
+                id="confirmpassword"
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={confirmPassword}
+                onChange={onChangePasswordConfirm}
+                />
+                {confirmPassword.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isPasswordConfirm ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {PasswordConfirmMessage}
+                </span>
+                )}
+            </div>
+            
+            <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               전화번호
             </label>
             <input
@@ -210,7 +217,7 @@ const Signup = () => {
             />
             <button
               type="submit"
-              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
+              className="w-full mt-16 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
               disabled={!(isEmail && isPassword && isPasswordConfirm)}
             >
               다음

@@ -3,7 +3,8 @@ import { useState } from "react";
 import useCarouselSize from "./CarouselSize";
 import { useRecoilValueLoadable } from "recoil";
 import { getYoutube, YoutubeProps } from "../../atom/Youtube";
-import LoadingBar from "../Stock/Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
+
 const YoutubeCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
@@ -75,7 +76,7 @@ const YoutubeCarousel = () => {
           }}
         >
           {Youtube.state === "loading" ? (
-            <LoadingBar />
+            <WidgetLoading />
           ) : (
             slideList.map((item: any, i) => (
               <div key={i} className="flex-shrink-0">

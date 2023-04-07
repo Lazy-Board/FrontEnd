@@ -5,7 +5,7 @@ import { FiCrosshair } from 'react-icons/fi';
 import { getWeather } from '../../atom/weather';
 import { getWeatherImage } from '../../hooks/getWeatherImg';
 import WeatherBox from './WeatherBox';
-import WeatherLoading from './WeatherLoading';
+import WidgetLoading from '../Modal/WidgetLoading';
 
 const TodayTemp = styled.div`
     @media screen and (max-width: 410px) {
@@ -37,7 +37,7 @@ const WeatherView = ():JSX.Element => {
 
     return (
         <div className="w-full h-fit mt-4 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
-            {isFetching ? <WeatherLoading />:
+            {isFetching ? <WidgetLoading />:
             !weatherData ? 
             <div className='w-full h-32 mt-6 p-4 text-center' >
                 <p>아직 날씨 위치를 설정하지 않으셨어요!</p>

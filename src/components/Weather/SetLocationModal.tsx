@@ -101,7 +101,7 @@ const SetLocationModal = ():JSX.Element => {
         <input type='checkbox' id='location-modal' className="modal-toggle"/>
         <div className="modal">
             <div className="modal-box w-72">
-                <p className="dark:text-slate-400">지역을 선택해주세요.</p>
+                <p className="text-slate-600 dark:text-slate-400">지역을 선택해주세요.</p>
                 <form action="#" className="mt-4" >
                     <div className="flex flex-col gap-3">
                         <label className='block text-sm text-gray-900 dark:text-slate-100 text-left'>시/구/군</label>
