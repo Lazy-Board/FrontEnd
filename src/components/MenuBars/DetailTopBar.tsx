@@ -26,7 +26,7 @@ const DetailTopBar = ({ title }: any) => {
       navigate("/");
       location.reload();
     }
-    navigate("/");
+    navigate(-1);
   };
 
   return (

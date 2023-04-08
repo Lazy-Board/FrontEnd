@@ -19,6 +19,7 @@ export type StockProps = {
   highPrice: number;
   tradingVolume: number;
   updateAt: string;
+  classes: string;
 };
 
 const getStockMain = async () => {

@@ -35,11 +35,20 @@ const MainPage = (): JSX.Element => {
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
+
+  const widgetList = [
+    {id:"exchangeYn", content: <ExchangeView />},
+    {id:"newsYn", content: <NewsMainView />},
+    {id:"quoteYn", content: <QuoteView />},
+    {id:"stockYn", content: <StockView />},
+    {id:"todolistYn", content: <TodoMainView />},
+    {id:"weatherYn", content: <WeatherView />},
+    {id:"workYn", content: <TrafficView />},
+    {id:"youtubeYn", content: <YoutubeCarousel/>},
+]
   // useEffect(() => {
   //   accessToken === null ? navigate("/login") : "";
   // }, []);
-  
-  // map으로 처리할 수도 있을거..같은데...좀 찾아보고 
 
   return (
     <Content className={`max-w-md bg-stone-100 dark:bg-neutral px-3 py-20 flex flex-col gap-5 dark:text-slate-100 transition-colors ${isFetching && 'pt-28'}`}>
@@ -48,14 +57,11 @@ const MainPage = (): JSX.Element => {
         <MainLoading />
       ) : (
         <>
-          {filtered.includes("weatherYn") && <WeatherView />}
-          {filtered.includes("exchangeYn") && <ExchangeView />}
-          {filtered.includes("stockYn") && <StockView />}
-          {filtered.includes("newsYn") && <NewsMainView />}
-          {filtered.includes("youtubeYn") && <YoutubeCarousel />}
-          {filtered.includes("quoteYn") && <QuoteView />}
-          {filtered.includes("todolistYn") && <TodoMainView />}
-          {filtered.includes("workYn") && <TrafficView />}
+          {widgetList.filter(item=> filtered.includes(item.id)).map(item=>(
+              <div key={item.id}>
+                  {item.content}
+              </div>
+          ))}
         </>
       )}
     </Content>
