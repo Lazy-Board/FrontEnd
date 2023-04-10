@@ -107,64 +107,60 @@ const UpdateWidget = (): JSX.Element => {
                     alt="위젯"
                     className="h-24 w-24 mx-auto object-contain"
                 />
-                <p className="mt-8 text-lg text-center">
+                <p className="mt-8 text-lg text-center dark:text-slate-100">
                     사용하실 위젯을 업데이트 해주세요.
                     <br />
                     (최소 2개 이상)
                 </p>
                 </div>
                 <form action="" className="w-80 mx-auto mt-10" onSubmit={submitModule}>
-                <div className="flex flex-wrap gap-2">
-                    {/* 위젯 리스트 체크*/}
-                    {isFetching ? <div>Loading...</div>
-                    :
-                    <>
-                    {Object.entries(checkboxes).map(([id, checked]) => (
-                    <List
-                        className={`h-10 flex rounded-md ${checked ? 'bg-sky-500 dark:bg-blue-600 text-white font-semibold p-2':'bg-stone-50 border-2 border-slate-400 dark:bg-neutral dark:border-slate-600 text-slate-500 dark:text-slate-300 pt-1.5'} transition-colors`}
-                        key={id}
-                    >
-                        <input
-                        type="checkbox"
-                        id={id}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleCheckboxChange(e.currentTarget.checked, id)
-                        }
-                        checked={checked}
-                        />
-                        <label
-                        htmlFor={id}
-                        className="inline-block w-full text-center cursor-pointer"
+                    <div className="flex flex-wrap gap-2">
+                            {/* 위젯 리스트 체크*/}
+                        {Object.entries(checkboxes).map(([id, checked]) => (
+                        <List
+                            className={`h-10 flex rounded-md ${checked ? 'bg-sky-500 dark:bg-blue-600 text-white font-semibold p-2':'bg-stone-50 border-2 border-slate-400 dark:bg-neutral dark:border-slate-600 text-slate-500 dark:text-slate-300 pt-1.5'} transition-colors`}
+                            key={id}
                         >
-                        {id.includes("exchange")
-                            ? "환율"
-                            : id.includes("weather")
-                            ? "날씨"
-                            : id.includes("youtube")
-                            ? "유튜브"
-                            : id.includes("todo")
-                            ? "투두리스트"
-                            : id.includes("news")
-                            ? "뉴스"
-                            : id.includes("quote")
-                            ? "오늘의 명언"
-                            : id.includes("stock")
-                            ? "주식"
-                            : "출근정보"}
-                        </label>
-                    </List>
-                    ))}
-                    </>
-                    }
-                </div>
+                            <input
+                            type="checkbox"
+                            id={id}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                handleCheckboxChange(e.currentTarget.checked, id)
+                            }
+                            className="hidden"
+                            checked={checked}
+                            />
+                            <label
+                            htmlFor={id}
+                            className="inline-block w-full text-center cursor-pointer"
+                            >
+                            {id.includes("exchange")
+                                ? "환율"
+                                : id.includes("weather")
+                                ? "날씨"
+                                : id.includes("youtube")
+                                ? "유튜브"
+                                : id.includes("todo")
+                                ? "투두리스트"
+                                : id.includes("news")
+                                ? "뉴스"
+                                : id.includes("quote")
+                                ? "오늘의 명언"
+                                : id.includes("stock")
+                                ? "주식"
+                                : "출근정보"}
+                            </label>
+                        </List>
+                        ))}
+                    </div>
                 <Save
                     disabled={isDisabled || load === '업데이트 중...'}
-                    className={`w-80 mt-10 btn ${load ==='업데이트 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400`}
+                    className={`w-80 mt-10 btn ${load ==='업데이트 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400 text-base`}
                     type="submit"
                 >
                     {load === '업데이트 중...' && <VscLoading className="load"/>}
-                        {load === '업데이트 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
-                        {load}
+                    {load === '업데이트 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
+                    {load}
                 </Save>
             </form>
         </div>

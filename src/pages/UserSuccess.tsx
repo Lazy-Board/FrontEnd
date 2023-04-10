@@ -12,12 +12,12 @@ const Content = styled.div`
 
 const UserSuccess = ():JSX.Element => {
     return (
-        <Content className="text-slate-900 dark:text-slate-100">
+        <Content className="text-slate-900 dark:text-slate-100 dark:bg-neutral">
             <div className="py-48">
                 <img src="/images/celebrating.png" alt="회원가입 축하" 
                 className="w-48 h-48 mx-auto mt-24 object-contain"/>
                 <p className="mt-10 text-xl text-center">Lazier 회원가입이 완료되었습니다!</p>
-                <Link to={`/`} className="btn btn-primary mt-8 mb-24 text-center">
+                <Link to={`/login`} className="btn btn-primary mt-8 mb-24 text-center">
                     로그인 화면으로
                 </Link>
             </div>

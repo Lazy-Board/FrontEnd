@@ -57,13 +57,13 @@ const UpdatePassword = ():JSX.Element => {
                 <input type="password" placeholder='현재 비밀번호를 입력해주세요'
                 value={password} name="password"
                 onChange={changePassword} required
-                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors"/>
+                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors rounded-md dark:text-slate-100"/>
 
                 <label className='block mt-8 mb-2 text-sm text-gray-900 dark:text-white text-left'>변경할 비밀번호</label>
                 <input type="password" placeholder='변경할 비밀번호를 입력해주세요' name='newPassword'
                 value={newPassword} 
                 onChange={changePassword} required
-                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors"/>
+                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors rounded-md dark:text-slate-100"/>
                 <div className='flex justify-between'>
                     <button className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' type='submit' 
                     disabled={!password || !newPassword ? true : false}>

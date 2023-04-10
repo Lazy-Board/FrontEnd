@@ -85,7 +85,7 @@ const SelectWidget = (): JSX.Element => {
             alt="위젯"
             className="h-24 w-24 mx-auto object-contain"
           />
-          <p className="mt-8 text-lg text-center">
+          <p className="mt-8 text-lg text-center dark:text-slate-100">
             사용하실 위젯을 선택해주세요.
             <br />
             (최소 2개 이상)
@@ -133,7 +133,7 @@ const SelectWidget = (): JSX.Element => {
           </div>
           <Save
             disabled={isDisabled || load === '위젯 저장 중...'}
-            className={`w-80 mt-10 btn ${load ==='위젯 설정 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400`}
+            className={`w-80 mt-10 btn ${load ==='위젯 설정 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400 text-base`}
             type="submit"
           >
             {load === '위젯 저장 중...' && <VscLoading className="load"/>}

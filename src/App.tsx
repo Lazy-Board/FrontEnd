@@ -20,6 +20,7 @@ import UpdateWidget from "./pages/UpdateWidget";
 import UpdatePassword from "./components/User/UpdatePassword";
 import UserWithdrawal from "./components/User/UserWithdrawal";
 import FindPassword from "./pages/FindPassword";
+import NoPage from "./pages/NoPage";
 import LoginRedirect from "./components/User/LoginRedirect";
 import { useEffect} from 'react';
 import { useMediaQuery } from 'react-responsive';
@@ -51,6 +52,7 @@ function App() {
       <TopBar />
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="*" element={<NoPage />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/find-password" element={<FindPassword />} />

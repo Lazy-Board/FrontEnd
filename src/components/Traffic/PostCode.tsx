@@ -39,30 +39,19 @@ const Wrapper = styled.div`
 `
 
 const PostCode = (props:any):JSX.Element => {
+    const $html = document.querySelector('html');
+    const theme = $html?.getAttribute('data-theme');
     const { search, setsearch, closed } = props;
     const [visible, setVisible] = useState(true); //autoclose될 때 닫기 버튼 사라지도록
 
-    //localStorage 값을 바로 갱신하기 위한 코드
-    //더 좋은 방법이 있으면 좋겠...는데 이렇게 안 하면 제대로 안됨..
-    const [themeObj, setThemeObj] = useState({
-        bgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "ECECEC",
-        searchBgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "FFFFFF",
-        contentBgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "FFFFFF",
-        pageBgColor: localStorage.getItem('theme') === 'night' ? "#334155" : "FAFAFA",
-        textColor: localStorage.getItem('theme') === 'night' ? "#CCCCCC" : "333333",
-        queryTextColor: localStorage.getItem('theme') === 'night' ? "#CCCCCC" : "222222"
-    })
-
-    useEffect(() => {
-        setThemeObj({
-            bgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "ECECEC",
-            searchBgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "FFFFFF",
-            contentBgColor: localStorage.getItem('theme') === 'night' ? "#0f172a" : "FFFFFF",
-            pageBgColor: localStorage.getItem('theme') === 'night' ? "#334155" : "FAFAFA",
-            textColor: localStorage.getItem('theme') === 'night' ? "#CCCCCC" : "333333",
-            queryTextColor: localStorage.getItem('theme') === 'night' ? "#CCCCCC" : "222222"
-        });
-    }, [localStorage.getItem('theme')]);
+    const themeProps = {
+        bgColor: theme === 'night' ? "#0f172a" : "ECECEC",
+        searchBgColor: theme === 'night' ? "#0f172a" : "FFFFFF",
+        contentBgColor: theme === 'night' ? "#0f172a" : "FFFFFF",
+        pageBgColor: theme === 'night' ? "#334155" : "FAFAFA",
+        textColor: theme === 'night' ? "#CCCCCC" : "333333",
+        queryTextColor: theme === 'night' ? "#CCCCCC" : "222222"
+    }
 
     const complete = (data:any) =>{
         let fullAddress = data.address;
@@ -97,7 +86,7 @@ const PostCode = (props:any):JSX.Element => {
                 <DaumPostcodeEmbed
                 className='postModal bg-white dark:bg-neutral'
                 autoClose
-                theme={themeObj}
+                theme={themeProps}
                 onComplete={complete} />
             </Wrapper>
         </ModalWrapper>
