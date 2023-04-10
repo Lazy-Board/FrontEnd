@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { moduleState } from "../atom/users";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { VscLoading } from 'react-icons/vsc';
-import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+// import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 const Content = styled.div`
   width: 448px;
@@ -42,7 +42,7 @@ const Save = styled.button`
 
 const SelectWidget = (): JSX.Element => {
   const navigate = useNavigate();
-  const [load, setLoad] = useState('시작하기');
+  const [load, setLoad] = useState<string>('시작하기');
   const [checkboxes, setCheckboxes] = useRecoilState(moduleState);
   const handleCheckboxChange = (checked: boolean, id: string) => {
     setCheckboxes((prevState) => ({
@@ -58,15 +58,19 @@ const SelectWidget = (): JSX.Element => {
   const submitModule = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const checkedIds = Object.entries(checkboxes)
-      .filter(([_, checked]) => checked)
-      .map(([id]) => id);
+    .filter(([_, checked]) => checked)
+    .map(([id]) => id);
+    try {
       setLoad('위젯 저장 중...')
-      await api.post("/user/saveModule", {
-        ...Object.fromEntries(checkedIds.map((id) => [id, true])),
+      const response=await api.post("/user/saveModule", {
+      ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
-      setLoad('위젯 설정 완료!')
       navigate('/');
       location.reload();
+    } catch (error:any){
+      setLoad('시작하기');
+      console.log(error.response.data.message);
+    }
   };
 
   return (
@@ -133,7 +137,6 @@ const SelectWidget = (): JSX.Element => {
             type="submit"
           >
             {load === '위젯 저장 중...' && <VscLoading className="load"/>}
-            {load === '위젯 설정 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
             {load}
           </Save>
         </form>
