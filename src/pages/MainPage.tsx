@@ -36,6 +36,7 @@ const MainPage = (): JSX.Element => {
       .map(([key, _]) => key);
   }
 
+  // react-grid-layout 을 사용한다면 widgetList에 layout 관련 요소 추가해야 함
   const widgetList = [
     {id:"exchangeYn", content: <ExchangeView />},
     {id:"newsYn", content: <NewsMainView />},

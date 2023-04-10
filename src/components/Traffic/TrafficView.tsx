@@ -33,7 +33,7 @@ const TrafficView = ():JSX.Element => {
                 </Link>
             </div>
             :
-            <div className="w-full h-fit mt-2 p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white">
+            <div className="w-full h-fit mt-2 p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
                 <div className="flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400">
                     <FiMapPin size={15}/>
                     <p className="w-42 text-sm truncate">

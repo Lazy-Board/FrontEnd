@@ -3,6 +3,7 @@ import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
 import { exchangeLike, ExchangeProps } from "../../atom/exchange";
+import WidgetLoading from "../Modal/WidgetLoading";
 import styled from "styled-components";
 
 const LongWidth = styled.div`
@@ -43,7 +44,7 @@ const ExchangeView = (): JSX.Element => {
         </div>
         {
         viewLoadable.state === 'loading' ? 
-        <div className="w-full h-36 mt-1 bg-gray-300 dark:bg-gray-600 rounded-md animate-pulse"></div>
+        <WidgetLoading />
         :
         view.length === 0  ? 
         (<div className="pt-1" ref={slideRef} style={{width:'400px'}}>

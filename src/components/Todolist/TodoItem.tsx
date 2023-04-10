@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { ITodoTypes, todosState } from "../../atom/Todo";
 import { FaPen } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
 import TodoModal from "./TodoModal";
 import { api } from "../../atom/signin";
 import { useRecoilState } from "recoil";
@@ -10,7 +9,6 @@ interface PropTypes {
   id: number;
   contents: string;
   // isCompleted: boolean;
-
   // onComplete: (id: number) => void;
 }
 
