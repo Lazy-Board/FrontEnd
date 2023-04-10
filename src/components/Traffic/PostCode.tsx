@@ -84,7 +84,7 @@ const PostCode = (props:any):JSX.Element => {
                     </ButtonStyle>
                 )}
                 <DaumPostcodeEmbed
-                className='postModal bg-white dark:bg-neutral'
+                className='postModal bg-white dark:bg-slate-900'
                 autoClose
                 theme={themeProps}
                 onComplete={complete} />
