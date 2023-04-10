@@ -14,7 +14,7 @@ const NoPage = ():JSX.Element => {
     return (
         <Content className="text-slate-900 dark:text-slate-100 dark:bg-neutral">
             <div className="flex flex-col justify-center items-center pt-36">
-                <img src="/image/404.png" alt="404 페이지" 
+                <img src="/images/404.png" alt="404 페이지" 
                 className="w-80 h-80 object-contain"/>
                 <p className="mt-4 text-6xl text-center font-bold">
                     4
