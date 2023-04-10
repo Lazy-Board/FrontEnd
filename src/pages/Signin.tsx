@@ -154,10 +154,10 @@ const Signin = () => {
             </button>
             <div className="divider text-sm">간편 로그인</div>
             <div className="flex justify-center">
-              <Link to={GoogleAuth} className="w-full p-3 mt-4 flex gap-4 items-center justify-center rounded-lg bg-white border border-slate-300 dark:border-slate-600 text-slate-800 font-medium hover:shadow-lg dark:hover:shadow-slate-700 transition-shadow">
-                <img src='/image/googleIcon.png' className="w-6 h-6 object-contain"/>
+              <a href={GoogleAuth} className="w-full p-3 mt-4 flex gap-4 items-center justify-center rounded-lg bg-white border border-slate-300 dark:border-slate-600 text-slate-800 font-medium hover:shadow-lg dark:hover:shadow-slate-700 transition-shadow">
+                <img src='/images/googleIcon.png' className="w-6 h-6 object-contain"/>
                 구글 아이디로 로그인
-              </Link>
+              </a>
             </div>
             <div className="mt-8 flex justify-center">
               <Link to="/signup">

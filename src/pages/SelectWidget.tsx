@@ -19,7 +19,7 @@ const List = styled.div`
   width: calc(50% - 4px);
 `;
 
-const Save = styled.label`
+const Save = styled.button`
   display:flex;
   justify-content:center;
   align-items:center;
@@ -87,7 +87,7 @@ const SelectWidget = (): JSX.Element => {
             (최소 2개 이상)
           </p>
         </div>
-        <form action="" className="w-80 mx-auto mt-10" onSubmit={submitModule}>
+        <form className="w-80 mx-auto mt-10" onSubmit={submitModule}>
           <div className="flex flex-wrap gap-2">
             {/* 위젯 리스트 체크*/}
             {Object.entries(checkboxes).map(([id, checked]) => (
@@ -127,17 +127,15 @@ const SelectWidget = (): JSX.Element => {
               </List>
             ))}
           </div>
-          <button
+          <Save
             disabled={isDisabled || load === '위젯 저장 중...'}
             className={`w-80 mt-10 btn ${load ==='위젯 설정 완료!' ? 'btn-secondary' : 'btn-primary'} disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400`}
             type="submit"
           >
-            <Save className="w-full p-3 cursor-pointer" >
-                {load === '위젯 저장 중...' && <VscLoading className="load"/>}
-                {load === '위젯 설정 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
-                {load}
-            </Save>
-          </button>
+            {load === '위젯 저장 중...' && <VscLoading className="load"/>}
+            {load === '위젯 설정 완료!' && <IoIosCheckmarkCircleOutline className='ok' size={20}/>}
+            {load}
+          </Save>
         </form>
       </div>
     </Content>

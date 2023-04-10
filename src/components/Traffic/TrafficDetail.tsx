@@ -105,8 +105,8 @@ const TrafficDetail = () => {
                 queryClient.invalidateQueries(['userPosition']);
                 setSuccess('업데이트 되었습니다.')
             }
-            setDepart((prevState:any) => ({ ...prevState, address: newData.startingPoint }));
-            setArrive((prevState:any) => ({ ...prevState, address: newData.destination }));
+            setDepart(newData.startingPoint);
+            setArrive(newData.destination);
             setText('길 찾기');
         } catch (error:any) {
             setError(error.response.data.message);
@@ -118,8 +118,8 @@ const TrafficDetail = () => {
         <DetailTopBar title="출근 정보"/>
         <Content className="max-w-md pb-24 bg-stone-100 dark:bg-neutral p-3">
             <div className="w-full h-fit mt-16 p-3 border border-slate-300 rounded-lg bg-white dark:bg-neutral dark:border-slate-600">
-                <p className="mb-2 text-left text-sm">예상 이동 시간</p>
-                <p className="text-3xl font-semibold text-left">
+                <p className="mb-2 text-left text-sm dark:text-slate-200">예상 이동 시간</p>
+                <p className="text-3xl font-semibold text-left dark:text-slate-200">
                     {!data ? '00시간 00분':
                     `
                     ${Number(data.duration)%3600 > 0 ? '':`${Math.floor(Number(data.duration)/3600)}시간 `}

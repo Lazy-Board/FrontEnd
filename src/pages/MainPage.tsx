@@ -10,8 +10,8 @@ import NewsMainView from "../components/News/NewsMainView";
 import TodoMainView from "../components/Todolist/TodoMainView";
 import { getModule, ModuleData } from "../atom/users";
 import { useQuery } from "react-query";
-// import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -20,8 +20,8 @@ const Content = styled.div`
 `;
 
 const MainPage = (): JSX.Element => {
-  // const accessToken = localStorage.getItem("accessToken");
-  // const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
 
   const { data, isFetching } = useQuery<ModuleData>(["modules"], getModule, {
     refetchOnWindowFocus: false,
@@ -35,6 +35,10 @@ const MainPage = (): JSX.Element => {
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
+
+  useEffect(() => {
+    accessToken === null ? navigate("/login") : "";
+  }, []);
 
   // react-grid-layout 을 사용한다면 widgetList에 layout 관련 요소 추가해야 함
   const widgetList = [

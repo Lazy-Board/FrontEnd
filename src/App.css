@@ -27,7 +27,7 @@
 }
 
 body {
-  background-image: url('/image/backgrounds.jpg');
+  background-image: url('/images/backgrounds.jpg');
   background-color: var(--my-color);
   background-blend-mode: soft-light;
   transition: background-color 0.3s ease;

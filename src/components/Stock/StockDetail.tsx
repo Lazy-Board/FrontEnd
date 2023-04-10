@@ -31,7 +31,7 @@ const StockDetail = () => {
             <MainLoading />
           ) : (
             <>
-            <p className="text-sm my-2">마지막 업데이트 : {data[0].updateAt}</p>
+            <p className="text-sm my-2 text-left">마지막 업데이트 : {data[0].updateAt}</p>
             <div className="mt-4 border border-stone-300 dark:border-slate-600 rounded-lg overflow-hidden">
               {data.map((item: StockProps, index:any) => (
               <div key={item.stockName} >
