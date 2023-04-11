@@ -150,7 +150,7 @@ const EditUserInfo = ():JSX.Element => {
                 className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none rounded-md disabled:bg-stone-200 disabled:text-stone-400 focus:bg-white/75 transition-colors"/>
                 <div className='flex justify-between'>
                     <Save 
-                    className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' 
+                    className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-600' 
                     type='submit'
                     disabled={!userName || !phoneNumber || !userName || load === '업데이트 중...' ? true : false}>
                         {load === '업데이트 중...' && <VscLoading className="load"/>}

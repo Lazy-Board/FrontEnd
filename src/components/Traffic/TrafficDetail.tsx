@@ -50,8 +50,8 @@ const TrafficDetail = () => {
 
     useEffect(()=>{
         if (data){
-            setDepart(data.startingPoint)
-            setArrive(data.destination)
+            setDepart({address:data.startingPoint})
+            setArrive({address:data.destination})
         }
     },[data])
 
@@ -105,8 +105,8 @@ const TrafficDetail = () => {
                 queryClient.invalidateQueries(['userPosition']);
                 setSuccess('업데이트 되었습니다.')
             }
-            setDepart(newData.startingPoint);
-            setArrive(newData.destination);
+            setDepart({address:data.startingPoint})
+            setArrive({address:data.destination})
             setText('길 찾기');
         } catch (error:any) {
             setError(error.response.data.message);

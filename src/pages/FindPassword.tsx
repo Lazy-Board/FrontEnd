@@ -56,13 +56,13 @@ const FindPassword = ():JSX.Element => {
                 <input type="text" placeholder='전화번호를 입력해주세요'
                 value={phoneNumber} name="phoneNumber"
                 onChange={infoChange} required
-                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors rounded-md dark:text-slate-100"/>
+                className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/50 transition-colors rounded-md dark:text-slate-100"/>
 
                 <label className='block mt-8 mb-2 text-sm text-gray-900 dark:text-slate-100 text-left'>이메일</label>
                 <input type="email" placeholder='이메일을 입력해주세요' name='userEmail'
                 value={userEmail}
                 onChange={infoChange} required
-                className="w-full p-2 bg-white/25 dark:bg-white/50 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/75 transition-colors rounded-md dark:text-slate-100"/>
+                className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/50 transition-colors rounded-md dark:text-slate-100"/>
                 <div className='mt-10 flex justify-between'>
                     <button className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' type='submit' disabled={ !phoneNumber || !userEmail ? true : false }>
                         메일 전송
