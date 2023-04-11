@@ -129,8 +129,10 @@ const TrafficDetail = () => {
                 <p className="mt-4 text-left text-sm text-gray-500">* 정확한 주소를 입력해주세요!</p>
                 <form action="#" className="w-full mt-4" onSubmit={submitData}>
                     <div className="w-full relative border border-slate-300 dark:border-slate-600 rounded-lg">
-                        <SwitchButton className="absolute p-1 top-8 right-3 rounded-full border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors">
-                            <BiSortAlt2 size={20} onClick={switchValue}/>
+                        <SwitchButton 
+                        onClick={switchValue}
+                        className="absolute p-1 top-8 right-3 rounded-full border border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors">
+                            <BiSortAlt2 size={20} />
                         </SwitchButton>
                         <div className="p-2 px-3 flex items-center gap-3 border-b border-slate-300 dark:border-slate-600">
                             <label className="text-zinc-700 dark:text-slate-300">출발</label>
