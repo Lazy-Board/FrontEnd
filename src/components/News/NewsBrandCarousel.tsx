@@ -18,7 +18,7 @@ const NewsBrandCarouselMenu = () => {
   const [selectedNewsTitle, setSelectedNewsTitle] =
     useRecoilState(selectNewsBrand);
 
-  let LoadableNewstitle = [];
+  let LoadableNewstitle: any[] = [];
 
   switch (title.state) {
     case "hasValue":
@@ -28,6 +28,7 @@ const NewsBrandCarouselMenu = () => {
       break;
   }
   console.log(LoadableNewstitle);
+
   let LoadableNewsBrand: String[] = [];
 
   switch (NewsBrand.state) {
