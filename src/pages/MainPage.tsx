@@ -12,7 +12,6 @@ import { getModule, ModuleData } from "../atom/users";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const Content = styled.div`
   min-height: 100vh;
@@ -39,14 +38,6 @@ const MainPage = (): JSX.Element => {
   useEffect(() => {
     accessToken === null ? navigate("/login") : "";
   }, []);
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const items = Array.from(filtered);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    filtered = items;
-  };
 
   return (
     <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
@@ -54,34 +45,16 @@ const MainPage = (): JSX.Element => {
       {isFetching ? (
         <MainLoading />
       ) : (
-        <DragDropContext onDragEnd={onDragEnd}>
-          {isFetching ? (
-            <MainLoading />
-          ) : (
-            <Droppable droppableId="modules" type="MODULE">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {filtered.map((key, index) => {
-                    return (
-                      <Draggable draggableId={key} index={index} key={key}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {key}
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          )}
-        </DragDropContext>
+        <>
+          {filtered.includes("weatherYn") && <WeatherView />}
+          {filtered.includes("exchangeYn") && <ExchangeView />}
+          {filtered.includes("stockYn") && <StockView />}
+          {filtered.includes("newsYn") && <NewsMainView />}
+          {filtered.includes("youtubeYn") && <YoutubeCarousel />}
+          {filtered.includes("quoteYn") && <QuoteView />}
+          {filtered.includes("todolistYn") && <TodoMainView />}
+          {filtered.includes("workYn") && <TrafficView />}
+        </>
       )}
     </Content>
   );
