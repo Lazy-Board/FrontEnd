@@ -122,7 +122,7 @@ const TrafficDetail = () => {
                 <p className="text-3xl font-semibold text-left dark:text-slate-200">
                     {!data ? '00시간 00분':
                     `
-                    ${Number(data.duration)%3600 < 0 ? '':`${Math.floor(Number(data.duration)/3600)}시간 `}
+                    ${Number(data.duration)%3600 < 1 ? '':`${Math.floor(Number(data.duration)/3600)}시간 `}
                     ${`${Math.floor((Number(data.duration)% 3600)/60)}분`}`
                     }
                 </p>
