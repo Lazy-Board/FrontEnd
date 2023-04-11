@@ -23,13 +23,14 @@ const DetailTopBar = ({ title }: any) => {
 
   const goHome = () => {
     if (
-      locationNow.pathname.includes("exchange") ||
-      locationNow.pathname.includes("stock")
+      locationNow.pathname === "/exchange" ||
+      locationNow.pathname === "/stock"
     ) {
       navigate("/");
       location.reload();
+    } else {
+      navigate(-1);
     }
-    navigate(-1);
   };
 
   return (

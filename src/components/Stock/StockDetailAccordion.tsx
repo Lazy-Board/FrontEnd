@@ -107,7 +107,7 @@ const StockDetailAccordion = ({
         style={{ maxHeight: isOpen ? contentHeight! : 0 }}
         ref={Ref}
       >
-        <div className="flex ml-4">
+        <div className="flex ml-4 text-left">
           <div className="flex flex-col mr-auto ml-1 mb-1">
             <span className="text-sm">전일 대비 가격변동 : {diffAmount}</span>
             <span className="text-sm my-2 self-start">
@@ -123,7 +123,7 @@ const StockDetailAccordion = ({
             </span>
           </div>
         </div>
-        <div className="mt-1 ml-5">
+        <div className="mt-1 ml-5 text-left">
           <p className="text-sm mb-2 font-semibold">
             전일 거래량 : {tradingVolume}
           </p>
