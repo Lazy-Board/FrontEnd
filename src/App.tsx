@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import TopBar from "./components/MenuBars/TopBar";
 import BottomBar from "./components/MenuBars/BottomBar";
 import UserProfile from "./components/User/UserProfile";
@@ -12,7 +12,6 @@ import QuoteEditModal from "./components/Quote/QuoteEditModal";
 import TrafficDetail from "./components/Traffic/TrafficDetail";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import TodoList from "./pages/TodoList";
 import StockDetail from "./components/Stock/StockDetail";
 import NewsDetailView from "./components/News/NewsDetailView";
 import UserSuccess from "./pages/UserSuccess";
@@ -21,14 +20,39 @@ import UpdateWidget from "./pages/UpdateWidget";
 import UpdatePassword from "./components/User/UpdatePassword";
 import UserWithdrawal from "./components/User/UserWithdrawal";
 import FindPassword from "./pages/FindPassword";
+import NoPage from "./pages/NoPage";
 import LoginRedirect from "./components/User/LoginRedirect";
+import { useEffect} from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { themeChange } from 'theme-change';
 
 function App() {
+  const $html = document.querySelector('html');
+  const THEME_LIGHT = 'emerald';
+  const THEME_DARK = 'night';
+  const systemPrefer = useMediaQuery({
+    query: '(prefers-color-scheme: dark)'
+  });
+  const osTheme: string = systemPrefer ? THEME_DARK : THEME_LIGHT;
+  const userTheme = localStorage.getItem('theme');
+
+  useEffect(() => {
+    themeChange(false);
+    if (userTheme===THEME_LIGHT){
+      $html?.setAttribute( 'data-theme', THEME_LIGHT);
+    } else if (userTheme===THEME_DARK){
+      $html?.setAttribute( 'data-theme', THEME_DARK);
+    } else {
+      $html?.setAttribute( 'data-theme', `${osTheme}`);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <TopBar />
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="*" element={<NoPage />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/find-password" element={<FindPassword />} />
@@ -36,7 +60,6 @@ function App() {
         <Route path="/user/userInfo" element={<EditUserInfo />} />
         <Route path="/exchange" element={<ExchangeDetail />} />
         <Route path="/traffic" element={<TrafficDetail />} />
-        <Route path="/todo" element={<TodoList />} />
         <Route path="/stock" element={<StockDetail />} />
         <Route path="/news" element={<NewsDetailView />} />
         <Route path="/auth-success" element={<UserSuccess />} />

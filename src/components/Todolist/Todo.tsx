@@ -1,7 +1,7 @@
 import { todosState, ITodoTypes } from "../../atom/Todo";
 import TodoItem from "./TodoItem";
 import { useRecoilValueLoadable } from "recoil";
-import LoadingBar from "../Stock/Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
 
 const Todo = () => {
   const getTodo = useRecoilValueLoadable(todosState);
@@ -29,7 +29,7 @@ const Todo = () => {
   return (
     <div className="w-full h-full relative mb-2 overflow-x-hidden overflow-y-auto text-black">
       {getTodo.state === "loading" ? (
-        <LoadingBar />
+        <WidgetLoading />
       ) : (
         LoadablegetTodo.map((todo: ITodoTypes) => {
           const { id, content } = todo;

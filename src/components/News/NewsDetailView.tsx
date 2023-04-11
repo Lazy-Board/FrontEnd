@@ -1,18 +1,21 @@
 import { useRecoilValueLoadable } from "recoil";
-
 import styled from "styled-components";
 import { getNewsSelector, MainNewsList } from "../../atom/News";
-import LoadingBar from "../Stock/Loading";
-import DetailTopBar from "./DetailTopBar";
+import MainLoading from "../MenuBars/MainLoading";
+import DetailTopBar from "../MenuBars/DetailTopBar";
 import NewsBrandCarouselMenu from "./NewsBrandCarousel";
 
-const NewsDetailView = () => {
-  const getNews = useRecoilValueLoadable(getNewsSelector);
-  const Content = styled.div`
+const Thumbnail = styled.img`
+  min-width:112px;
+`
+const Content = styled.div`
     min-height: 100vh;
     margin: 0 auto;
     color: black;
   `;
+
+const NewsDetailView = () => {
+  const getNews = useRecoilValueLoadable(getNewsSelector);
 
   // const selectNewsLoadable = useRecoilValueLoadable(selectNews);
 
@@ -26,22 +29,25 @@ const NewsDetailView = () => {
   return (
     <>
       <DetailTopBar title="뉴스" />
-      <Content className="max-w-md bg-stone-100 p-3 pb-8">
+      <Content className="max-w-md bg-stone-100 dark:bg-neutral dark:text-slate-100 pt-5 px-3 pb-16">
         <NewsBrandCarouselMenu />
-        <div className="max-h-screen overflow-auto scrollbar-hide">
-          <div>
+        <div className="mt-2 mb-1">
             {getNews.state === "loading" ? (
-              <LoadingBar />
+              <MainLoading />
             ) : (
               LoadablegetNewsList.map((item: any, idx: number) => (
                 <div
-                  className="border-t flex text-left py-3  border-stone-300"
+                  className={`flex text-left py-3 border-slate-300 dark:border-slate-600 ${idx !== 0 && 'border-t'}`}
                   key={idx}
                 >
-                  <img
-                    src={item.imagePath}
-                    className={`${item.imagePath ? "w-28 mr-2" : "pl-1"}`}
-                  />
+                  {!item.imagePath ? <></> : 
+                    <a href={`${item.url}`}>
+                      <Thumbnail
+                      src={item.imagePath}
+                      className="w-28 h-16 mr-2 object-cover"
+                    />
+                    </a>
+                  }
                   <a href={`${item.url}`}>
                     <span>{item.subject}</span>
                   </a>
@@ -49,7 +55,6 @@ const NewsDetailView = () => {
               ))
             )}
           </div>
-        </div>
       </Content>
     </>
   );

@@ -2,8 +2,7 @@ import { useRecoilValueLoadable } from "recoil";
 import { useSliders } from "../../hooks/useSliders";
 import { quotesList, QuoteType } from "../../atom/quote";
 import DisplayMyQuote from "./DisplayMyQuote";
-import DeleteModule from "../Buttons/DeleteModule";
-import Loading from "./Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
 import styled from "styled-components";
 
 const LongWidth = styled.div`
@@ -36,8 +35,7 @@ const QuoteView = (): JSX.Element => {
   ];
 
   return (
-    <div className="w-full h-40 mt-5 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
-      {/* <DeleteModule /> */}
+    <div className="w-full h-40 p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden bg-white dark:bg-neutral">
       <div className="absolute flex top-3 left-2 z-30">
         {dots.map((dot) => (
           <button
@@ -51,11 +49,13 @@ const QuoteView = (): JSX.Element => {
       </div>
       <LongWidth ref={slideRef}>
         {quoteLoadable.state === "loading" ? (
-          <Loading />
+          <div className="w-96 pl-3">
+            <WidgetLoading />
+          </div>
         ) : (
           <div className="w-96 h-28 relative flex flex-col items-center justify-center pl-6 select-none">
-            <p className="max-w-xs mx-auto line-clamp-3">{lists.content}</p>
-            <p className="mt-2 text-gray-500">-{lists.writer}</p>
+            <p className="max-w-xs mx-auto line-clamp-3 text-center">{lists.content}</p>
+            <p className="mt-2 text-slate-500 text-center">-{lists.writer}</p>
           </div>
         )}
         <DisplayMyQuote />

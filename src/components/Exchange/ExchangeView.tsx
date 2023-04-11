@@ -3,8 +3,8 @@ import { useSliders } from "../../hooks/useSliders";
 import { Link } from "react-router-dom";
 import { useRecoilValueLoadable } from "recoil";
 import { exchangeLike, ExchangeProps } from "../../atom/exchange";
+import WidgetLoading from "../Modal/WidgetLoading";
 import styled from "styled-components";
-import DeleteModule from "../Buttons/DeleteModule";
 
 const LongWidth = styled.div`
   position: relative;
@@ -37,19 +37,18 @@ const ExchangeView = (): JSX.Element => {
   ];
 
   return (
-    <div className="w-full h-fit mt-5 p-3 pt-2 pb-6 relative border border-slate-300 rounded-lg overflow-hidden bg-white">
-        {/* <DeleteModule /> */}
+    <div className="w-full h-fit p-3 pt-2 pb-6 relative border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden bg-white dark:bg-neutral">
         <div className="self-start flex items-center">
             환율 
-            <Link to={`/exchange`} ><BiChevronRight size={26}/></Link>
+            <Link to={`/exchange`} ><BiChevronRight size={24}/></Link>
         </div>
         {
         viewLoadable.state === 'loading' ? 
-        <div className="w-full h-36 mt-1 bg-gray-300 rounded-md animate-pulse"></div>
+        <WidgetLoading />
         :
         view.length === 0  ? 
         (<div className="pt-1" ref={slideRef} style={{width:'400px'}}>
-            <p className="py-5">아직 아무것도 설정하지 않으셨어요!</p>
+            <p className="py-5 text-center">아직 아무것도 설정하지 않으셨어요!</p>
             <Link to={`/exchange`} className="btn btn-primary">
                 환율 상세보기
             </Link>
@@ -57,7 +56,7 @@ const ExchangeView = (): JSX.Element => {
         : 
         (<LongWidth className="flex relative gap-3 overflow-hidden cursor-pointer" style={{width:`${2 < view.length ? '200%':'400px'}`}} ref={slideRef}>
             {view.map((item:any)=>(
-                <div className="w-48 p-2 mt-2 text-left border border-slate-300 rounded-lg select-none" key={item.countryName}>
+                <div className="w-48 p-2 mt-2 text-left border border-slate-300 dark:border-slate-600 rounded-lg select-none" key={item.countryName}>
                     <p>
                         {`${item.countryName} 
                         ${item.currencyName} 

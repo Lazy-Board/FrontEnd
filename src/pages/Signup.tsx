@@ -1,7 +1,9 @@
 import { FormEvent, useCallback, useState } from "react";
-import { AiFillLeftCircle } from "react-icons/ai";
+import { BsArrowLeftCircleFill } from "react-icons/bs";
+import { VscLoading } from 'react-icons/vsc';
 import { api } from "../atom/signin";
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 import {
   emailState,
   passwordState,
@@ -9,10 +11,28 @@ import {
   usernameState,
   phonenumberState,
 } from "../atom/signup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import EmailModal from "../components/Modal/EmailModal";
+
+const Save = styled.label`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    .load {
+        margin-right:8px;
+        animation: spin 1s linear infinite;
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+`
 
 const Signup = () => {
   const [email, setEmail] = useRecoilState(emailState);
@@ -31,10 +51,13 @@ const Signup = () => {
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
   const [success, setSuccess] = useState<String | null>(null);
+  const [loading, setLoading] = useState('다음');
+
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading('진행 중...')
     try {
       const response = await api.post(`/user/signup`, {
         userEmail: email,
@@ -43,11 +66,13 @@ const Signup = () => {
         phoneNumber: phonenumber,
       });
       localStorage.setItem("userId", response.data.userId);
+      setLoading('전송 완료!')
       setUserId(response.data.userId);
       //이메일 인증 해달라고 알람 띄우기//
       setSuccess("이메일 인증을 진행해주세요!");
     } catch (err: any) {
       console.log(err);
+      setLoading('다음');
       setError(err.response.data.msg);
     }
   };
@@ -66,9 +91,7 @@ const Signup = () => {
         setEmailMessage("올바른 이메일 형식이에요 😄");
         setIsEmail(true);
       }
-    },
-    []
-  );
+    },[]);
 
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,42 +128,46 @@ const Signup = () => {
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
-      <div className="w-full bg-white shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 h-screen">
-        <Link to="/login">
-          <AiFillLeftCircle className="mt-4 ml-4" size="2.5rem" />
-        </Link>
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8 my-12">
+      <div className="w-full relative bg-white shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-neutral h-screen">
+        <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
+            <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
+        </button>
+        <div className="p-6 mt-24 text-center">
           <span className="items-center text-2xl font-semibold text-gray-900 dark:text-white">
             회원가입
           </span>
           <form
-            className="space-y-4 md:space-y-6"
+            className="mt-16 px-2"
             action="#"
             onSubmit={onSubmitHandler}
           >
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              이메일
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="name@email.com"
-              value={email}
-              onChange={onChangeEmail}
-              required
-            />
-            {email.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isEmail ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {emailMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+            <div className="relative">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                이메일
+                </label>
+                <input
+                type="email"
+                name="email"
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@email.com"
+                value={email}
+                onChange={onChangeEmail}
+                required
+                />
+                {email.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isEmail ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {emailMessage}
+                </span>
+                )}
+            </div>
+            
+            
+            <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               이름
             </label>
             <input
@@ -153,49 +180,55 @@ const Signup = () => {
               onChange={(e) => setUserName(e.target.value)}
             />
 
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              비밀번호
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={password}
-              onChange={onChangePassword}
-            />
-            {password.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isPassword ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {passwordMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
-              비밀번호 확인
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="confirmpassword"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={confirmPassword}
-              onChange={onChangePasswordConfirm}
-            />
-            {confirmPassword.length > 0 && (
-              <span
-                className={`mt-2 text-sm ${
-                  isPasswordConfirm ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {PasswordConfirmMessage}
-              </span>
-            )}
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+            <div className="relative">
+                <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                비밀번호
+                </label>
+                <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={password}
+                onChange={onChangePassword}
+                />
+                {password.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isPassword ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {passwordMessage}
+                </span>
+                )}
+            </div>
+            
+            <div className="relative">
+                <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
+                비밀번호 확인
+                </label>
+                <input
+                type="password"
+                name="password"
+                id="confirmpassword"
+                placeholder="••••••••"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                value={confirmPassword}
+                onChange={onChangePasswordConfirm}
+                />
+                {confirmPassword.length > 0 && (
+                <span
+                    className={`absolute -bottom-6 left-0 right-0 text-sm ${
+                    isPasswordConfirm ? "text-green-500" : "text-red-500"
+                    }`}
+                >
+                    {PasswordConfirmMessage}
+                </span>
+                )}
+            </div>
+            
+            <label className="block mt-9 mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">
               전화번호
             </label>
             <input
@@ -208,10 +241,13 @@ const Signup = () => {
             />
             <button
               type="submit"
-              className="w-full text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
-              disabled={!(isEmail && isPassword && isPasswordConfirm)}
+              className="w-full mt-16 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
+              disabled={!(isEmail && isPassword && isPasswordConfirm)||loading==='진행 중...'}
             >
-              다음
+              <Save className="w-full cursor-pointer">
+                {loading === '진행 중...' && <VscLoading className="load"/>}
+                {loading}
+              </Save>
             </button>
           </form>
         </div>

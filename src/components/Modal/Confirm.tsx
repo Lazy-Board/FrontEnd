@@ -6,7 +6,7 @@ const Confirm = (): JSX.Element => {
 
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
-  const userId = localStorage.getItem("userId");
+
   const Logout = async () => {
     if (accessToken && refreshToken) {
       localStorage.removeItem("accessToken");
@@ -30,8 +30,8 @@ const Confirm = (): JSX.Element => {
       <input type="checkbox" id="confirm-modal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box w-72">
-          <p className="py-4 font-semibold">정말로 로그아웃 하시겠습니까?</p>
-          <div className="modal-action">
+          <p className="py-4 font-semibold text-center">정말로 로그아웃 하시겠습니까?</p>
+          <div className="modal-action text-center">
             <label
               htmlFor="confirm-modal"
               className="btn btn-primary"

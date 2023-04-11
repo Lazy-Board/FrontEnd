@@ -1,7 +1,7 @@
 import { FiEdit2 } from "react-icons/fi";
 import { getQuotes } from "../../atom/quote";
 import { useQuery } from "react-query";
-import Loading from "./Loading";
+import WidgetLoading from "../Modal/WidgetLoading";
 
 const DisplayMyQuote = (): JSX.Element => {
   const { data: myQuote, isFetching } = useQuery("userQuotes", getQuotes, {
@@ -11,13 +11,13 @@ const DisplayMyQuote = (): JSX.Element => {
   return (
     <>
       {isFetching ? (
-        <div className="mt-3 ml-3">
-          <Loading />
+        <div className="w-96 pl-16">
+            <WidgetLoading />
         </div>
       ) : (
         <div className="w-96 h-28 relative flex items-center justify-center ml-5 select-none">
           <p
-            className={`max-w-xs mx-auto line-clamp-3 ${
+            className={`max-w-xs mx-auto text-center line-clamp-3 ${
               !myQuote?.content && "text-gray-400"
             }`}
           >

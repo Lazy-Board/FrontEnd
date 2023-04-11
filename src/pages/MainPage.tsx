@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MainLoading from "../components/MenuBars/MainLoading";
 import WeatherView from "../components/Weather/WeatherView";
 import QuoteView from "../components/Quote/QuoteView";
 import ExchangeView from "../components/Exchange/ExchangeView";
@@ -7,7 +8,6 @@ import YoutubeCarousel from "../components/Youtube/YoutubeCarousel";
 import StockView from "../components/Stock/StockView";
 import NewsMainView from "../components/News/NewsMainView";
 import TodoMainView from "../components/Todolist/TodoMainView";
-import MainLoading from "../components/MenuBars/MainLoading";
 import { getModule, ModuleData } from "../atom/users";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -35,25 +35,38 @@ const MainPage = (): JSX.Element => {
       .filter(([_, checked]) => checked === true)
       .map(([key, _]) => key);
   }
+
   useEffect(() => {
     accessToken === null ? navigate("/login") : "";
   }, []);
 
+  // react-grid-layout 을 사용한다면 widgetList에 layout 관련 요소 추가해야 함
+  const widgetList = [
+    {id:"exchangeYn", content: <ExchangeView />},
+    {id:"newsYn", content: <NewsMainView />},
+    {id:"quoteYn", content: <QuoteView />},
+    {id:"stockYn", content: <StockView />},
+    {id:"todolistYn", content: <TodoMainView />},
+    {id:"weatherYn", content: <WeatherView />},
+    {id:"workYn", content: <TrafficView />},
+    {id:"youtubeYn", content: <YoutubeCarousel/>},
+]
+  // useEffect(() => {
+  //   accessToken === null ? navigate("/login") : "";
+  // }, []);
+
   return (
-    <Content className="max-w-md pt-16 pb-24 bg-stone-100 p-3">
+    <Content className={`max-w-md bg-stone-100 dark:bg-neutral px-3 py-20 flex flex-col gap-5 dark:text-slate-100 transition-colors ${isFetching && 'pt-28'}`}>
       {/* 조건부 렌더링 */}
       {isFetching ? (
         <MainLoading />
       ) : (
         <>
-          {filtered.includes("weatherYn") && <WeatherView />}
-          {filtered.includes("exchangeYn") && <ExchangeView />}
-          {filtered.includes("stockYn") && <StockView />}
-          {filtered.includes("newsYn") && <NewsMainView />}
-          {filtered.includes("youtubeYn") && <YoutubeCarousel />}
-          {filtered.includes("quoteYn") && <QuoteView />}
-          {filtered.includes("todolistYn") && <TodoMainView />}
-          {filtered.includes("workYn") && <TrafficView />}
+          {widgetList.filter(item=> filtered.includes(item.id)).map(item=>(
+              <div key={item.id}>
+                  {item.content}
+              </div>
+          ))}
         </>
       )}
     </Content>

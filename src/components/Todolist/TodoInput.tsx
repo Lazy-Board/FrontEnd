@@ -54,19 +54,20 @@ const TodoInput = () => {
   );
 
   return (
-    <div className="w-full flex justify-between items-center py-1 border-none">
+    <div className="w-full flex justify-between items-center mt-1 py-1 border-none">
       <input
         type="text"
-        className="w-full font-medium placeholder:text-slate-300 text-opacity-20 mr-3 border-2 border-slate-300 rounded-lg text-base p-2"
+        className="w-full font-medium placeholder:text-zinc-400 dark:placeholder:text-slate-400 bg-zinc-200 dark:bg-slate-700 text-opacity-20 mr-3 border-2 border-zinc-300 dark:border-slate-600 rounded-lg text-base p-2"
         value={contents}
         onChange={onChange}
         placeholder="Todo를 입력해보세요!"
         onKeyDown={onKeyDown}
       />
-      <FaPen
-        className="bg-none fill-primary cursor-pointer w-5 h-5"
-        onClick={addTodo}
-      />
+      <button onClick={addTodo} className="bg-primary rounded-lg p-3 hover:bg-primary-focus transition-colors">
+        <FaPen
+          className="bg-none text-white cursor-pointer w-5 h-5"
+        />
+      </button>
       {error && (
         <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
       )}

@@ -1,15 +1,50 @@
+@font-face {
+  font-family: 'Yeongdo-Rg';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #root {
   max-width: 100vw;
   margin: 0 auto;
   text-align: center;
 }
 
+*{
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+:root {
+  --my-color: #87d1f3;
+}
+[data-theme='night'] {
+  --my-color: #4a5169;
+  --img:
+}
+[data-theme='emerald'] {
+  --my-color: #87d1f3;
+}
+
 body {
-  background-image: url('/images/Illustration.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-image: url('/images/backgrounds.jpg');
+  background-color: var(--my-color);
+  background-blend-mode: soft-light;
+  transition: background-color 0.3s ease;
   background-attachment: fixed;
+}
+
+.title-font-only{
+  font-family: 'Yeongdo-Rg';
+  transition: color 0.3s ease;
+}
+
+.hover-green :hover{
+  color:#66cc8a;
+}
+
+.destination {
+  color:#333;
 }
 
 img {

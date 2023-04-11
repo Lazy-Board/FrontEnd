@@ -1,5 +1,6 @@
 import { myQuoteState, getQuotes } from "../../atom/quote";
 import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 import { api } from "../../atom/signin";
 import { useMutation, useQueryClient, useQuery } from "react-query";
 import styled from "styled-components";
@@ -10,10 +11,8 @@ const Edit = styled.textarea`
   resize: none;
   border-radius: 5px;
   transition: all 0.3s;
-  background-color: #f5f5f5;
   &:focus {
     outline: none;
-    background-color: #eee;
   }
 `;
 
@@ -30,6 +29,12 @@ const EditModal = (): JSX.Element => {
     } = event;
     setUserQuote({ content: value });
   };
+
+  useEffect(()=>{
+    if (myQuote) {
+      setUserQuote(myQuote)
+    }
+  },[myQuote])
 
   const saveQuoteMutation = useMutation((userQuote: string) =>
     api.post(`/userQuotes`, { content: userQuote })
@@ -77,7 +82,7 @@ const EditModal = (): JSX.Element => {
       <div className="modal">
         <form className="modal-box w-96">
           <Edit
-            className="w-full py-4"
+            className="w-full py-4 bg-stone-200 dark:bg-slate-700 focus:bg-stone-100 dark:focus:bg-slate-600"
             value={userQuote.content}
             onChange={changeText}
             placeholder="80자 이내로 당신의 명언을 적어주세요!"
@@ -88,7 +93,7 @@ const EditModal = (): JSX.Element => {
               htmlFor="edit-modal"
               className={`btn btn-primary ${
                 userQuote.content === ""
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed border-gray-300 hover:bg-gray-300"
+                  ? "bg-gray-300 dark:bg-slate-700 text-gray-500 dark:text-slate-200 cursor-not-allowed border-gray-300 dark:border-slate-600 hover:bg-gray-300"
                   : ""
               }`}
               onClick={saveText}
