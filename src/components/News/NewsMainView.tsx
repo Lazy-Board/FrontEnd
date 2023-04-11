@@ -28,7 +28,7 @@ const NewsMainView = () => {
       break;
   }
 
-  let LoadableNewstitle = [];
+  let LoadableNewstitle: any[] = [];
 
   switch (title.state) {
     case "hasValue":
