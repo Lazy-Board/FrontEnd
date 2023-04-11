@@ -47,8 +47,8 @@ const TrafficView = ():JSX.Element => {
                 <p className="mt-4 text-base text-center">
                     지금 출발하시면 도착지까지 <br/> 
                     <span className="text-xl font-semibold">
-                        {Number(duration)%3600 > 0 ? '':`${Math.floor(Number(duration)/3600)}시간`}
-                        {`${Math.floor((Number(duration)% 3600)/60)}분`}</span> 걸립니다. 
+                        {Number(duration)%3600 < 1 ? '':`${Math.floor(Number(duration)/3600)}시간`}
+                        {` ${Math.floor((Number(duration)% 3600)/60)}분`}</span> 걸립니다. 
                 </p>
                 <p className="mt-2 mb-1 text-base text-center">
                     도착 예정 시간은&nbsp;
