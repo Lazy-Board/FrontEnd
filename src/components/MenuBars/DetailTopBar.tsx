@@ -22,11 +22,12 @@ const DetailTopBar = ({ title }: any) => {
   const locationNow = useLocation();
 
   const goHome = () => {
-    if (locationNow.pathname.includes('exchange') || locationNow.pathname.includes('stock')) {
+    if (locationNow.pathname === 'exchange' || locationNow.pathname === 'stock') {
       navigate("/");
       location.reload();
+    } else {
+      navigate(-1);
     }
-    navigate(-1);
   };
 
   return (
