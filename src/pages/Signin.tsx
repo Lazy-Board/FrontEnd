@@ -9,7 +9,7 @@ import { VscLoading } from 'react-icons/vsc';
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import styled from "styled-components";
 
-const Save = styled.label`
+const Save = styled.button`
     display:flex;
     justify-content:center;
     align-items:center;
@@ -142,16 +142,14 @@ const Signin = () => {
               />
             </div>
 
-            <button
+            <Save
               type="submit"
               className="w-full mt-8 mb-12 text-white btn btn-primary focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:focus:ring-primary-800 disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400"
               disabled={loading === '로그인 중...' ? true : false}
             >
-                <Save className="w-full cursor-pointer" >
-                    {loading === '로그인 중...' && <VscLoading className="load"/>}
+              {loading === '로그인 중...' && <VscLoading className="load"/>}
                     {loading}
-                </Save>
-            </button>
+            </Save>
             <div className="divider text-sm">간편 로그인</div>
             <div className="flex justify-center">
               <a href={GoogleAuth} className="w-full p-3 mt-4 flex gap-4 items-center justify-center rounded-lg bg-white border border-slate-300 dark:border-slate-600 text-slate-800 font-medium hover:shadow-lg dark:hover:shadow-slate-700 transition-shadow">

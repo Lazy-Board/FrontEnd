@@ -137,7 +137,7 @@ const EditUserInfo = ():JSX.Element => {
                 <label className='block mb-2 text-sm text-gray-900 dark:text-white text-left'>휴대폰 번호</label>
                 <input type="text" name='phoneNumber'
                 value={phoneNumber}
-                onChange={changeName} required
+                onChange={changeName}
                 placeholder='010-0000-0000'
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 dark:text-slate-200 text-base outline-none rounded-md focus:bg-white/50 transition-colors"/>
 

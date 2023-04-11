@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { FiCrosshair } from 'react-icons/fi';
 import { getWeather } from '../../atom/weather';
-import { getWeatherImage } from '../../hooks/getWeatherImg';
 import WeatherBox from './WeatherBox';
 import WeatherInfo from './WeatherInfo';
 import WidgetLoading from '../Modal/WidgetLoading';
@@ -58,7 +57,7 @@ const WeatherView = ():JSX.Element => {
                         {Number(temperature).toFixed(1)}°
                     </p>
                     <p className="text-sm self-end">
-                        {Number(highestTemperature).toFixed(1)}° / 
+                        {Number(highestTemperature).toFixed(1)}° /&nbsp;
                         {Number(lowestTemperature).toFixed(1)}°
                     </p>
                 </div>
@@ -66,7 +65,7 @@ const WeatherView = ():JSX.Element => {
             <TodayData className="mt-6 text-right">
                 <WeatherInfo weatherId={weatherId}/>
                 <p className="text-sm">
-                    체감 온도 {effectiveTemperature}°
+                    체감 온도 {Number(effectiveTemperature).toFixed(1)}°
                 </p>
             </TodayData>
             <div className="w-full mt-4 flex justify-between">
