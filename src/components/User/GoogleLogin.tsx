@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
 import { NavigateFunction } from "react-router-dom";
 import { api } from "../../atom/signin";
 
@@ -13,7 +12,6 @@ export default async function GoogleLogin(
   authCode: string,
   navigate: NavigateFunction
 ) {
-  const [error, setError] =useState(null);
   console.log(authCode);
   try {
     await api
@@ -35,14 +33,16 @@ export default async function GoogleLogin(
         }
       });
   } catch (err) {
-    const { response } = err as unknown as AxiosError;
+    const { response } = err as AxiosError;
     console.log({ response });
     if (response) {
       const { name, oauthId } = response.data as body;
       localStorage.setItem("token", oauthId);
-      navigate("/login");
-      alert('탈퇴된 회원입니다');
+      navigate("/user/login/google");
+      if (response.status === 400) {
+        alert("탈퇴한 회원입니다.");
+        navigate("/login");
+      }
     }
   }
-  
 }
