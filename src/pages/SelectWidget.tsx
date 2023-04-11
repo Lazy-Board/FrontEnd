@@ -9,7 +9,6 @@ import { VscLoading } from 'react-icons/vsc';
 // import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 const Content = styled.div`
-  width: 448px;
   min-height: 100vh;
   margin: 0 auto;
   color: black;
@@ -74,7 +73,7 @@ const SelectWidget = (): JSX.Element => {
   };
 
   return (
-    <Content className="relative bg-stone-50 dark:bg-neutral">
+    <Content className="max-w-md relative bg-stone-50 dark:bg-neutral">
       <button className="absolute top-5 left-4" onClick={() => navigate(-1)}>
         <BsArrowLeftCircleFill size={30} color={"#00a7e9"} />
       </button>
