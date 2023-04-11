@@ -152,7 +152,7 @@ const EditUserInfo = ():JSX.Element => {
                     <Save 
                     className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-600' 
                     type='submit'
-                    disabled={!userName || !phoneNumber || !userName || load === '업데이트 중...' ? true : false}>
+                    disabled={!userName || !userName || load === '업데이트 중...' ? true : false}>
                         {load === '업데이트 중...' && <VscLoading className="load"/>}
                         {load}
                     </Save>
