@@ -26,6 +26,11 @@ export const getNewsSelector = selector<MainNewsList[]>({
   },
 });
 
+const brand = async () => {
+  const response = await api.get("/news");
+  return response.data.map((item: any) => item.pressName);
+};
+
 const getNewsBrandList = async () => {
   const response = await api.get("/news/press");
   return response.data.map((item: selectedNewsListType) => item.pressName);
@@ -45,7 +50,7 @@ export const selectedNewsList = selector({
 });
 export const selectNewsBrand = atom({
   key: "selectNewsBrand",
-  default: null,
+  default: "헤드라인 뉴스",
 });
 
 export const selectedNewsData = atom<selectedNewsListType[]>({
@@ -53,7 +58,7 @@ export const selectedNewsData = atom<selectedNewsListType[]>({
   default: [],
 });
 
-export const selectNews = selector({
+export const selectNews = selector<selectedNewsListType[]>({
   key: "selectNews",
   get: async ({ get }) => {
     const res = await api.get("/newsuser");
