@@ -3,9 +3,7 @@ import styled, { css } from 'styled-components';
 interface WeatherType{
     status:string;
     dataName:string;
-    speed?:string;
 }
-
 //날씨 상태에 따른 Box 배경색/선 색상 정의
 const badBgcDark = 'rgba(255, 71, 71, 0.05)';
 const badColor = "#ad1c15"
@@ -39,13 +37,18 @@ const Boxes:any= styled.div`
     }
 `
 
-const WeatherBox = ({status,dataName,speed}:WeatherType) => {
+const WeatherBox = ({status,dataName}:WeatherType) => {
     return (
         <Boxes status={status} 
-        className="p-2 border border-slate-300 rounded-lg text-center" 
+        className='p-2 border border-slate-300 dark:border-slate-600 rounded-lg text-center'
         >
-            <p className="text-xs">{dataName}</p>
-            <p className="mt-1 text-sm font-semibold">{status ? status : speed}</p>
+            <p className="text-sm">{dataName}</p>
+            <p className="mt-1 text-base font-semibold">
+                {status}&nbsp;
+                {dataName==='기압' && 'hPa'}
+                {dataName==='바람' && 'm/s'}
+                {dataName==='습도' && '%'}
+            </p>
         </Boxes>
     )
 }
