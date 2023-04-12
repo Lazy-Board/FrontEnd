@@ -18,6 +18,7 @@ const TodoInput = () => {
   const todos = useRecoilValue<ITodoTypes[]>(todosState);
   const setTodos = useSetRecoilState<ITodoTypes[]>(todosState);
   const [error, setError] = useState(null);
+
   const addTodo = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
@@ -39,6 +40,9 @@ const TodoInput = () => {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
+      if (value.length > 20) {
+        alert("최대 20자까지 작성 가능합니다");
+      }
       setContents(value);
     },
     [setContents]
@@ -63,13 +67,18 @@ const TodoInput = () => {
         placeholder="Todo를 입력해보세요!"
         onKeyDown={onKeyDown}
       />
-      <button onClick={addTodo} className="bg-primary rounded-lg p-3 hover:bg-primary-focus transition-colors">
-        <FaPen
-          className="bg-none text-white cursor-pointer w-5 h-5"
-        />
+      <button
+        onClick={addTodo}
+        className="bg-primary rounded-lg p-3 hover:bg-primary-focus transition-colors"
+      >
+        <FaPen className="bg-none text-white cursor-pointer w-5 h-5" />
       </button>
       {error && (
-        <ErrorModal title="Error" message={error} onClose={() => setError(null)} />
+        <ErrorModal
+          title="Error"
+          message={error}
+          onClose={() => setError(null)}
+        />
       )}
     </div>
   );
