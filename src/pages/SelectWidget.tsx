@@ -6,7 +6,6 @@ import { useRecoilState } from "recoil";
 import { moduleState } from "../atom/users";
 import { BsArrowLeftCircleFill } from "react-icons/bs";
 import { VscLoading } from 'react-icons/vsc';
-// import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 const Content = styled.div`
   min-height: 100vh;
@@ -61,7 +60,7 @@ const SelectWidget = (): JSX.Element => {
     .map(([id]) => id);
     try {
       setLoad('위젯 저장 중...')
-      const response=await api.post("/user/saveModule", {
+      await api.post("/user/saveModule", {
       ...Object.fromEntries(checkedIds.map((id) => [id, true])),
       });
       navigate('/');

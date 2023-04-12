@@ -40,14 +40,14 @@ export const userImgState = atom({
 export const moduleState = atom({
     key:'userModules',
     default:{
-        exchangeYn: false,
-        newsYn: false,
-        quoteYn: false,
-        stockYn: false,
-        todolistYn: false,
         weatherYn: false,
-        workYn: false,
+        exchangeYn: false,
+        stockYn: false,
+        newsYn: false,
         youtubeYn: false,
+        quoteYn: false,
+        todolistYn: false,
+        workYn: false,
     }
 })
 
