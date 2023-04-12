@@ -16,7 +16,7 @@ import { userIdatom } from "../atom/auth";
 import { ErrorModal } from "../components/Modal/ErrorModal";
 import EmailModal from "../components/Modal/EmailModal";
 
-const Save = styled.label`
+const Save = styled.button`
     display:flex;
     justify-content:center;
     align-items:center;
@@ -177,6 +177,7 @@ const Signup = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="김철수"
               value={username}
+              required
               onChange={(e) => setUserName(e.target.value)}
             />
 
@@ -189,6 +190,7 @@ const Signup = () => {
                 name="password"
                 id="password"
                 placeholder="••••••••"
+                required
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={password}
                 onChange={onChangePassword}
@@ -213,6 +215,7 @@ const Signup = () => {
                 name="password"
                 id="confirmpassword"
                 placeholder="••••••••"
+                required
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={confirmPassword}
                 onChange={onChangePasswordConfirm}
@@ -234,21 +237,19 @@ const Signup = () => {
             <input
               name="phonenumber"
               id="phonenumber"
-              placeholder="010-0000-0000"
+              placeholder="01012345678"
               className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={phonenumber}
+              value={phonenumber} required
               onChange={(e) => setPhonenumber(e.target.value)}
             />
-            <button
+            <Save
               type="submit"
               className="w-full mt-16 text-white bg-primary focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-sm px-5 py-2.5 text-center font-bold disabled:bg-slate-300"
               disabled={!(isEmail && isPassword && isPasswordConfirm)||loading==='진행 중...'}
             >
-              <Save className="w-full cursor-pointer">
-                {loading === '진행 중...' && <VscLoading className="load"/>}
+              {loading === '진행 중...' && <VscLoading className="load"/>}
                 {loading}
-              </Save>
-            </button>
+            </Save>
           </form>
         </div>
 

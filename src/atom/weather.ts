@@ -7,19 +7,17 @@ export interface MyWeatherLocation{
 }
 
 export interface WeatherType{
-    userId:string;
+    locationId:number;
     cityName:string;
     locationName:string;
+    icon:string;
+    weatherId:string
     temperature:string;
     effectiveTemperature:string;
     highestTemperature:string;
     lowestTemperature:string;
-    weatherInformation:string;
-    weatherComparison:string;
+    pressure:string;
     humidity:string;
-    ultraviolet:string;
-    fineParticle:string;
-    ultrafineParticle:string;
     windSpeed:string;
     windDirection:string;
     updatedAt:string;

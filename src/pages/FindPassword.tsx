@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { api } from '../atom/signin';
+import { VscLoading } from 'react-icons/vsc';
 import DetailTopBar from '../components/MenuBars/DetailTopBar';
 import { ErrorModal } from '../components/Modal/ErrorModal';
 import SuccessModal from '../components/Modal/SuccessModal';
@@ -13,6 +14,24 @@ const Content = styled.div`
     color: black;
 `;
 
+const Save = styled.button`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    .load {
+        margin-right:8px;
+        animation: spin 1s linear infinite;
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+`
+
 const FindPassword = ():JSX.Element => {
     const [userInfo, setInfo] = useState({
         phoneNumber:'',
@@ -20,6 +39,7 @@ const FindPassword = ():JSX.Element => {
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState<string | null >(null);
+    const [loading, setLoading] = useState('메일 전송');
 
     const {phoneNumber, userEmail} = userInfo;
 
@@ -34,12 +54,15 @@ const FindPassword = ():JSX.Element => {
     const onSubmitData = async(e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            setLoading('로딩 중...')
             await api.post(`/user/find-password`,{
                 phoneNumber: phoneNumber,
                 userEmail: userEmail
             })
+            setLoading('메일 전송')
             setSuccess('임시 비밀번호가 메일로 전송되었습니다!')
         } catch (error:any){
+            setLoading('메일 전송')
             setError(error.response.data.msg);
         }
         // 성공 시 메일이 전송됐다는 alert창 띄우고 실패 시 실패했다는 alert 띄우기
@@ -64,9 +87,10 @@ const FindPassword = ():JSX.Element => {
                 onChange={infoChange} required
                 className="w-full p-2 bg-white/25 border-b border-stone-300 text-neutral-600 text-base outline-none focus:bg-white/50 transition-colors rounded-md dark:text-slate-100"/>
                 <div className='mt-10 flex justify-between'>
-                    <button className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' type='submit' disabled={ !phoneNumber || !userEmail ? true : false }>
-                        메일 전송
-                    </button>
+                    <Save className='w-full mt-8 btn btn-primary disabled:bg-slate-300 disabled:bg-opacity-50 disabled:text-slate-400' type='submit' disabled={ !phoneNumber || !userEmail ? true : false }>
+                        {loading === '진행 중...' && <VscLoading className="load"/>}
+                        {loading}
+                    </Save>
                 </div>
             </form>
         </Content>

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { TbArrowNarrowDown, TbArrowNarrowUp } from "react-icons/tb";
 import { useQuery } from 'react-query';
 import { FiCrosshair } from 'react-icons/fi';
 import { getWeather } from '../../atom/weather';
-import { getWeatherImage } from '../../hooks/getWeatherImg';
 import WeatherBox from './WeatherBox';
+import WeatherInfo from './WeatherInfo';
 import WidgetLoading from '../Modal/WidgetLoading';
 
 const TodayTemp = styled.div`
@@ -29,11 +28,7 @@ const WeatherView = ():JSX.Element => {
         staleTime:Infinity,
     })
 
-    const { cityName, locationName, temperature, effectiveTemperature,
-    highestTemperature, lowestTemperature, weatherInformation, weatherComparison, humidity,ultraviolet, fineParticle,ultrafineParticle, windSpeed, windDirection, updatedAt }
-    = weatherData || {};
-
-    const changeImg = getWeatherImage(weatherData);
+    const { cityName, locationName, icon, weatherId, temperature, effectiveTemperature, highestTemperature, lowestTemperature, humidity, pressure, windSpeed,  updatedAt } = weatherData || {};
 
     return (
         <div className="w-full h-fit p-3 relative flex flex-wrap justify-between items-center border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-neutral">
@@ -56,35 +51,27 @@ const WeatherView = ():JSX.Element => {
                         {updatedAt}
                     </span>
                 </p>
-                <div className="flex mt-1 items-baseline">
-                    <img src={`/weatherImage/${changeImg}.png`} width={40} height={40} alt=""/>
-                    <p className="text-5xl font-semibold">{temperature}</p>
-                    <p className="text-base">
-                        {highestTemperature} / {lowestTemperature}
+                <div className="flex mt-1 items-center">
+                    <img src={`/icons/${icon}.png`} width={40} height={40} alt="" className='mr-1 object-contain'/>
+                    <p className="text-5xl font-semibold">
+                        {Number(temperature).toFixed(1)}°
+                    </p>
+                    <p className="text-sm self-end">
+                        {Number(highestTemperature).toFixed(1)}° /&nbsp;
+                        {Number(lowestTemperature).toFixed(1)}°
                     </p>
                 </div>
             </TodayTemp>
             <TodayData className="mt-6 text-right">
+                <WeatherInfo weatherId={weatherId}/>
                 <p className="text-sm">
-                    어제보다&nbsp;
-                    <span className='font-semibold'>{weatherComparison.split(' ')[0]}</span> 
-                    {/* 높아요 면 Up, 낮아요 면 Down 으로 출력되도록 */}
-                    {weatherComparison.includes('높아요') ? 
-                    <TbArrowNarrowUp style={{display: 'inline-block'}}/>:
-                    <TbArrowNarrowDown style={{display: 'inline-block'}}/>
-                    }
-                    / <span className='font-semibold'>{weatherInformation}</span>
-                </p>
-                <p className="mt-1 text-sm">
-                    체감 <span className='font-semibold'>{effectiveTemperature}</span> / 
-                    습도 <span className='font-semibold'>{humidity}</span>
+                    체감 온도 {Number(effectiveTemperature).toFixed(1)}°
                 </p>
             </TodayData>
             <div className="w-full mt-4 flex justify-between">
-                <WeatherBox status={fineParticle} dataName={'미세먼지'}/>
-                <WeatherBox status={ultrafineParticle} dataName={'초미세먼지'}/>
-                <WeatherBox status={ultraviolet} dataName={'자외선'}/>
-                <WeatherBox status={windSpeed} dataName={`바람(${windDirection})`} speed={windSpeed}/>
+                <WeatherBox status={pressure} dataName={'기압'}/>
+                <WeatherBox status={humidity} dataName={'습도'}/>
+                <WeatherBox status={windSpeed} dataName={`바람`} />
             </div>
             </>
             }

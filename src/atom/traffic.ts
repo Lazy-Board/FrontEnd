@@ -36,7 +36,7 @@ export const getLoc = async () => {
 
 export const getDur = async () => {
     try {
-        const response = await api.get(`traffic/duration`);
+        const response = await api.get(`/traffic/duration`);
         return response.data;
     } catch (error){
         console.log(`Error: \n${error}`);
